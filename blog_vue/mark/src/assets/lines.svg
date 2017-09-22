@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180">
+  <title>Diagonal Lines</title>
+  <desc>Some diagonal lines for use in the loading bar.</desc>
+ <polygon fill="white" opacity="0.2"
+     points="90,0 180,0 90,180 0,180" />
+</svg>
