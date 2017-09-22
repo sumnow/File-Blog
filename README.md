@@ -31,15 +31,18 @@
 ## 结构
 
 blog目录如下
-
+    ---- blog_vue/mark // vue 目录
     ---- blog //主目录
       |---- markdown //
          |---- img // markdown引用图片
          |---- down // md文件目录
       |---- static // 博客的样式文件
-      |---- route // blog的路由导航  
+      |---- config // blog的路由导航
+        |---- route.sj //文件路由导航  
       |---- index.html // blog首页
       |---- index.js // 入口文件
+
+
 
 ## 技术
 
@@ -61,14 +64,32 @@ blog目录如下
 
 #### 部署步骤
 
+
 ##### 步骤一
+
+    将文件clone到本地，进入blog_vue目录，进行自定义的样式之类的修改（也可不改），
+
+    然后修改src/service 目录下的index.js
+
+    const API_HOST = {
+        host: 'http://138.128.192.220', //服务器ip
+        port: '9000'  //服务器端口
+    } 
+
+之后在blog_vue目录下使用webpack打包
+
+    npm run build
+
+再将blog_vue目录下生成的dist下的static文件夹和index.html拷贝到blog下
+
+##### 步骤二
 首先使用Xftp，新建一个链接，如下
 
 ![img](../img/20170919.png)
 
 输入信息，然后连接成功。
 
-##### 步骤二
+##### 步骤三
 使用ctrl+alt+T打开新终端，即Xshell,输入
 
     node -v
@@ -77,15 +98,9 @@ blog目录如下
 
     cd /home
 
-然后运行 
+将准备号的blog文件拷贝到目录下
 
-    wget ../
-
-将文件拷贝到目录下，解压
-
-    tar 
-
-之后使用xftp工具将自己的markdown文件夹拷贝到目录下覆盖。
+>之后每次更新，只要使用xftp工具将自己的markdown文件夹拷贝到目录下覆盖。
 
 之后使用shell工具
 
@@ -94,7 +109,7 @@ blog目录如下
 
 就部署成功了，打开
 
-    ip:8088/code
+    http://your_ip_address:8088/code
     
 即可查看博客。
 
