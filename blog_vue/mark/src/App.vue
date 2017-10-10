@@ -134,6 +134,7 @@ h6 code {
 h1 {
   font-size: 28px;
   color: #2B3F52;
+  border-bottom: 1px solid #DDE4E9;
 }
 
 h2 {
@@ -440,6 +441,7 @@ pre code {
   margin: 0;
   padding: 0;
   white-space: pre;
+  font-family: 'Monaco', 'Menlo', 'Consolas', "Courier New", monospace;
   border: none;
   background: transparent;
 }
@@ -455,8 +457,8 @@ pre code {
 }
 
 pre {
-  background-color: #f8f8f8;
-  border: 1px solid #cccccc;
+  background-color: #1e1e1e;
+  color: #fff;
   font-size: 13px;
   line-height: 19px;
   overflow: auto;

@@ -24,6 +24,7 @@
 
 <script>
 import request from '../service'
+import colorList from '../util/colorList'
 
 export default {
   data() {
@@ -44,8 +45,6 @@ export default {
     },
   },
   mounted() {
-    // console.dir(document.getElementById('content'));
-    // console.dir(document.getElementById('content-text'));
     document.getElementById('content').addEventListener('scroll', this.handleScroll);
     request({
       url: `/code`,
@@ -54,9 +53,25 @@ export default {
         filename: this.$route.params.id,
       },
       success: (data) => {
-        let reg = /!\[(\w+)\]\(\.\.(\/img\/\w+\.(png|jpg))\)/g;
+        const reg = /!\[(\w+)\]\(\.\.(\/img\/\w+\.(png|jpg))\)/g;
         data = data.replace(reg,'![$1](markdown$2)')
-        this.content = this.marked(data);
+        let markdata = this.marked(data)
+        // console.log(markdata.match(/<code>[\s\S]*?<\/code>/g))
+        markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g,function (w) {
+          colorList.forEach((e,i)=>{
+            w = regchange(colorList[i],w)
+          })
+          return w
+        })
+        function regchange(color,data) {
+          const regs = color.keyword.reduce((a,b)=>{
+            return `${a}|${b}`
+          })
+          const reg = new RegExp(`\\b(${regs})\\b`,'g')
+          return data.replace(reg, `<font style="color: ${color.color}">$1</font>`)
+        }
+        // markdata = regchange(colorList[0],markdata)
+        this.content = markdata;
       },
       fail: (data) => {
         this.content = data;
