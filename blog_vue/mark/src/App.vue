@@ -35,6 +35,7 @@ export default {
   text-align: left;
   width: 100vw;
   height: 100vh;
+  line-height: 2;
   /* overflow: hidden; */
 }
 
@@ -47,7 +48,6 @@ body {
   background-color: white;
   /* padding: 30px; */
   color: #516272;
-  
 }
 
 body>*:first-child {
@@ -468,6 +468,7 @@ pre {
 
 pre code,
 pre tt {
+  color: #fff;
   background-color: transparent;
   border: none;
 }
@@ -481,7 +482,7 @@ sup {
 code {
   white-space: pre-wrap;
   word-break: break-all;
-  display: block;
+  color : #c7254e;
 }
 
 * {

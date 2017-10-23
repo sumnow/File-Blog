@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import catalog from './catalog'
+import catalog from './Catalog.vue'
 
 
 export default {
@@ -24,7 +24,7 @@ export default {
     }
   },
   methods: {
-    
+
   },
   watch: {
   },

@@ -3,6 +3,18 @@ const API_HOST = {
   port: '9000'
 } 
 
+function three (num = 0) {
+  let sum = 0;
+  for (let i = 0; i < num; i++) {
+    if(i%3) {
+      sum = sum + i;
+    } else if(i%5) {
+      sum = sum + i;
+    }
+  }
+  return sum
+}
+
 function request(config) {
 
   const configs = {

@@ -24,7 +24,7 @@
 
 <script>
 import request from '../service'
-import colorList from '../util/colorList'
+import colorList from '../util'
 
 export default {
   data() {
@@ -70,7 +70,9 @@ export default {
           const reg = new RegExp(`\\b(${regs})\\b`,'g')
           return data.replace(reg, `<font style="color: ${color.color}">$1</font>`)
         }
-        // markdata = regchange(colorList[0],markdata)
+        // match annotation regexp
+        const reg2 = /(\/\/.+\n)/g
+        markdata = markdata.replace(reg2,`<font style="color: #608b4e">$1</font>`)
         this.content = markdata;
       },
       fail: (data) => {
