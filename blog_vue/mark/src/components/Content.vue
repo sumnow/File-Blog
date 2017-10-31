@@ -80,6 +80,9 @@ export default {
       },
     })
   },
+  deactivated () {
+    this.$destroy()
+  }
 }
 </script>
 

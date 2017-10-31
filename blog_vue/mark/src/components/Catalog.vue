@@ -1,5 +1,9 @@
 <template>
   <div class="catalog">
+    <div class="flexbox">
+      <div>Title</div>
+      <div>Time</div>
+    </div>
     <div class="entry-wrap">
       <div class="catalog-entry" v-for="item in title[entryNum]" :key="item">
         <a @click="showContent(item)">
@@ -56,7 +60,11 @@ export default {
         }
       },
     })
-  }
+  },
+  activated () {
+    console.log(this.$route)
+  },
+  
 }
 </script>
 
@@ -64,11 +72,12 @@ export default {
 
 .catalog {
   height: 80vh;
-  padding: 4vh 5vw;
+  padding: 2vh 5vw;
 }
 
 .flexbox {
   display: flex;
+  justify-content: space-between;
 }
 
 .catalog-entry {
@@ -91,7 +100,6 @@ export default {
   color: #4183C4;
 }
 .catalog-entry a .flexbox{
-  justify-content: space-between;
 }
 
 .entry-wrap {
