@@ -426,7 +426,8 @@ span.float-right>span {
   display: block;
   overflow: hidden;
   margin: 13px auto 0;
-  text-align: right;
+  text-align: right
+  
 }
 
 code,
