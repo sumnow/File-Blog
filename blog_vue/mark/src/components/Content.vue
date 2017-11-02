@@ -1,13 +1,6 @@
 <template>
   <div class="content-wrap">
     <div class="content-top">
-      <div class="backbtn" @click="back">
-        <svg aria-hidden="true" class="icon-file" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-          <g style="stroke:#81d8d0;stroke-width:2;fill:none">
-            <path d="M12 0L0,8L12,16" />
-          </g>
-        </svg>
-      </div>
       <div class="scroll-bar">
         <div class="bar" id="bar">
           <div class="bar-inner"></div>
@@ -117,7 +110,8 @@ export default {
 } */
 
 .scroll-wrap {
-  width: 95vw;
+  width: 90vw;
+  margin: 0 5vw;
   overflow: hidden;
 }
 

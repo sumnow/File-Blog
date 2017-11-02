@@ -1,5 +1,5 @@
 <template>
-  <div class="hello">
+  <div class="home">
     <div class="content">
       <div v-if="article">
         <catalog></catalog>

@@ -1,37 +1,62 @@
 <template>
-  <div class="bottom bg">
-    <div class="bottom-content">
+  <div class="bottom" ref="bottom">
+    <div  class="bottom-space">
+      <div class="arcbg"></div>
+      <div class="bottom-content"></div>
     </div>
   </div>
 </template>
 
 <script>
 export default {
+  watch: {
+    $route (e,v) {
+      let arr = this.$refs.bottom
+      arr.classList.add("near")
+      setTimeout(function() {
+        arr.classList.remove("near")
+      }, 750);
+    }
+  },
 
-}
+  mounted () {
+
+  }
+};
 </script>
 
 <style scoped>
 .bottom {
+  position: relative;
+  z-index: 10;
+  top: -10px;
   width: 100vw;
-  height: 10vh;
+  height: 50vh;
+  transform: translateY(40vh);
+  transition: all .5s;
+}
+.bottom.near {
+  transform: translateY(0);
+  top: 0;
 }
 .bottom:before {
-  content: '';
+  content: "";
   display: table;
 }
 
-.bg {
-  background: #fff;
+.arcbg {
+  position: relative;
+  height: 10px;
+  width: 100vw;
   background-image: url(../assets/uptra.svg);
-  /* background-image: -webkit-gradient(linear, 50% 0, 0 100%, from(transparent), color-stop(.5, transparent), color-stop(.5, #81d8d0), to(#81d8d0)),-webkit-gradient(linear, 50% 0, 100% 100%, from(transparent), color-stop(.5, transparent), color-stop(.5, #81d8d0), to(#81d8d0)); */
   background-size: 20px 10px;
   background-repeat: repeat-x;
   background-position: 10px 0%;
 }
 .bottom-content {
   background: #81d8d0;
-  margin-top: 10px;
-  height: calc(10vh - 10px);
+  /* transform: translateY(-10px); */
+  /* height: calc(10vh - 10px); */
+  height: 50vh;
 }
 </style>

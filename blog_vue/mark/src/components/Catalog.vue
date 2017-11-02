@@ -64,7 +64,7 @@ export default {
   activated () {
     console.log(this.$route)
   },
-  
+
 }
 </script>
 
@@ -73,6 +73,8 @@ export default {
 .catalog {
   height: 80vh;
   padding: 2vh 5vw;
+  /* test */
+  /* background-color: blue; */
 }
 
 .flexbox {

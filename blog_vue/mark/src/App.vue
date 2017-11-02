@@ -1,9 +1,11 @@
 <template>
   <div id="app">
+    <div class="container">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </div>
     <titlebar></titlebar>
-    <keep-alive>
-      <router-view></router-view>
-    </keep-alive>
     <bottombar></bottombar>
   </div>
 </template>
@@ -27,29 +29,35 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
+.container {
+  position: absolute;
+  top: 10vh;
+  height: 80vh;
+  z-index: 0;
+}
 
 #app {
   display: flex;
   flex-direction: column;
+  width: 100vw;
+  height: 100vh;
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
-  width: 100vw;
-  height: 100vh;
   line-height: 2;
-  /* overflow: hidden; */
+  overflow: hidden;
 }
 
 body {
   font-family: "Microsoft Yahei", Helvetica, arial, sans-serif;
   font-size: 14px;
+  color: #516272;
   line-height: 1.6;
   /* padding-top: 10px;
   padding-bottom: 10px; */
   background-color: white;
   /* padding: 30px; */
-  color: #516272;
 }
 
 body>*:first-child {
@@ -427,7 +435,7 @@ span.float-right>span {
   overflow: hidden;
   margin: 13px auto 0;
   text-align: right
-  
+
 }
 
 code,
