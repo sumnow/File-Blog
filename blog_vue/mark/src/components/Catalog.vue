@@ -110,6 +110,7 @@ export default {
 
 .entry-num {
   display: flex;
+  overflow-y: auto;
   justify-content: space-around;
   height: 8vh;
   padding: 2vh 0;
@@ -122,6 +123,8 @@ export default {
   z-index: 2;
   width: 4vh;
   height: 4vh;
+  margin: 0 1vw;
+  /* min-width: 20px; */
   color: #4183C4;
   text-align: center;
   line-height: 4vh;
