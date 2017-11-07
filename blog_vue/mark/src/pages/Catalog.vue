@@ -40,7 +40,7 @@ export default {
   },
   methods : {
     showContent(item) {
-      this.$router.push(`home/${item}`);
+      this.$router.push(`catalog/${item}`);
     },
     toNum(i) {
       this.entryNum = i;

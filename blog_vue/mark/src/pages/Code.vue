@@ -1,13 +1,25 @@
 <template>
-  <div id="app">
-    <router-view></router-view>
+  <div>
+    <div class="container">
+      <keep-alive>
+        <router-view></router-view>
+      </keep-alive>
+    </div>
+    <titlebar></titlebar>
+    <bottombar></bottombar>
   </div>
 </template>
 
 <script>
+import titlebar from '../components/Title'
+import bottombar from '../components/Bottom'
 
 export default {
-  name: 'app',
+  name: 'home',
+  components: {
+    titlebar,
+    bottombar,
+  },
 }
 </script>
 

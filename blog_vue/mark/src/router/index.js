@@ -1,31 +1,42 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import home from '@/components/Home'
-import content from '@/components/Content'
+import catalog from '@/pages/Catalog'
+import content from '@/pages/Content'
+import code from '@/pages/Code'
+import home from '@/pages/Home'
 
 Vue.use(Router)
 
 const routers = new Router({
   routes: [
     {
-      path: '/',
-      redirect: '/code/home'
-    },
-    {
-      path: '/code/home',
+      path: '/home',
       name: 'home',
-      component: home
+      component: home,
+      // redirect: '/code/catalog'
     },
     {
-      path: '/code/home/:id',
-      name: 'content',
-      component: content,
+      path: '/code',
+      name: 'code',
+      component: code,
+      redirect: '/code/catalog',
+      children: [
+        {
+          path: 'catalog',
+          name: 'catalog',
+          component: catalog
+        },
+        {
+          path: 'catalog/:id',
+          name: 'content',
+          component: content,
+        },
+      ]
     },
-
   ]
 })
 
-routers.push('/code/home')
+routers.push('/code/catalog')
 
 export default routers
 
