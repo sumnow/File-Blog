@@ -36,7 +36,7 @@ const routers = new Router({
   ]
 })
 
-routers.push('/code/catalog')
+routers.push('/home')
 
 export default routers
 
