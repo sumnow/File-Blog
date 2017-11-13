@@ -1,25 +1,9 @@
 <template>
   <div>
-    <div v-if="!computer">
-      <div class="bg">
-        <div class="logo">
-          I AM GOD
-        </div>
-        <div class="wrap">
-
-        </div>
-      </div>
+    <div v-if="computer">
+      <canvas id="canvas"></canvas>
     </div>
     <div v-else>
-      <div class="bser">
-        <canvas id="canvas"></canvas>
-        <div class="model one">
-        </div>
-        <div class="model two">
-        </div>
-        <div class="model three">
-        </div>
-      </div>
     </div>
   </div>
 
@@ -33,14 +17,74 @@ export default {
     };
   },
   mounted() {
-    const canvas = document.getElementById('canvas');
-    canvas.width = document.body.clientWidth;
-    canvas.height = document.body.clientHeight;
     if (document.body.clientWidth - document.body.clientHeight < 0) {
       console.log("mobile");
     } else {
       console.log("computer");
     }
+    const canvas = document.getElementById('canvas');
+    const HEIGHT = document.body.clientHeight;
+    const WIDTH = document.body.clientWidth;
+    canvas.width = WIDTH;
+    canvas.height = HEIGHT;
+    const ctx = canvas.getContext('2d');
+    ctx.font = "48px monaco";
+    // ctx.strokeStyle = "yellow"
+    // ctx.strokeText("helloworld",10,50)
+    ctx.fillRect(0,0,WIDTH,HEIGHT);
+
+    // ctx.beginPath()
+    // ctx.arc(100,100,100,0,2*Math.PI,true);
+    // ctx.clip();
+
+
+
+    function drawCircle(alph,x,y,r) {
+      if (alph <= 0) {
+        alph = 0;
+      } else {
+        ctx.beginPath();
+        ctx.strokeStyle=`rgba(255,255,255,${alph/100})`;
+        ctx.arc(x,y,r,0,2*Math.PI,true);
+        ctx.stroke();
+        ctx.closePath();
+      }
+    }
+    let n = 0;
+    const arrDot = new Array();
+    const arrDotRef = new Array();
+
+    //  plus radius and drawCircle
+    function everyCircle(circle) {
+      
+      drawCircle(...circle);
+      circle[0]= circle[0] - .25;
+      circle[3]++;
+    }
+
+
+    //draw
+    function draw () {
+      ctx.fillRect(0,0,WIDTH,HEIGHT);
+      arrDot.map(c=>{
+        everyCircle(c);
+      })
+      window.requestAnimationFrame(draw);
+    }
+
+    window.requestAnimationFrame(draw);
+    const self = this;
+    console.log(self.$router)
+    canvas.addEventListener('click',function(e){
+      console.log(e)
+      if(arrDot.length > 10) {
+        self.$router.push({path: '/code'})
+      } else {
+        let arr = [100,e.clientX,e.clientY,0]
+        arrDot.push(arr);
+      }
+      // drawCircle(100, ...arr, 0)
+    })
     // console.log(document.body.clientWidth,document.body.clientHeight)
   }
 };
@@ -54,62 +98,5 @@ canvas {
   /* height: 100vh; */
 
 }
-.bser {
-  width: 100vw;
-  height: 100vh;
-  background: linear-gradient(rgba(255, 255, 255, 0.7), rgba(0, 0, 0, 0.7));
-  /* background: linear-gradient(rgba(0, 235, 235, .7),rgba(0, 5, 255, .7)); */
-}
-.logo {
-  position: fixed;
-  z-index: 10;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  width: 50vw;
-  height: 10vh;
-  color: #000;
-  text-align: center;
-  line-height: 10vh;
-  background: #fff;
-}
-.wrap {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-}
-.wrap:before {
-  display: block;
-  content: "";
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate3d(-50%, -50%, 0);
-  width: 60vw;
-  height: 20vh;
-  background: red;
-  mix-blend-mode: darken;
-}
-.bg {
-  width: 100vw;
-  height: 100vh;
-  background: green;
-}
-.model {
-  height: 30vh;
-}
-.model:before {
-  display: block;
-  width: 100vw;
-  height: 30vh;
-  content: "";
-  background: rgba(0, 215, 215, 0.7);
-  transform: skewY(20deg);
-}
 
-.two:before {
-  transform: skewY(160deg);
-}
 </style>

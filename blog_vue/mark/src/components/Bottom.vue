@@ -1,5 +1,5 @@
 <template>
-  <div class="bottom" ref="bottom">
+  <div class="bottom near" ref="bottom">
     <div  class="bottom-space">
       <div class="arcbg"></div>
       <div class="bottom-content"></div>
@@ -13,14 +13,19 @@ export default {
     $route (e,v) {
       let arr = this.$refs.bottom
       arr.classList.add("near")
+      this.changeNear(arr);
+    }
+  },
+  methods: {
+    changeNear(target) {
       setTimeout(function() {
-        arr.classList.remove("near")
+        target.classList.remove("near")
       }, 750);
     }
   },
-
   mounted () {
-
+    let arr = this.$refs.bottom;
+    this.changeNear(arr);
   }
 };
 </script>

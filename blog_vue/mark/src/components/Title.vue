@@ -1,5 +1,5 @@
 <template>
-  <div class="top" ref="top">
+  <div class="top near" ref="top">
     <div class="header">
       <div class="header-content">
       </div>
@@ -19,11 +19,20 @@ export default {
     $route (e,v) {
       let arr = this.$refs.top
       arr.classList.add("near")
+      this.changeNear(arr);
+    }
+  },
+  methods: {
+    changeNear(target) {
       setTimeout(function() {
-        arr.classList.remove("near")
+        target.classList.remove("near")
       }, 750);
     }
   },
+  mounted () {
+    let arr = this.$refs.top
+    this.changeNear(arr);
+  }
 }
 </script>
 

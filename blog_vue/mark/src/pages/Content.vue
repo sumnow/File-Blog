@@ -96,7 +96,7 @@ export default {
 
 .content {
   height: 75vh;
-  width: 100vw;
+  width: 90vw;
   padding: 0 5vw 0 4vw;
   overflow: auto;
 }

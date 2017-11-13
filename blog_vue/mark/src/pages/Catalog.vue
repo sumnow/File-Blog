@@ -50,16 +50,18 @@ export default {
 
   },
   mounted() {
-    request({
-      url: '/code/catalog',
-      method: 'GET',
-      success: (data) => {
-        this.titleArr = data.reverse();
-        for(let i = 0 ; i < this.titleArr.length/8 ; i++) {
-          this.title.push(this.titleArr.slice(i*8,i*8+8));
-        }
-      },
-    })
+    if(!this.titleArr.length) {
+      request({
+        url: '/code/catalog',
+        method: 'GET',
+        success: (data) => {
+          this.titleArr = data.reverse();
+          for(let i = 0 ; i < this.titleArr.length/8 ; i++) {
+            this.title.push(this.titleArr.slice(i*8,i*8+8));
+          }
+        },
+      })
+    }
   },
   activated () {
     console.log(this.$route)
