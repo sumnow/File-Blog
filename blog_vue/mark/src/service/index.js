@@ -1,7 +1,7 @@
 const API_HOST = {
   host: 'http://138.128.192.220',
-  port: '9000'
-} 
+  port: '8080'
+}
 
 function request(config) {
 
@@ -28,7 +28,7 @@ function request(config) {
       configs.fail(xmlhttp.responseText)
     }
   }
-  const query = []; 
+  const query = [];
   for (var key in configs.params) {
     query.push(`${key}=${configs.params[key]}`);
   }
