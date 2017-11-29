@@ -56,6 +56,14 @@ module.exports = {
         console.log(request.url);
         var fn = undefined;
         var pathname = request.url;
+        
+        //去除URL中的参数影响
+        [...pathname].forEach((e,i)=>{
+            if(e === '?'){
+                pathname = pathname.slice(0,i)
+            }
+        })
+
         if (request.method.toLowerCase() === 'get') {
             fn = this.routePathGet[pathname];
         } else {
