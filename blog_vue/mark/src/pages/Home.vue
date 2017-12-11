@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="computer">
+    <div v-if="computer">     
       <canvas id="canvas"></canvas>
     </div>
     <div v-else>
