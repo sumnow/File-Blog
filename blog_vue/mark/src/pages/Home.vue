@@ -6,7 +6,7 @@
     <div v-else>
     </div>
   </div>
-
+  
 </template>
 
 <script>
