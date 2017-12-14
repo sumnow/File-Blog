@@ -1,0 +1,48 @@
+
+* {
+    margin: 0;
+    padding: 0;
+}
+body {
+    overflow: hidden;
+}
+.wrapper {
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    flex-direction: column;
+    font-family: "monaco"
+}
+.header {
+    display: flex;
+    justify-content: space-around;
+}
+.content {
+    display: flex;
+}
+.top {
+    width: 278px;
+    padding-top: 38px;
+    background-image: url(../img/bg-note-top.png);
+    background-repeat: no-repeat;
+}
+.inner {
+    width: 250px;
+    padding: 0 14px;
+    line-height: 21px;
+    /* white-space: pre-wrap; */
+    background-image: url(../img/bg-note-middle.png);
+}
+.bottom {
+    width: 278px;
+    padding-bottom: 35px;
+    background-image: url(../img/bg-note-bottom.png) 
+}
+
+.center {
+    
+}
+
+.row {
+    overflow: hidden;
+}
