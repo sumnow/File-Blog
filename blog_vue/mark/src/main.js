@@ -11,11 +11,10 @@ Vue.prototype.marked = function (ctx) {
 
 Vue.config.productionTip = false
 
-
 router.beforeEach((to, from, next) => {
-  console.log(to);
   next();
 })
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

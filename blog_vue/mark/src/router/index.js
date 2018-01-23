@@ -8,6 +8,7 @@ import home from '@/pages/Home'
 Vue.use(Router)
 
 const routers = new Router({
+  mode: 'history',
   routes: [
     {
       path: '/home',

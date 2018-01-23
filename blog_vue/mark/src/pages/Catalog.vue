@@ -2,6 +2,7 @@
   <div class="catalog">
     <div class="flexbox">
       <div>Title</div>
+      <div @click="searchCatalog">Search</div>
       <div>Time</div>
     </div>
     <div class="entry-wrap">
@@ -29,6 +30,9 @@
 import request from '../service'
 
 export default {
+  create: {
+
+  },
   data() {
     return {
       titleArr: [],
@@ -41,6 +45,9 @@ export default {
   methods : {
     showContent(item) {
       this.$router.push(`catalog/${item}`);
+    },
+    searchCatalog(){
+
     },
     toNum(i) {
       this.entryNum = i;
