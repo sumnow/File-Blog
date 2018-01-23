@@ -1,6 +1,12 @@
 # FileBlog
 
-一个小型的文件博客，版本v0.3。
+## version
+
+    v0.5
+
+## introduction
+
+一个小型的文件博客，使用markdown语法，一键构建个人在线笔记本。
 
 ## 目录
 
@@ -30,17 +36,17 @@
 
 ## 结构
 
-blog目录如下
-    ---- blog_vue/mark // vue 目录
-    ---- blog //主目录
-      |---- markdown //
-         |---- img // markdown引用图片
-         |---- down // md文件目录
-      |---- static // 博客的样式文件
-      |---- config // blog的路由导航
-        |---- route.sj //文件路由导航  
-      |---- index.html // blog首页
-      |---- index.js // 入口文件
+    blog目录如下
+        ---- blog_vue/mark // vue 目录
+        ---- blog //主目录
+        |---- markdown //
+            |---- img // markdown引用图片
+            |---- down // md文件 目录
+        |---- static // 博客的样式文件
+        |---- config // blog的路由导航
+            |---- route.sj //文件路由导航  
+        |---- index.html // blog首页
+        |---- index.js // 入口文件
 
 
 
@@ -80,9 +86,12 @@ blog目录如下
 
     npm run build
 
-再将blog_vue目录下生成的dist下的static文件夹和index.html拷贝到blog下
+再将blog_vue目录下生成的`dist`下的`static`文件夹和`index.html`拷贝到blog下覆盖
+
+blog 目录下提供了一个简单的node服务器，详情查看[这里](https://github.com/sumnow/simple-server)
 
 ##### 步骤二
+
 首先使用Xftp，新建一个链接，如下
 
 ![img](../img/20170919.png)
@@ -90,26 +99,27 @@ blog目录如下
 输入信息，然后连接成功。
 
 ##### 步骤三
+
 使用ctrl+alt+T打开新终端，即Xshell,输入
 
     node -v
 
-查看node环境是否安装，然后选择blog文件的放置位置，如/etc/home
+查看node环境是否安装，然后选择blog文件的放置位置，如`/etc/home`
 
     cd /home
 
-将准备号的blog文件拷贝到目录下
+将`build`好的blog文件拷贝到目录下
 
 >之后每次更新，只要使用xftp工具将自己的markdown文件夹拷贝到目录下覆盖。
 
 之后使用shell工具
 
     cd /home/blog
-    node index.js
+    nohup node index.js
 
 就部署成功了，打开
 
-    http://your_ip_address:8088/code
+    http://your_ip_address:8088
     
 即可查看博客。
 
