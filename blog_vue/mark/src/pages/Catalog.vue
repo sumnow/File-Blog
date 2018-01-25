@@ -44,12 +44,14 @@ export default {
       filedate: [0,10],
       iptClass: false,
       searchMessage: '',
+      filterTitleArr: [],
     }
   },
   watch:{
-    searchMessage: function (val, oldval){
-
-
+    searchMessage: function (val){
+      this.filterTitleArr = this.titleArr.filter(e=>e.includes(val))
+      this.title = this.catalogPage(this.filterTitleArr )
+      this.toNum(0);
     }
   },
   methods : {
@@ -63,20 +65,24 @@ export default {
     toNum(i) {
       this.entryNum = i;
     },
+    catalogPage(arrayBefore, pageSize = 8){
+      const arrayAfter = [];
+      for(let i = 0 ; i < arrayBefore.length/pageSize ; i++) {
+        arrayAfter.push(arrayBefore.slice(i*pageSize,i*pageSize+pageSize));
+      }
+      return arrayAfter;
+    }
   },
   computed: {
   },
   mounted() {
-    const pageSize = 8;
     if(!this.titleArr.length) {
       request({
         url: '/code/catalog',
         method: 'GET',
         success: (data) => {
           this.titleArr = data.reverse();
-          for(let i = 0 ; i < this.titleArr.length/pageSize ; i++) {
-            this.title.push(this.titleArr.slice(i*pageSize,i*pageSize+pageSize));
-          }
+          this.title = this.catalogPage(this.titleArr)
         },
       })
     }
@@ -101,6 +107,7 @@ export default {
   position: relative;
   left: 5vw;
   transition: all 1s;
+  cursor: pointer;
 }
 
 .mod-search  input{
