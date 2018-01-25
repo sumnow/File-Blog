@@ -4,7 +4,7 @@
       <div>Title</div>
       <div class="mod-search" :class="{searchshow: iptClass}">
         <span @click="searchCatalog" >Search</span>
-        <input type="text" v-model.trim="searchMessage"/>
+        <input type="text" v-model.trim="searchMessage" />
       </div>
       <div>Time</div>
     </div>
@@ -59,8 +59,10 @@ export default {
       this.$router.push(`catalog/${item}`);
     },
     searchCatalog(){
-      console.log(this.iptClass)
       this.iptClass = !this.iptClass;
+      if(!this.iptClass) {
+        this.searchMessage = ''
+      }
     },
     toNum(i) {
       this.entryNum = i;
@@ -88,7 +90,7 @@ export default {
     }
   },
   activated () {
-    console.log(this.$route)
+    // console.log(this.$route)
   },
 
 }
@@ -105,19 +107,20 @@ export default {
 
 .mod-search span{
   position: relative;
-  left: 5vw;
+  left: 20vw;
   transition: all 1s;
   cursor: pointer;
 }
 
 .mod-search  input{
-  width: 10vw;
+  width: 20vw;
   padding: 0 1vw;
   transform: scaleX(0);
   transition: all 1s;
   border: none;
   border-bottom: 1px solid #ccc;
   transform-origin: 100% 0;
+  outline: none;
 }
 
 .searchshow span {
