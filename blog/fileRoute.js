@@ -53,7 +53,6 @@ module.exports = {
     },
 
     init: function(request, response) {
-        console.log(request.url);
         var fn = undefined;
         var pathname = request.url;
         
