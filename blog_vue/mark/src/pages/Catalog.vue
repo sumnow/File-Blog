@@ -2,7 +2,10 @@
   <div class="catalog">
     <div class="flexbox">
       <div>Title</div>
-      <div @click="searchCatalog">Search</div>
+      <div class="mod-search" :class="{searchshow: iptClass}">
+        <span @click="searchCatalog" >Search</span>
+        <input type="text" v-model.trim="searchMessage"/>
+      </div>
       <div>Time</div>
     </div>
     <div class="entry-wrap">
@@ -31,7 +34,6 @@ import request from '../service'
 
 export default {
   create: {
-
   },
   data() {
     return {
@@ -40,6 +42,14 @@ export default {
       entryNum: 0,
       filename: [11,-3],
       filedate: [0,10],
+      iptClass: false,
+      searchMessage: '',
+    }
+  },
+  watch:{
+    searchMessage: function (val, oldval){
+
+
     }
   },
   methods : {
@@ -47,24 +57,25 @@ export default {
       this.$router.push(`catalog/${item}`);
     },
     searchCatalog(){
-
+      console.log(this.iptClass)
+      this.iptClass = !this.iptClass;
     },
     toNum(i) {
       this.entryNum = i;
     },
   },
   computed: {
-
   },
   mounted() {
+    const pageSize = 8;
     if(!this.titleArr.length) {
       request({
         url: '/code/catalog',
         method: 'GET',
         success: (data) => {
           this.titleArr = data.reverse();
-          for(let i = 0 ; i < this.titleArr.length/8 ; i++) {
-            this.title.push(this.titleArr.slice(i*8,i*8+8));
+          for(let i = 0 ; i < this.titleArr.length/pageSize ; i++) {
+            this.title.push(this.titleArr.slice(i*pageSize,i*pageSize+pageSize));
           }
         },
       })
@@ -85,6 +96,31 @@ export default {
   /* test */
   /* background-color: blue; */
 }
+
+.mod-search span{
+  position: relative;
+  left: 5vw;
+  transition: all 1s;
+}
+
+.mod-search  input{
+  width: 10vw;
+  padding: 0 1vw;
+  transform: scaleX(0);
+  transition: all 1s;
+  border: none;
+  border-bottom: 1px solid #ccc;
+  transform-origin: 100% 0;
+}
+
+.searchshow span {
+  left: 0;
+}
+
+.searchshow input {
+  transform: scaleX(1);
+}
+
 
 .flexbox {
   display: flex;
