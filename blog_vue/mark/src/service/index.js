@@ -7,7 +7,7 @@ function request(config) {
 
   const configs = {
     url: `${API_HOST.host}:${API_HOST.port}${config.url}`,
-    method: config.method||'GET',
+    method: config.method.toUpperCase() || 'GET',
     params: config.params,
     success: config.success || function () { },
     fail: config.fail || function () { },
@@ -32,7 +32,7 @@ function request(config) {
   for (var key in configs.params) {
     query.push(`${key}=${configs.params[key]}`);
   }
-  if(configs.method === 'GET') {
+  if (configs.method === 'GET') {
     configs.url = configs.url + (query.length ? '?' + query.join('&') : '')
     xmlhttp.open(configs.method, configs.url, true);
     // xmlhttp.setRequestHeader('','');
