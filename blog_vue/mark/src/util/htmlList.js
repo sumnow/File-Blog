@@ -1,5 +1,5 @@
 export default [{
-  keyword: ['div', 'img', 'span', 'canvas', 'body', 'html', 'script', 'li', 'ul'],
+  keyword: ['div', 'canvas', 'body', 'html', 'li', 'ul', 'button', 'img', 'span', 'script'],
   color: '#569cd6'
 }, {
   keyword: ['id', 'class', 'src'],

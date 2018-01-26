@@ -1,13 +1,7 @@
 import javascriptList from './javascriptList'
 import htmltList from './htmlList'
 import linuxList from './linuxList'
+import vueList from './vueList'
+import htmlList from './htmlList';
 
-
-const pushIn = (arrTarget = [],arrIn = []) => {
-  arrIn.forEach((e) => {
-    arrTarget.push(e)
-  })
-  return arrTarget
-}
-
-export default pushIn(pushIn(pushIn([],javascriptList),htmltList),linuxList)
+export default [].concat(javascriptList, htmlList, vueList, linuxList)
