@@ -6,7 +6,7 @@ const API_HOST = {
 function request(config) {
 
   const configs = {
-    url: `${API_HOST.host}:${API_HOST.port}${config.url}`,
+    url: `${config.url}`,
     method: config.method.toUpperCase() || 'GET',
     params: config.params,
     success: config.success || function () { },
