@@ -1,7 +1,7 @@
-const API_HOST = {
-  host: 'http://138.128.192.220',
-  port: '8080'
-}
+// const API_HOST = {
+//   host: 'http://138.128.192.220',
+//   port: '8080'
+// }
 
 function request(config) {
 
