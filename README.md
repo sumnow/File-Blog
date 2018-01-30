@@ -6,7 +6,7 @@
 
 ## introduction
 
-一个小型的文件博客，使用markdown语法，一键构建个人在线笔记本。
+一个小型的文件博客，使用markdown语法，一键构建个人在线技术笔记本。
 
 ## 目录
 
@@ -27,12 +27,11 @@
 
 文件博客(fileblog)不同于传统博客(traditional blog)，
 
-
 不同点(difference) |传统(traditional) | 文件(file)
 ---|---|---
 存储(storage) | 数据库(DataBase) | 文件(File)
 管理(manage) | 后端系统(backend) | 文件系统(file)
-特点(Characteristic) | 定制性更强，有评论，登陆等功能，管理依赖后台，迁移复杂 | 评论登陆功能实现过于麻烦，管理方便，对文件操作即可实现管理，内容依赖文件，迁移直接拷贝，无技术门槛
+特点(Characteristic) | 定制性更强，有评论，登陆等功能，管理依赖后台，迁移复杂 | 管理方便，对文件操作即可实现管理，迁移直接拷贝，无技术门槛
 
 ## 结构
 
@@ -58,7 +57,7 @@
 
 ### node
 
-后端使用的node，主要使用readfilesync方法，读取文件并返回给页面。
+后端使用的node，主要使用`readfilesync`方法，读取文件并返回给页面。
 
 ## 部署
 
@@ -96,11 +95,11 @@ blog 目录下提供了一个简单的node服务器，详情查看[这里](https
 
 ![img](../img/20170919.png)
 
-输入信息，然后连接成功。
+输入服务器信息，然后连接成功。
 
 ##### 步骤三
 
-使用ctrl+alt+T打开新终端，即Xshell,输入
+使用`ctrl+alt+T`打开新终端，即Xshell,输入
 
     node -v
 
@@ -115,7 +114,7 @@ blog 目录下提供了一个简单的node服务器，详情查看[这里](https
 之后使用shell工具
 
     cd /home/blog
-    nohup node index.js
+    nohup node server.js
 
 就部署成功了，打开
 
@@ -133,7 +132,7 @@ blog 目录下提供了一个简单的node服务器，详情查看[这里](https
 
 3. md中的图片路径即为
     
-    ../imgname
+    ../img/name
 
 在本地也可以浏览，在服务端会被解析为绝对地址。
 
