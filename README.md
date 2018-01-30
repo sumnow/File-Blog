@@ -2,15 +2,13 @@
 
 ## version
 
-    v0.5
+    v1.1
 
 ## introduction
 
-一个小型的文件博客，使用markdown语法，一键构建个人在线技术笔记本。
+一个小型的文件博客，使用markdown语法，一键构建个人在线笔记本。
 
-## 目录
-
-- [目录](#目录)
+<!-- - [目录](#目录)
 - [特点](#特点)
 - [结构](#结构)
 - [技术](#技术)
@@ -19,9 +17,10 @@
 - [部署](#部署)
   + [部署条件](#部署条件)
   + [部署步骤](#部署步骤)
+- [注意](#注意)
 - [更新](#更新)  
   + [已更新](#已更新)
-  + [未更新](#未更新)
+  + [未更新](#未更新) -->
 
 ## 特点
 
@@ -36,7 +35,7 @@
 ## 结构
 
     blog目录如下
-        ---- blog_vue/mark // vue 目录
+        ---- blog_vue/mark // vue 目录，如果无修改页面功能需求可以直接删除。
         ---- blog //主目录
         |---- markdown //
             |---- img // markdown引用图片
@@ -59,45 +58,49 @@
 
 后端使用的node，主要使用`readfilesync`方法，读取文件并返回给页面。
 
+### 细节功能
+
 ## 部署
 
-#### 部署条件
+### 部署条件
 
 1. 具备node环境服务器
 
-2. 服务器文件传输工具以及终端工具，如(Xftp+Xshell,只有5M，且免安装，本例均已该工具为例)
-
-#### 部署步骤
+2. 具备git环境服务器
 
 
-##### 步骤一
+### 部署步骤
 
-    将文件clone到本地，进入blog_vue目录，进行自定义的样式之类的修改（也可不改），
 
-    然后修改src/service 目录下的index.js
+#### 步骤一
 
-    const API_HOST = {
-        host: 'http://138.128.192.220', //服务器ip
-        port: '9000'  //服务器端口
-    } 
+    git clone https://github.com/sumnow/File-Blog.git
 
-之后在blog_vue目录下使用webpack打包
+    cd File-Blog/blog
 
-    npm run build
-
-再将blog_vue目录下生成的`dist`下的`static`文件夹和`index.html`拷贝到blog下覆盖
+    node server.js
 
 blog 目录下提供了一个简单的node服务器，详情查看[这里](https://github.com/sumnow/simple-server)
 
-##### 步骤二
+#### 步骤二
+
+将自己的md文件拷贝到blog目录下的markdown文件夹里，即可访问。
+
+关于md文件的管理，可以选择一样托管在github上，每次使用`git`更新md文件。
+
+也可以使用ftp文件管理，参考以下步骤
+
+#### 步骤三
+
+服务器文件传输工具以及终端工具，如(Xftp+Xshell,只有5M，且免安装，本例均已该工具为例)
 
 首先使用Xftp，新建一个链接，如下
 
-![img](../img/20170919.png)
+![img](../img/2017091901.png)
 
 输入服务器信息，然后连接成功。
 
-##### 步骤三
+#### 步骤四
 
 使用`ctrl+alt+T`打开新终端，即Xshell,输入
 
@@ -118,7 +121,7 @@ blog 目录下提供了一个简单的node服务器，详情查看[这里](https
 
 就部署成功了，打开
 
-    http://your_ip_address:8088
+    http://your_ip_address:8080
     
 即可查看博客。
 
@@ -161,3 +164,4 @@ blog 目录下提供了一个简单的node服务器，详情查看[这里](https
 - 已知的浏览器兼容问题，QQ内部浏览器显示少了1vw宽度，一加手机自带浏览器打开后，滚动条失去流水效果。
 
 - 分类功能
+
