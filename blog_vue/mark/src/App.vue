@@ -1,17 +1,50 @@
 <template>
-  <div id="app">
+  <div id="app" >
     <router-view></router-view>
   </div>
 </template>
 
 <script>
-
 export default {
-  name: 'app',
-}
+  name: "app"
+};
 </script>
 
 <style>
+:root {
+  --background-color-r: 51;
+  --background-color-g: 59;
+  --background-color-b: 64;
+  --background-color: rgb(
+    var(--background-color-r),
+    var(--background-color-g),
+    var(--background-color-b)
+  );
+
+  --text-color-r: 229;
+  --text-color-g: 238;
+  --text-color-b: 244;
+  --text-color: rgb(
+    var(--text-color-r),
+    var(--text-color-g),
+    var(--text-color-b)
+  );
+
+  --primary-color-r: 62;
+  --primary-color-g: 176;
+  --primary-color-b: 190;
+  --primary-color: rgb(
+    var(--primary-color-r),
+    var(--primary-color-g),
+    var(--primary-color-b)
+  );
+}
+
+html {
+  background: var(--background-color);
+  color: var(--text-color);
+  transition: all 1s;
+}
 * {
   margin: 0;
   padding: 0;
@@ -30,7 +63,7 @@ export default {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
@@ -49,16 +82,16 @@ body {
   /* padding: 30px; */
 }
 
-body>*:first-child {
+body > *:first-child {
   margin-top: 0 !important;
 }
 
-body>*:last-child {
+body > *:last-child {
   margin-bottom: 0 !important;
 }
 
 a {
-  color: #4183C4;
+  color: #4183c4;
 }
 
 a.absent {
@@ -96,7 +129,8 @@ h3:hover a.anchor,
 h4:hover a.anchor,
 h5:hover a.anchor,
 h6:hover a.anchor {
-  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==) no-repeat 10px center;
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA09pVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMy1jMDExIDY2LjE0NTY2MSwgMjAxMi8wMi8wNi0xNDo1NjoyNyAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNiAoMTMuMCAyMDEyMDMwNS5tLjQxNSAyMDEyLzAzLzA1OjIxOjAwOjAwKSAgKE1hY2ludG9zaCkiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OUM2NjlDQjI4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OUM2NjlDQjM4ODBGMTFFMTg1ODlEODNERDJBRjUwQTQiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo5QzY2OUNCMDg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo5QzY2OUNCMTg4MEYxMUUxODU4OUQ4M0REMkFGNTBBNCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PsQhXeAAAABfSURBVHjaYvz//z8DJYCRUgMYQAbAMBQIAvEqkBQWXI6sHqwHiwG70TTBxGaiWwjCTGgOUgJiF1J8wMRAIUA34B4Q76HUBelAfJYSA0CuMIEaRP8wGIkGMA54bgQIMACAmkXJi0hKJQAAAABJRU5ErkJggg==)
+    no-repeat 10px center;
   text-decoration: none;
 }
 
@@ -132,33 +166,33 @@ h6 code {
 
 h1 {
   font-size: 28px;
-  color: #2B3F52;
-  border-bottom: 1px solid #DDE4E9;
+  color: #2b3f52;
+  border-bottom: 1px solid #dde4e9;
 }
 
 h2 {
   font-size: 24px;
-  border-bottom: 1px solid #DDE4E9;
-  color: #2B3F52;
+  border-bottom: 1px solid #dde4e9;
+  color: #2b3f52;
 }
 
 h3 {
   font-size: 18px;
-  color: #2B3F52;
+  color: #2b3f52;
 }
 
 h4 {
   font-size: 16px;
-  color: #2B3F52;
+  color: #2b3f52;
 }
 
 h5 {
   font-size: 14px;
-  color: #2B3F52;
+  color: #2b3f52;
 }
 
 h6 {
-  color: #2B3F52;
+  color: #2b3f52;
   font-size: 14px;
 }
 
@@ -175,32 +209,34 @@ pre {
 }
 
 hr {
-  background: transparent url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC) repeat-x 0 0;
+  background: transparent
+    url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAYAAAAECAYAAACtBE5DAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6OENDRjNBN0E2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6OENDRjNBN0I2NTZBMTFFMEI3QjRBODM4NzJDMjlGNDgiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo4Q0NGM0E3ODY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo4Q0NGM0E3OTY1NkExMUUwQjdCNEE4Mzg3MkMyOUY0OCIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PqqezsUAAAAfSURBVHjaYmRABcYwBiM2QSA4y4hNEKYDQxAEAAIMAHNGAzhkPOlYAAAAAElFTkSuQmCC)
+    repeat-x 0 0;
   border: 0 none;
   color: #cccccc;
   height: 4px;
   padding: 0;
 }
 
-body>h2:first-child {
+body > h2:first-child {
   margin-top: 0;
   padding-top: 0;
 }
 
-body>h1:first-child {
+body > h1:first-child {
   margin-top: 0;
   padding-top: 0;
 }
 
-body>h1:first-child+h2 {
+body > h1:first-child + h2 {
   margin-top: 0;
   padding-top: 0;
 }
 
-body>h3:first-child,
-body>h4:first-child,
-body>h5:first-child,
-body>h6:first-child {
+body > h3:first-child,
+body > h4:first-child,
+body > h5:first-child,
+body > h6:first-child {
   margin-top: 0;
   padding-top: 0;
 }
@@ -258,11 +294,11 @@ dl dt:first-child {
   padding: 0;
 }
 
-dl dt> :first-child {
+dl dt > :first-child {
   margin-top: 0;
 }
 
-dl dt> :last-child {
+dl dt > :last-child {
   margin-bottom: 0;
 }
 
@@ -271,27 +307,27 @@ dl dd {
   padding: 0 15px;
 }
 
-dl dd> :first-child {
+dl dd > :first-child {
   margin-top: 0;
 }
 
-dl dd> :last-child {
+dl dd > :last-child {
   margin-bottom: 0;
 }
 
 blockquote {
-  border-left: 4px solid #ECF0F3;
+  border-left: 4px solid #ecf0f3;
   /*padding: 0 15px;*/
   padding: 15px;
-  background-color: #F7F9FA;
-  color: #2B3F52;
+  background-color: #f7f9fa;
+  color: #2b3f52;
 }
 
-blockquote> :first-child {
+blockquote > :first-child {
   margin-top: 0;
 }
 
-blockquote> :last-child {
+blockquote > :last-child {
   margin-bottom: 0;
 }
 
@@ -343,7 +379,7 @@ span.frame {
   overflow: hidden;
 }
 
-span.frame>span {
+span.frame > span {
   border: 1px solid #dddddd;
   display: block;
   float: left;
@@ -371,7 +407,7 @@ span.align-center {
   clear: both;
 }
 
-span.align-center>span {
+span.align-center > span {
   display: block;
   overflow: hidden;
   margin: 13px auto 0;
@@ -389,7 +425,7 @@ span.align-right {
   clear: both;
 }
 
-span.align-right>span {
+span.align-right > span {
   display: block;
   overflow: hidden;
   margin: 13px 0 0;
@@ -419,12 +455,11 @@ span.float-right {
   float: right;
 }
 
-span.float-right>span {
+span.float-right > span {
   display: block;
   overflow: hidden;
   margin: 13px auto 0;
-  text-align: right
-
+  text-align: right;
 }
 
 code,
@@ -441,7 +476,7 @@ pre code {
   margin: 0;
   padding: 0;
   white-space: pre;
-  font-family: 'Monaco', 'Menlo', 'Consolas', "Courier New", monospace;
+  font-family: "Monaco", "Menlo", "Consolas", "Courier New", monospace;
   border: none;
   background: transparent;
 }
@@ -482,7 +517,7 @@ sup {
 code {
   white-space: pre-wrap;
   word-break: break-all;
-  color : #c7254e;
+  color: #c7254e;
 }
 
 * {

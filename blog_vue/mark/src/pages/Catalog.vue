@@ -1,7 +1,7 @@
 <template>
   <div class="catalog">
     <div class="flexbox">
-      <div>Title</div>
+      <div @click="changeTheme">Title</div>
       <div class="mod-search" :class="{searchshow: iptClass}">
         <span @click="searchCatalog" >Search</span>
         <input type="text" v-model.trim="searchMessage" />
@@ -30,92 +30,125 @@
 </template>
 
 <script>
-import request from '../service'
+import request from "../service";
 
 export default {
-  create: {
-  },
+  create: {},
   data() {
     return {
       titleArr: [],
+      currentTheme : 0,
       title: [],
       entryNum: 0,
-      filename: [11,-3],
-      filedate: [0,10],
+      filename: [11, -3],
+      filedate: [0, 10],
       iptClass: false,
-      searchMessage: '',
-      filterTitleArr: [],
-    }
+      searchMessage: "",
+      filterTitleArr: []
+    };
   },
-  watch:{
-    searchMessage: function (val){
-      this.filterTitleArr = this.titleArr.filter(e=>e.includes(val))
-      this.title = this.catalogPage(this.filterTitleArr )
+  watch: {
+    searchMessage: function(val) {
+      this.filterTitleArr = this.titleArr.filter(e => e.includes(val));
+      this.title = this.catalogPage(this.filterTitleArr);
       this.toNum(0);
     }
   },
-  methods : {
+  methods: {
+    changeTheme() {
+      const themes = [
+        {
+          name: "dark",
+          scheme: {
+            "--background-color-r": 51,
+            "--background-color-g": 59,
+            "--background-color-b": 64,
+            "--text-color-r": 229,
+            "--text-color-g": 238,
+            "--text-color-b": 244
+          }
+        },
+        {
+          name: "light",
+          scheme: {
+            "--background-color-r": 229,
+            "--background-color-g": 238,
+            "--background-color-b": 244,
+            "--text-color-r": 51,
+            "--text-color-g": 59,
+            "--text-color-b": 64
+          }
+        }
+      ];
+
+      this.currentTheme = (this.currentTheme + 1) % themes.length;
+      const theme = themes[this.currentTheme];
+      Object.keys(theme.scheme).forEach(name => {
+        const value = theme.scheme[name];
+        document.documentElement.style.setProperty(name, value);
+      });
+    },
     showContent(item) {
       this.$router.push(`catalog/${item}`);
     },
-    searchCatalog(){
+    searchCatalog() {
       this.iptClass = !this.iptClass;
-      if(!this.iptClass) {
-        this.searchMessage = ''
+      if (!this.iptClass) {
+        this.searchMessage = "";
       }
     },
     toNum(i) {
       this.entryNum = i;
     },
-    catalogPage(arrayBefore, pageSize = 8){
+    catalogPage(arrayBefore, pageSize = 8) {
       const arrayAfter = [];
-      for(let i = 0 ; i < arrayBefore.length/pageSize ; i++) {
-        arrayAfter.push(arrayBefore.slice(i*pageSize,i*pageSize+pageSize));
+      for (let i = 0; i < arrayBefore.length / pageSize; i++) {
+        arrayAfter.push(
+          arrayBefore.slice(i * pageSize, i * pageSize + pageSize)
+        );
       }
       return arrayAfter;
     }
   },
-  computed: {
-  },
+  computed: {},
   mounted() {
-    if(!this.titleArr.length) {
+    if (!this.titleArr.length) {
       request({
-        url: '/code/catalog',
-        method: 'GET',
-        success: (data) => {
+        url: "/code/catalog",
+        method: "GET",
+        success: data => {
           this.titleArr = data.reverse();
-          this.title = this.catalogPage(this.titleArr)
-        },
-      })
+          this.title = this.catalogPage(this.titleArr);
+        }
+      });
     }
   },
-  activated () {
+  activated() {
     // console.log(this.$route)
-  },
-
-}
+  }
+};
 </script>
 
 <style scoped>
-
 .catalog {
   height: 80vh;
   padding: 2vh 5vw;
-  /* test */
-  /* background-color: blue; */
+  background-color: var(--background-color);
+  transition: all 1s;
 }
 
-.mod-search span{
+.mod-search span {
   position: relative;
   left: 20vw;
   transition: all 1s;
   cursor: pointer;
 }
 
-.mod-search  input{
+.mod-search input {
   width: 20vw;
   padding: 0 1vw;
   transform: scaleX(0);
+  background-color: transparent;
   transition: all 1s;
   border: none;
   border-bottom: 1px solid #ccc;
@@ -130,7 +163,6 @@ export default {
 .searchshow input {
   transform: scaleX(1);
 }
-
 
 .flexbox {
   display: flex;
@@ -147,16 +179,16 @@ export default {
 
 .catalog-entry .icon-file {
   display: inline-block;
-  fill: rgba(3,47,98,0.55);
+  fill: rgba(3, 47, 98, 0.55);
   vertical-align: -3px;
 }
 
 .catalog-entry a {
   width: 100%;
   display: inline-block;
-  color: #4183C4;
+  color: #4183c4;
 }
-.catalog-entry a .flexbox{
+.catalog-entry a .flexbox {
 }
 
 .entry-wrap {
@@ -173,26 +205,26 @@ export default {
   /* background: #ccc; */
 }
 
-.entry-num>div{
+.entry-num > div {
   position: relative;
   z-index: 2;
   width: 4vh;
   height: 4vh;
   margin: 0 1vw;
   /* min-width: 20px; */
-  color: #4183C4;
+  color: #4183c4;
   text-align: center;
   line-height: 4vh;
   border-radius: 50%;
   /* border: 1px solid #000;  */
 }
 
-.entry-num>div:before {
+.entry-num > div:before {
   position: absolute;
   left: 0;
   top: 0;
   z-index: -1;
-  content: '';
+  content: "";
   display: block;
   width: 100%;
   height: 100%;
@@ -202,12 +234,12 @@ export default {
   transition: transform 1s;
 }
 
-.entry-num>div:after {
+.entry-num > div:after {
   position: absolute;
   left: 0;
   top: 0;
   z-index: -1;
-  content: '';
+  content: "";
   display: block;
   width: 100%;
   height: 100%;
@@ -217,12 +249,12 @@ export default {
   transition: transform 1s;
 }
 
-.entry-num>div.active:before {
+.entry-num > div.active:before {
   color: #fff;
   transform: scale(1);
 }
 
-.entry-num>div.active:after {
+.entry-num > div.active:after {
   transform: scale(0);
 }
 </style>
