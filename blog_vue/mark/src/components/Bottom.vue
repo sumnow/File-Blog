@@ -10,7 +10,7 @@
 <script>
 export default {
   watch: {
-    $route (e,v) {
+    $route (e, v) {
       let arr = this.$refs.bottom
       arr.classList.add("near")
       this.changeNear(arr);
