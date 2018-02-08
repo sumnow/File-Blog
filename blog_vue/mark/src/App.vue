@@ -5,34 +5,30 @@
 </template>
 
 <script>
+import changeTheme from './util/theme'
+
 export default {
-  name: "app"
+  name: "app",
+  mounted () {
+    changeTheme();
+  },
 };
 </script>
 
 <style>
 :root {
-  --background-color-r: 51;
-  --background-color-g: 59;
-  --background-color-b: 64;
   --background-color: rgb(
     var(--background-color-r),
     var(--background-color-g),
     var(--background-color-b)
   );
-
-  --text-color-r: 229;
-  --text-color-g: 238;
-  --text-color-b: 244;
+  
   --text-color: rgb(
     var(--text-color-r),
     var(--text-color-g),
     var(--text-color-b)
   );
 
-  --primary-color-r: 62;
-  --primary-color-g: 176;
-  --primary-color-b: 190;
   --primary-color: rgb(
     var(--primary-color-r),
     var(--primary-color-g),
