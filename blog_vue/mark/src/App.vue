@@ -22,7 +22,7 @@ export default {
     var(--background-color-g),
     var(--background-color-b)
   );
-  
+
   --text-color: rgb(
     var(--text-color-r),
     var(--text-color-g),
@@ -39,19 +39,12 @@ export default {
 html {
   background: var(--background-color);
   color: var(--text-color);
-  transition: all 1s;
 }
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-}
-.container {
-  position: absolute;
-  top: 10vh;
-  width: 100vw;
-  height: 80vh;
-  z-index: 0;
 }
 
 #app {
@@ -65,6 +58,8 @@ html {
   text-align: left;
   line-height: 2;
   overflow: hidden;
+  background-color: var(--background-color);
+
 }
 
 body {
