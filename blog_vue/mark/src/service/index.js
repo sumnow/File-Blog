@@ -3,10 +3,14 @@
 //   port: '8080'
 // }
 
+const isDeBug = false;
+
+const local =  isDeBug ? 'http://localhost:8080' : ''
+
 function request(config) {
 
   const configs = {
-    url: `${config.url}`,
+    url: `${local}${config.url}`,
     method: config.method.toUpperCase() || 'GET',
     params: config.params,
     success: config.success || function () { },
