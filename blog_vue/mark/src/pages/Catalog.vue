@@ -1,6 +1,6 @@
 <template>
 	<div class="catalog">
-		<div class="flexbox">
+		<div class="header flexbox">
 			<div @click="changeTheme">Title</div>
 			<div class="mod-search" :class="{searchshow: iptClass}">
 				<span @click="searchCatalog">Search</span>
@@ -58,7 +58,7 @@
 		},
 		methods: {
       changeTheme() {
-        changeTheme(this.currentTheme++)
+        changeTheme(++this.currentTheme)
       },
 			showContent(item) {
 				this.$router.push(`catalog/${item}`);
@@ -110,8 +110,7 @@
 	.catalog {
 		height: 80vh;
 		padding: 2vh 5vw;
-		background-color: var(--background-color);
-		transition: all 1s;
+
 	}
 
 	.mod-search span {
@@ -124,13 +123,14 @@
 	.mod-search input {
 		width: 20vw;
 		padding: 0 1vw;
-		transform: scaleX(0);
+    color: var(--text-color);
 		background-color: transparent;
-		transition: all 1s;
 		border: none;
 		border-bottom: 1px solid #ccc;
-		transform-origin: 100% 0;
 		outline: none;
+		transform: scaleX(0);
+		transition: all 1s;
+		transform-origin: 100% 0;
 	}
 
 	.searchshow span {
@@ -146,6 +146,11 @@
 		justify-content: space-between;
 	}
 
+
+.header div{
+  color: var(--text-color);
+  cursor: pointer;
+}
 	.catalog-entry {
 		height: 6vh;
 		line-height: 6vh;
