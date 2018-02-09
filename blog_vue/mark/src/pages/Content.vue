@@ -54,7 +54,7 @@ export default {
     }
 
     function changeAnnnotationReg (mark) {
-      const reg2 = /(\/\/.+\n)/g
+      const reg2 = /[^:](\/\/.+\n)/g
       return mark.replace(reg2,`<font style="color: #608b4e">$1</font>`)
     }
     request({
@@ -68,13 +68,13 @@ export default {
         let markdata = this.marked(data)
 
         // console.log(markdata.match(/<code>[\s\S]*?<\/code>/g))
-
         markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g,function (w) {
           colorList.forEach((e,i)=>{
             w = regchange(colorList[i],w)
           })
           return w
         })
+        console.log(markdata)
 
         this.content = changeAnnnotationReg(markdata)
       },
