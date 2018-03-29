@@ -5,7 +5,7 @@
 
 const isDeBug = false;
 
-const local =  isDeBug ? 'http://localhost:8080' : ''
+const local =  isDeBug ? 'http://138.128.192.220:8080' : ''
 
 function request(config) {
 

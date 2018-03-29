@@ -40,12 +40,14 @@ export default {
   mounted() {
     // 绑定上滚动时间
     document.getElementById('content').addEventListener('scroll', this.handleScroll);
+
     const changeImgURL = data =>{
       const reg = /!\[(\w+)\]\(\.\.(\/img\/\w+\.(png|jpg))\)/g;
       return data.replace(reg,'![$1](markdown$2)')
     }
+
     //
-    function regchange(color,data) {
+    function changeKeyWord(color,data) {
       const regs = color.keyword.reduce((a,b)=>{
         return `${a}|${b}`
       })
@@ -57,6 +59,7 @@ export default {
       const reg2 = /[^:](\/\/.+\n)/g
       return mark.replace(reg2,`<font style="color: #608b4e">$1</font>`)
     }
+    
     request({
       url: `/code`,
       method: 'GET',
@@ -67,14 +70,12 @@ export default {
         data = changeImgURL(data)
         let markdata = this.marked(data)
 
-        // console.log(markdata.match(/<code>[\s\S]*?<\/code>/g))
         markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g,function (w) {
           colorList.forEach((e,i)=>{
-            w = regchange(colorList[i],w)
+            w = changeKeyWord(colorList[i],w)
           })
           return w
         })
-        console.log(markdata)
 
         this.content = changeAnnnotationReg(markdata)
       },
