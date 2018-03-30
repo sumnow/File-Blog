@@ -1,6 +1,7 @@
 <template>
   <div>
-    <div v-if="computer">     
+    <div v-if="computer">
+      <loading></loading>     
       <canvas id="canvas"></canvas>
     </div>
     <div v-else>
@@ -10,12 +11,14 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       computer: true
     };
   },
+
   mounted() {
     const canvas = document.getElementById('canvas');
     const HEIGHT = document.body.clientHeight;
