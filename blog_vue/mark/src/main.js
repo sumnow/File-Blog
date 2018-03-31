@@ -16,9 +16,8 @@ Vue.component('loading',load)
 // Vue.component(Load)
 
 
-// Vue.prototype.marked = function (ctx) {
-//   return marked(ctx);
-// };
+Vue.prototype.marked = ctx => marked(ctx);
+
 
 // console.log(Loading, LoadConstructor)
 
