@@ -13,6 +13,7 @@
 <script>
 
 export default {
+  name: 'home',
   data() {
     return {
       computer: true
