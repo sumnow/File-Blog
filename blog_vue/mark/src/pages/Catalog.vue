@@ -55,6 +55,7 @@
 import request from "../service";
 import changeTheme from "../util/theme";
 export default {
+  name: 'catalog',
   create: {},
   data() {
     return {
