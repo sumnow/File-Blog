@@ -10,7 +10,7 @@
 
     <div class="bottom"></div>
 
-    <loading></loading>
+    <!-- <loading></loading> -->
   </div>
 </template>
 

@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="computer">
-      <loading></loading>     
+      <!-- <loading></loading>      -->
       <canvas id="canvas"></canvas>
     </div>
     <div v-else>
