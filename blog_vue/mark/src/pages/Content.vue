@@ -20,6 +20,7 @@ import request from '../service'
 import colorList from '../util'
 
 export default {
+  name: 'content',
   data() {
     return {
       content: '',
@@ -66,8 +67,10 @@ export default {
       params: {
         filename: this.$route.params.id,
       },
-      success: (data) => {
+      success: data => {
+        
         data = changeImgURL(data)
+
         let markdata = this.marked(data)
 
         markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g,function (w) {

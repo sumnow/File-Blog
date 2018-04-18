@@ -7,18 +7,25 @@
     </div>
     <titlebar></titlebar>
     <bottombar></bottombar>
+
+    <div class="bottom"></div>
+
+    <!-- <loading></loading> -->
   </div>
 </template>
 
 <script>
 import titlebar from '../components/Title'
 import bottombar from '../components/Bottom'
+// import loading from '../components/Loading'
+
 
 export default {
-  name: 'home',
+  name: 'code',
   components: {
     titlebar,
     bottombar,
+    // loading,
   },
   watch: {
     $route (e, v) {
@@ -34,6 +41,11 @@ export default {
       }, 1000);
     }
   },
+  mounted () {
+    // const a = this.$load()
+    // console.log(a)
+    // a.showLoad()
+  }
 }
 </script>
 

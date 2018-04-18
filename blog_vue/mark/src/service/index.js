@@ -3,7 +3,7 @@
 //   port: '8080'
 // }
 
-const isDeBug = false;
+const isDeBug = true;
 
 const local =  isDeBug ? 'http://138.128.192.220:8080' : ''
 
