@@ -21,7 +21,7 @@ import bottombar from '../components/Bottom'
 
 
 export default {
-  name: 'home',
+  name: 'code',
   components: {
     titlebar,
     bottombar,

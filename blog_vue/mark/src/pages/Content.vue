@@ -20,6 +20,7 @@ import request from '../service'
 import colorList from '../util'
 
 export default {
+  name: 'content',
   data() {
     return {
       content: '',
