@@ -30,7 +30,7 @@ const srv = http.createServer((req, res) => {
         if (params.type) {
             if (params.filename) {
                 const text = fs.readFileSync(`markdown/code/${params.type}/${params.filename}`, 'utf8');
-                res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+                res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' ,'Cache-Control': 'max-age=600'});
                 res.write(JSON.stringify(text));
                 res.end();
             } else {
@@ -42,7 +42,6 @@ const srv = http.createServer((req, res) => {
             }
         } else {
             const dir = fs.readdirSync('markdown/code', function (err, files) {
-                console.log(files)
                 return files;
             })
             const jsondir = JSON.stringify(dir);
@@ -51,8 +50,9 @@ const srv = http.createServer((req, res) => {
             res.end();
         }
     } else {
-        // res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-        // res.end();
+        res.writeHead(404, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        res.write('this page can not found' )
+        res.end();
     }
 })
 
