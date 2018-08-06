@@ -57,6 +57,7 @@ export default {
   /* height: calc(10vh - 10px); */
   height: 50vh;
   background-color: #81d8d0;
+  /* background: linear-gradient(bottom, #81d8d0, #fff); */
 }
 .arcbg {
   position: relative;

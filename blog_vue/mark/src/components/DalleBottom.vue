@@ -60,6 +60,7 @@ export default {
 }
 .bottom-content {
   background: #81d8d0;
+  /* background: linear-gradient(#81d8d0, #fff); */
   /* transform: translateY(-10px); */
   /* height: calc(10vh - 10px); */
   height: 50vh;

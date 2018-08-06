@@ -5,8 +5,8 @@
         <router-view></router-view>
       </keep-alive>
     </div>
-    <titlebar></titlebar>
-    <bottombar></bottombar>
+    <dalleTop></dalleTop>
+    <dalleBottom></dalleBottom>
 
     <div class="bottom"></div>
 
@@ -15,16 +15,16 @@
 </template>
 
 <script>
-import titlebar from '../components/Title'
-import bottombar from '../components/Bottom'
+import dalleTop from '../components/DalleTop'
+import dalleBottom from '../components/DalleBottom'
 // import loading from '../components/Loading'
 
 
 export default {
-  name: 'code',
+  name: 'wrapper',
   components: {
-    titlebar,
-    bottombar,
+    dalleTop,
+    dalleBottom,
     // loading,
   },
   watch: {

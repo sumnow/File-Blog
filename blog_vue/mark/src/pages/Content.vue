@@ -39,11 +39,11 @@ export default {
     },
   },
   mounted() {
-    // 绑定上滚动时间
+    // 绑定上滚动事件
     document.getElementById('content').addEventListener('scroll', this.handleScroll);
 
     const changeImgURL = data =>{
-      const reg = /!\[(\w+)\]\(\.\.(\/img\/\w+\.(png|jpg))\)/g;
+      const reg = /!\[(\w+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg))\)/g;
       return data.replace(reg,'![$1](markdown$2)')
     }
 
@@ -62,10 +62,11 @@ export default {
     }
     
     request({
-      url: `/code`,
+      url: `/catalog`,
       method: 'GET',
       params: {
-        filename: this.$route.params.id,
+        type: this.$route.params.type,
+        filename: this.$route.params.filename,
       },
       success: data => {
         

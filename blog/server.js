@@ -10,7 +10,7 @@ var pagePath = "/index.html"
 
 router.setRootPath(__dirname);
 
-router.get('/', function(req, res){
+router.get('/', function (req, res) {
     // 文件首页
     router.sendFile(res, pagePath);
 });
@@ -19,23 +19,41 @@ router.get('/', function(req, res){
 const srv = http.createServer((req, res) => {
     router.init(req, res);
     const params = url.parse(req.url, true).query;
-    const paths = url.parse(req.url, true).pathname; 
-    // console.log(paths, params.filename);
-    const dir = fs.readdirSync('markdown/down', function (err,files) {
-        return files;
-    })
+    const paths = url.parse(req.url, true).pathname;
+    console.log(paths, params);
+    // const dir = fs.readdirSync('markdown', function (err,files) {
+    //     console.log(files)
+    //     return files;
+    // })
 
-    const jsondir = JSON.stringify(dir);
-    if (jsondir.includes(params.filename)) {
-        const text = fs.readFileSync(`markdown/down/${params.filename}`, 'utf8');
-        res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
-        res.write(JSON.stringify(text));
-        res.end();
-    } else if (paths === '/code/catalog') {
-        res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
-        res.write(jsondir);
-        res.end();
-    } 
+    if (paths === '/catalog') {
+        if (params.type) {
+            if (params.filename) {
+                const text = fs.readFileSync(`markdown/code/${params.type}/${params.filename}`, 'utf8');
+                res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+                res.write(JSON.stringify(text));
+                res.end();
+            } else {
+                const dir = fs.readdirSync(`markdown/code/${params.type}`, (err, files) => files)
+                const jsondir = JSON.stringify(dir);
+                res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+                res.write(jsondir);
+                res.end();
+            }
+        } else {
+            const dir = fs.readdirSync('markdown/code', function (err, files) {
+                console.log(files)
+                return files;
+            })
+            const jsondir = JSON.stringify(dir);
+            res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+            res.write(jsondir);
+            res.end();
+        }
+    } else {
+        // res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+        // res.end();
+    }
 })
 
 // 监听端口
