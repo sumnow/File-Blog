@@ -72,18 +72,23 @@ export default {
   },
   watch: {
     searchMessage: function(val) {
+      // const reg = new RegExp(`${val}`, 'i');
       this.filterTitleArr = this.titleArr.filter(e => e.includes(val));
       this.title = this.catalogPage(this.filterTitleArr);
       this.backtoFirst();
     }
   },
   methods: {
+    // change theme
     changeTheme() {
       changeTheme(++this.currentTheme);
     },
+
+    // 
     showContent(item) {
-      this.$router.push(`catalog/${item}`);
+      this.$router.push(`${this.$route.params.type}/${item}`);
     },
+
     searchCatalog() {
       this.iptClass = !this.iptClass;
       if (!this.iptClass) {
@@ -137,10 +142,14 @@ export default {
     }
   },
   mounted() {
+    // console.log(this.$route)
     if (!this.titleArr.length) {
       request({
-        url: "/code/catalog",
+        url: "/catalog",
         method: "GET",
+        params: {
+          type: this.$route.params.type
+        },
         success: data => {
           this.titleArr = data.reverse();
           this.title = this.catalogPage(this.titleArr);
