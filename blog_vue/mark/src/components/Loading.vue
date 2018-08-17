@@ -1,40 +1,40 @@
 <template>
-    <div class="flex-container" v-show="mask">  
-        <div class="unit">  
-            <div class="heart">  
-            <div class="heart-piece-0"></div>  
-            <div class="heart-piece-1"></div>  
-            <div class="heart-piece-2"></div>  
-            <div class="heart-piece-3"></div>  
-            <div class="heart-piece-4"></div>  
-            <div class="heart-piece-5"></div>  
-            <div class="heart-piece-6"></div>  
-            <div class="heart-piece-7"></div>  
-            <div class="heart-piece-8"></div>  
-            </div>  
+    <div class="flex-container">  
+      <div class="unit">  
+        <div class="heart" >  
+          <div class="heart-piece-0"></div>  
+          <div class="heart-piece-1"></div>  
+          <div class="heart-piece-2"></div>  
+          <div class="heart-piece-3"></div>  
+          <div class="heart-piece-4"></div>  
+          <div class="heart-piece-5"></div>  
+          <div class="heart-piece-6"></div>  
+          <div class="heart-piece-7"></div>  
+          <div class="heart-piece-8"></div>  
         </div>  
+      </div>  
     </div>  
 </template>
 
 <script>
 export default {
-    data () {
-        return {
-            mask: true
-        }
-    },
-    methods: {
-        showLoad() {
-            console.log(77)
-            // setTimeout(()=>{
-                this.mask = !this.mask;
-            // },1000)
-            // console.log(this.mask);
-        },
-    },
-    mounted () {
-        // this.showLoad()
+  data() {
+    return {
+      mask: true,
+      randomChoose: 0,
+    };
+  },
+  methods: {
+    showLoad() {
+      // setTimeout(()=>{
+      this.mask = !this.mask;
+      // },1000)
+      // console.log(this.mask);
     }
+  },
+  mounted() {
+    // this.showLoad()
+  }
 };
 </script>
 
@@ -51,7 +51,7 @@ body {
   left: 0;
   top: 0;
   z-index: 99;
-  background: rgba(0, 0, 0, .5);
+  background: rgba(0, 0, 0, 0.5);
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -301,4 +301,5 @@ body {
     top: -15px;
   }
 }
+
 </style>

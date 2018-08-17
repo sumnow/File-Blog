@@ -7,10 +7,6 @@
     </div>
     <dalleTop></dalleTop>
     <dalleBottom></dalleBottom>
-
-    <div class="bottom"></div>
-
-    <!-- <loading></loading> -->
   </div>
 </template>
 

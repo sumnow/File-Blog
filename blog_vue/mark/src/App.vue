@@ -67,6 +67,7 @@ body {
   color: #516272;
   line-height: 1.6;
   background-color: white;
+  overflow: hidden;
 }
 
 body > *:first-child {
