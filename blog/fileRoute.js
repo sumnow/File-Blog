@@ -39,6 +39,7 @@ module.exports = {
         var ext = path.extname(pathname).slice(1);
         var ft = this.fileType[ext] || "text/plain";
         response.setHeader("Content-type", [ft, "charset=utf-8"]);
+        response.setHeader("Cache-Control", "max-age=6000");
         pathname = this.rootPath + pathname;
         pathname = path.normalize(pathname);
         fs.readFile(pathname, function(err, data) {

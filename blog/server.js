@@ -21,16 +21,12 @@ const srv = http.createServer((req, res) => {
     const params = url.parse(req.url, true).query;
     const paths = url.parse(req.url, true).pathname;
     console.log(paths, params);
-    // const dir = fs.readdirSync('markdown', function (err,files) {
-    //     console.log(files)
-    //     return files;
-    // })
 
     if (paths === '/catalog') {
         if (params.type) {
             if (params.filename) {
                 const text = fs.readFileSync(`markdown/code/${params.type}/${params.filename}`, 'utf8');
-                res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' ,'Cache-Control': 'max-age=600'});
+                res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'});
                 res.write(JSON.stringify(text));
                 res.end();
             } else {
@@ -49,11 +45,12 @@ const srv = http.createServer((req, res) => {
             res.write(jsondir);
             res.end();
         }
-    } else {
-        res.writeHead(404, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
-        res.write('this page can not found' )
-        res.end();
     }
+    //  else {
+    //     res.writeHead(404, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+    //     res.write('this page can not found' )
+    //     res.end();
+    // }
 })
 
 // 监听端口
