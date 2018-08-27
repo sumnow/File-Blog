@@ -1,31 +1,13 @@
-// const API_HOST = {
-//   host: 'http://138.128.192.220',
-//   port: '8080'
-// }
-
-const isDeBug = false;
-
-const local =  isDeBug ? 'http://67.209.183.20:8080' : ''
-
-
 function request(config) {
 
   const configs = {
-    url: `${local}${config.url}`,
+    url: `${config.url}`,
     method: config.method.toUpperCase() || 'GET',
     params: config.params,
     success: config.success || function () { },
     fail: config.fail || function () { },
   }
-  var xmlhttp;
-  if (window.XMLHttpRequest) {
-    // IE7+, Firefox, Chrome, Opera, Safari 浏览器执行代码
-    xmlhttp = new XMLHttpRequest();
-  }
-  else {
-    // IE6, IE5 浏览器执行代码
-    xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-  }
+  var xmlhttp = new XMLHttpRequest();
   xmlhttp.onreadystatechange = () => {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
       configs.success(JSON.parse(xmlhttp.responseText));

@@ -311,11 +311,10 @@ export default {
     };
 
     if (!this.isComputer) {
-      this.arrMobCanvas[0](canvasObj);
+      this.arrMobCanvas[parseInt(Math.random()*this.arrMobCanvas.length)](canvasObj)
     } else {
-      this.arrPCCanvas[0](canvasObj);
+      this.arrPCCanvas[parseInt(Math.random()*this.arrPCCanvas.length)](canvasObj)
     }
-    // console.log(document.body.clientWidth,document.body.clientHeight)
   }
 };
 </script>
