@@ -86,7 +86,7 @@ export default {
 
     // 
     showContent(item) {
-      this.$router.push(`${this.$route.params.type}/${item}`);
+      this.$router.push(`${this.$route.params.type}/${encodeURI(encodeURI(item.slice(0,-3)))}`);
     },
 
     searchCatalog() {
