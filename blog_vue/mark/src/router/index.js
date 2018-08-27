@@ -5,6 +5,7 @@ import content from '@/pages/Content'
 import wrapper from '@/pages/Wrapper'
 import cover from '@/pages/Cover'
 import home from '@/pages/Home'
+import notFound from '@/pages/NotFound'
 
 Vue.use(Router)
 
@@ -40,11 +41,11 @@ const routers = new Router({
         }
       ]
     },
+    { path: '*', component: notFound }
   ]
 })
 
 routers.push('/home')
-// routers.push('home')
 
 
 export default routers
