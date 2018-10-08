@@ -4,7 +4,4 @@ export default [{
 }, {
   keyword: ['id', 'class', 'src'],
   color: '#c586c0'
-}, {
-  keyword: ['px', 'rem', 'em', 'vh', 'vw', 'jpg', 'png', 'svg'],
-  color: '#dcdcaa'
-},]
+}]

@@ -9,17 +9,17 @@
 			<div @click="sortReserve">Time</div>
 		</div>
 		<div class="entry-wrap">
-			<div class="catalog-entry" v-for="item in title[entryNum]" :key="item">
-				<a @click="showContent(item)">
+			<div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
+				<a @click="showContent(item.input)">
 					<div class="flexbox">
 						<div>
 							<svg aria-hidden="true" class="icon-file" height="16" version="1.1" viewBox="0 0 12 16" width="12">
 								<path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
 							</svg>
-							<span>{{item.slice(...filename)}}</span>
+							<span>{{item.name}}</span>
 						</div>
 						<div>
-							<span>{{item.slice(...filedate)}}</span>
+							<span>{{item.date}}</span>
 						</div>
 					</div>
 				</a>
@@ -39,7 +39,7 @@
       </div>
 			<div class="unit">{{(entryNum+1)%10}}</div>
 			<div class="right" @click="toNum('right')">
-        <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="797"><path d="M288.791335 65.582671l446.41733 446.417329-446.41733 446.417329z" p-id="798"></path></svg>
+        <svg class="icon" style="fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="797"><path d="M288.791335 65.582671l446.41733 446.417329-446.41733 446.417329z" p-id="798"></path></svg>
       </div>
 
 			<!-- <div @click="backtoFirst"> -->
@@ -55,7 +55,7 @@
 import request from "../service";
 import changeTheme from "../util/theme";
 export default {
-  name: 'catalog',
+  name: "catalog",
   create: {},
   data() {
     return {
@@ -72,8 +72,8 @@ export default {
   },
   watch: {
     searchMessage: function(val) {
-      // const reg = new RegExp(`${val}`, 'i');
-      this.filterTitleArr = this.titleArr.filter(e => e.includes(val));
+      const reg = new RegExp(`${val}`, 'ig');
+      this.filterTitleArr = this.titleArr.filter(e => reg.test(e.input));
       this.title = this.catalogPage(this.filterTitleArr);
       this.backtoFirst();
     }
@@ -84,9 +84,11 @@ export default {
       changeTheme(++this.currentTheme);
     },
 
-    // 
+    //
     showContent(item) {
-      this.$router.push(`${this.$route.params.type}/${encodeURI(encodeURI(item.slice(0,-3)))}`);
+      this.$router.push(
+        `${this.$route.params.type}/${encodeURI(encodeURI(item.slice(0, -3)))}`
+      );
     },
 
     searchCatalog() {
@@ -100,7 +102,6 @@ export default {
       const titleLength = this.title.length - 1;
       const isinRange = (i, min, max, plus) => {
         if (max >= i + plus && i + plus >= min) {
-          console.log(i + plus);
           return i + plus;
         } else {
           return i;
@@ -125,7 +126,7 @@ export default {
       }
     },
     backtoFirst() {
-      this.toNum("home")
+      this.toNum("home");
     },
     sortReserve() {
       this.titleArr = this.titleArr.reverse();
@@ -151,14 +152,25 @@ export default {
           type: this.$route.params.type
         },
         success: data => {
-          this.titleArr = data.reverse();
+          const reg = /^(\d{4}-(0[0-9]|1[0-2])-(3[0-1]|[0-2][0-9]))_([\S\s]+)\[([\S\s]+)\]/;
+
+          this.titleArr = data.reverse().map((e, i) => {
+            const _arr = e.match(reg);
+            return _arr
+              ? {
+                  date: _arr[1] || "",
+                  name: _arr[4] || "",
+                  tags: _arr[5] || "",
+                  input: _arr["input"] || ""
+                }
+              : {};
+          });
           this.title = this.catalogPage(this.titleArr);
         }
       });
     }
   },
-  activated() {
-  }
+  activated() {}
 };
 </script>
 
@@ -225,9 +237,6 @@ export default {
   color: #4183c4;
 }
 
-.catalog-entry a .flexbox {
-}
-
 .entry-wrap {
   height: 64vh;
 }
@@ -253,26 +262,16 @@ export default {
   text-align: center;
   line-height: 4vh;
   border-radius: 50%;
-  /* border: 1px solid #000;  */
+  /* border: 1px solid #000; */
+  /* box-sizing: border-box; */
 }
 
-.entry-num > div:before {
-  position: absolute;
-  left: 0;
-  top: 0;
-  z-index: -1;
-  content: "";
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background-color: #ccc;
-  transform: scale(0);
-  transition: transform 1s;
-}
-
-.entry-num > div:after {
-  position: absolute;
+.entry-num > div > svg {
+  display: inline;
+  width: 0.8rem;
+  height: 0.8rem;
+  vertical-align: middle;
+  /* position: absolute;
   left: 0;
   top: 0;
   z-index: -1;
@@ -283,7 +282,7 @@ export default {
   border-radius: 50%;
   box-shadow: 0 0 1px #000;
   transform: scale(1);
-  transition: transform 1s;
+  transition: transform 1s; */
 }
 
 .entry-num > div.active:before {

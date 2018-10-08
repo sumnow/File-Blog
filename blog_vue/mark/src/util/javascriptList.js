@@ -1,11 +1,11 @@
 export default [{
-  keyword: ['function', 'let', 'if', 'else', 'while', 'const', 'var', 'for', 'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval', 'call','apply','bind'],
+  keyword: ['function', 'let', 'if', 'else', 'while', 'const', 'var', 'for', 'setTimeout', 'setInterval', 'clearTimeout', 'clearInterval', 'call','apply','bind', 'addEventListener', 'new'],
   color: '#569cd6'
 }, {
   keyword: ['import', 'return', 'export', 'default'],
   color: '#c586c0'
 }, {
-  keyword: ['Math', 'console', 'this', 'document', 'arguments', 'null', 'undefined', 'Object', 'String', 'Number', 'Array', 'Promise'],
+  keyword: ['Math', 'console', 'this', 'document', 'arguments', 'null', 'undefined', 'Object', 'String', 'Number', 'Array', 'Promise', 'Set', 'Map', 'prototype'],
   color: '#9cdcfe'
 }, {
   keyword: ['random', 'pow', 'round', 'floor', 'log', 'replace', 'from', 'map', 'forEach', 'parseInt', 'push', 'unshift', 'shift', 'pull', 'remove', 'append', 'prepend'],

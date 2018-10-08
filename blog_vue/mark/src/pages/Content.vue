@@ -8,7 +8,7 @@
       </div>
     </div>
     <div class="scroll-wrap">
-      <div class="content" id="content">
+      <div class="content" id="content-article">
         <div class="content-text" id="content-text" v-html="content"></div>
       </div>
     </div>
@@ -20,7 +20,7 @@ import request from '../service'
 import colorList from '../util'
 
 export default {
-  name: 'content',
+  name: 'contentArticle',
   data() {
     return {
       content: '',
@@ -31,7 +31,7 @@ export default {
       this.$router.go(-1);
     },
     handleScroll() {
-      let scroll = document.getElementById('content');
+      let scroll = document.getElementById('content-article');
       let scrolltxt = document.getElementById('content-text').offsetHeight;
       let scrolltop = scroll.scrollTop;
       let scrollhgt = scroll.offsetHeight;
@@ -40,7 +40,7 @@ export default {
   },
   mounted() {
     // 绑定上滚动事件
-    document.getElementById('content').addEventListener('scroll', this.handleScroll);
+    document.getElementById('content-article').addEventListener('scroll', this.handleScroll);
 
     const changeImgURL = data =>{
       const reg = /!\[(\w+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg))\)/g;
@@ -57,7 +57,7 @@ export default {
     }
 
     function changeAnnnotationReg (mark) {
-      const reg2 = /[^:](\/\/.+\n)/g
+      const reg2 = /[^:|>](\/\/.+\n)/g
       return mark.replace(reg2,`<font style="color: #608b4e">$1</font>`)
     }
     
@@ -69,7 +69,6 @@ export default {
         filename: this.$route.params.filename,
       },
       success: data => {
-        
         data = changeImgURL(data)
 
         let markdata = this.marked(data)
