@@ -6,7 +6,7 @@ import router from './router'
 import marked from './marked'
 import load from './components/Loading'
 
-Vue.component('loading',load)
+Vue.component('loading', load)
 
 // Vue.use(load);
 
@@ -36,6 +36,7 @@ Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {
   next();
 })
+
 
 
 /* eslint-disable no-new */

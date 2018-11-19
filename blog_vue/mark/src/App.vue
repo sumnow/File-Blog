@@ -12,6 +12,7 @@ import changeTheme from "./util/theme";
 export default {
   name: "app",
   mounted() {
+    console.log('version: v2.9.4');
     changeTheme();
   }
 };
@@ -62,6 +63,8 @@ html {
   overflow: hidden;
   background-color: var(--background-color);
 }
+
+/* markdown css style */
 
 body {
   font-family: "Microsoft Yahei", Helvetica, arial, sans-serif;

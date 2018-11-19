@@ -33,11 +33,13 @@ export default {
         this.w = obj.w;
         this.h = obj.h;
         this.imgSrc = obj.imgSrc;
-        this.x = obj.x * w + WINDOW_WIDTH / 2 - 7 * w+ (w-48*w/64)/2;
+        this.x = obj.x * w + WINDOW_WIDTH / 2 - 7 * w + (w - (48 * w) / 64) / 2;
         this.y = obj.y + WINDOW_HEIGHT / 2 - 2 * w;
         this.imgX = obj.imgX;
         this.imgY = obj.imgY;
         this.scale = obj.scale || 1;
+        this.local = obj.local || [];
+        this.speed = obj.speed || 1;
       }
 
       render() {
@@ -56,7 +58,8 @@ export default {
         );
       }
       setXandY(x, y) {
-        this.x = x * w + WINDOW_WIDTH / 2 - 7 * w+ (w-48*w/64)/2;
+        this.local = [x, y]
+        this.x = x * w + WINDOW_WIDTH / 2 - 7 * w + (w - (48 * w) / 64) / 2;
         this.y = y + WINDOW_HEIGHT / 2 - 2 * w;
       }
       update() {
@@ -67,15 +70,15 @@ export default {
         }
       }
       change(direction) {
-        switch(parseInt(direction) % 4) {
+        switch (parseInt(direction) % 4) {
           case 0:
-            this.imgY = 0*this.h;
-          case 1: 
-            this.imgY = 1*this.h;
-          case 2: 
-            this.imgY = 2*this.h;
+            this.imgY = 0 * this.h;
+          case 1:
+            this.imgY = 1 * this.h;
+          case 2:
+            this.imgY = 2 * this.h;
           case 3:
-            this.imgY = 3*this.h;
+            this.imgY = 3 * this.h;
         }
       }
     }
@@ -108,12 +111,13 @@ export default {
       h: 64,
       imgX: 0,
       imgY: 0,
-      scale: w / 64
+      scale: w / 64,
+      local: [0, 0],
+      speed: 0.5,
     });
     function render() {
       ctx.clearRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT);
       t++;
-     
       arr.forEach((el, i) => {
         el.arr.forEach((e, j) => {
           if (e) {
@@ -124,18 +128,19 @@ export default {
               w,
               w
             );
-            if ((e = 2)) {
-            }
           }
         });
       });
-      zhaoyun1.setXandY(0,0+0.1*t)
+      if (zhaoyun1)
+      zhaoyun1.setXandY(0, 0 + zhaoyun1.speed * t);
+      console.log(zhaoyun1)
       zhaoyun1.render();
+      // 缩短刷新速率
       if (!(t % 10)) {
         zhaoyun1.update();
-        // if (!(t % 100)) {
-          // zhaoyun1.change(0.1 * t % 4);
-          t = 0;
+        // if (!(t % 800)) {
+        //   zhaoyun1.change(0.1 * t % 4);
+        //   t = 0;
         // }
       }
       window.requestAnimationFrame(render);

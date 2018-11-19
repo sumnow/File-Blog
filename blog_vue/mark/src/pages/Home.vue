@@ -10,13 +10,20 @@
 </template>
 
 <script>
-import request from "../service";
+import {request} from "../service";
 import Cover from "./Cover"; 
 
 export default {
   name: "home",
   components: {
     Cover
+  },
+  computed: {
+    isComputer() {
+      return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
+        navigator.userAgent
+      );
+    }
   },
   data() {
     return {
@@ -25,7 +32,11 @@ export default {
   },
   methods: {
     toCatalog(i) {
-      this.$router.push(`/code/${i}`);
+      if(this.isComputer) {
+        this.$router.push(`/body/${i}`);
+      } else {
+        this.$router.push(`/code/${i}`);
+      }
     }
   },
   created() {

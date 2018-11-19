@@ -10,19 +10,22 @@
 		</div>
 		<div class="entry-wrap">
 			<div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
-				<a @click="showContent(item.input)">
-					<div class="flexbox">
-						<div>
-							<svg aria-hidden="true" class="icon-file" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-								<path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
-							</svg>
-							<span>{{item.name}}</span>
-						</div>
-						<div>
-							<span>{{item.date}}</span>
-						</div>
-					</div>
-				</a>
+				<div class="catalog-entry-son flexbox" @click="showContent(item.input)">
+          <div class="catalog-entry-son-name">
+            <svg aria-hidden="true" class="icon-file" height="16" version="1.1" viewBox="0 0 12 16" width="12">
+              <path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
+            </svg>
+            <span>{{item.name}}</span>
+          </div>
+          <div class="catalog-entry-son-tags">
+            <div v-for="(elItem, elIndex) in item.tags" :key="elItem">
+              {{elItem}}
+            </div>
+          </div>
+          <div class="catalog-entry-son-date">
+            <span>{{item.date}}</span>
+          </div>
+				</div>
 			</div>
 		</div>
 		<div class="entry-num">
@@ -52,7 +55,7 @@
 </template>
 
 <script>
-import request from "../service";
+import {request} from "../service";
 import changeTheme from "../util/theme";
 export default {
   name: "catalog",
@@ -160,17 +163,25 @@ export default {
               ? {
                   date: _arr[1] || "",
                   name: _arr[4] || "",
-                  tags: _arr[5] || "",
+                  tags: _arr[5].split(',') || "",
                   input: _arr["input"] || ""
                 }
-              : {};
+              : {
+                date: 'null_time',
+                name: 'null_name',
+                tags: 'null_tag',
+                input: 'null_input'
+              };
           });
           this.title = this.catalogPage(this.titleArr);
         }
       });
     }
   },
-  activated() {}
+  activated() {
+    function sorts (arr) {
+    }
+  }
 };
 </script>
 
@@ -214,15 +225,19 @@ export default {
 }
 
 .header div {
+  height: 8vh;
+  line-height: 8vh;
   color: var(--text-color);
   cursor: pointer;
 }
 .catalog-entry {
-  height: 6vh;
-  line-height: 6vh;
-  margin-bottom: 2vh;
-  overflow: hidden;
+  height: 5.75vh;
+  line-height: 5.75vh;
   color: rgba(255, 255, 255, 0.2);
+  overflow: hidden;
+}
+.catalog-entry + .catalog-entry {
+  margin-top: 2vh;
 }
 
 .catalog-entry .icon-file {
@@ -231,22 +246,20 @@ export default {
   vertical-align: -3px;
 }
 
-.catalog-entry a {
+.catalog-entry .catalog-entry-son {
   width: 100%;
-  display: inline-block;
   color: #4183c4;
 }
 
 .entry-wrap {
-  height: 64vh;
+  height: 60vh;
 }
 
 .entry-num {
   display: flex;
-  overflow-y: auto;
   justify-content: space-around;
+  align-items: center;
   height: 8vh;
-  padding: 2vh 0;
   line-height: 8vh;
   /* background: #ccc; */
 }

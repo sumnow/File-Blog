@@ -1,4 +1,4 @@
-function request(config) {
+export function request(config) {
 
   const configs = {
     url: `${config.url}`,
@@ -30,4 +30,19 @@ function request(config) {
   }
 }
 
-export default request;
+export function fetch(config) {
+  return new Promise((resolve, rejecj) => {
+    const configs = {
+      url: `${config.url}`,
+      method: config.method.toUpperCase() || 'GET',
+      params: config.params,
+      success: config.success || function () { },
+      fail: config.fail || function () { },
+    }
+    request({
+      ...configs,
+      success: resolve,
+      fail: rejecj
+    })
+  })
+}

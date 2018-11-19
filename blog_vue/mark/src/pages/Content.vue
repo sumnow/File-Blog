@@ -16,81 +16,86 @@
 </template>
 
 <script>
-import request from '../service'
-import colorList from '../util'
+import {request} from "../service";
+import colorList from "../util";
 
 export default {
-  name: 'contentArticle',
+  name: "contentArticle",
   data() {
     return {
-      content: '',
-    }
+      content: ""
+    };
   },
   methods: {
     back() {
       this.$router.go(-1);
     },
     handleScroll() {
-      let scroll = document.getElementById('content-article');
-      let scrolltxt = document.getElementById('content-text').offsetHeight;
+      let scroll = document.getElementById("content-article");
+      let scrolltxt = document.getElementById("content-text").offsetHeight;
       let scrolltop = scroll.scrollTop;
       let scrollhgt = scroll.offsetHeight;
-      document.getElementById('bar').style.transform = 'translateX(-'+ Math.floor((1 - scrolltop / (scrolltxt - scrollhgt)) * 100) +'%)'
-    },
+      document.getElementById("bar").style.transform =
+        "translateX(-" +
+        Math.floor((1 - scrolltop / (scrolltxt - scrollhgt)) * 100) +
+        "%)";
+    }
   },
   mounted() {
     // 绑定上滚动事件
-    document.getElementById('content-article').addEventListener('scroll', this.handleScroll);
+    document
+      .getElementById("content-article")
+      .addEventListener("scroll", this.handleScroll);
 
-    const changeImgURL = data =>{
+    const changeImgURL = data => {
       const reg = /!\[(\w+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg))\)/g;
-      return data.replace(reg,'![$1](markdown$2)')
-    }
+      return data.replace(reg, "![$1](markdown/knowledge$2)");
+    };
 
     //
-    function changeKeyWord(color,data) {
-      const regs = color.keyword.reduce((a,b)=>{
-        return `${a}|${b}`
-      })
-      const reg = new RegExp(`\\b(${regs})\\b`,'g')
-      return data.replace(reg, `<font style="color: ${color.color}">$1</font>`)
+    function changeKeyWord(color, data) {
+      const regs = color.keyword.reduce((a, b) => {
+        return `${a}|${b}`;
+      });
+      const reg = new RegExp(`\\b(${regs})\\b`, "g");
+      return data.replace(reg, `<font style="color: ${color.color}">$1</font>`);
     }
 
-    function changeAnnnotationReg (mark) {
-      const reg2 = /[^:|>](\/\/.+\n)/g
-      return mark.replace(reg2,`<font style="color: #608b4e">$1</font>`)
+    function changeAnnnotationReg(mark) {
+      const reg2 = /[^:|>](\/\/.+\n)/g;
+      return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
     }
-    
+
     request({
       url: `/catalog`,
-      method: 'GET',
+      method: "GET",
       params: {
         type: this.$route.params.type,
-        filename: this.$route.params.filename,
+        filename: this.$route.params.filename
       },
       success: data => {
-        data = changeImgURL(data)
+        data = changeImgURL(data);
 
-        let markdata = this.marked(data)
+        let markdata = this.marked(data);
 
-        markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g,function (w) {
-          colorList.forEach((e,i)=>{
-            w = changeKeyWord(colorList[i],w)
-          })
-          return w
-        })
+        markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g, function(w) {
+          colorList.forEach((e, i) => {
+            w = changeKeyWord(colorList[i], w);
+          });
+          return w;
+        });
 
-        this.content = changeAnnnotationReg(markdata)
+        this.content = changeAnnnotationReg(markdata);
       },
-      fail: (data) => {
+      fail: data => {
         this.content = data;
-      },
-    })
+      }
+    });
   },
-  deactivated () {
-    this.$destroy()
+  deactivated() {
+    this.$destroy();
   }
-}
+};
 </script>
 
 <style scoped>
@@ -116,7 +121,6 @@ export default {
 }
 .content-text {
   overflow: hidden;
-
 }
 /* .content-text:before,.content-text:after {
   display: table;
@@ -154,7 +158,7 @@ export default {
   height: 100%;
   overflow: hidden;
   border-radius: 2px;
-  transform: translateX(-100%)
+  transform: translateX(-100%);
   /* overflow: hidden; */
   /* box-shadow: inset 0px 4px 40px rgba(255,255,255,0.2), 0 10px 10px -5px #79aa1e, 0 7px 0 #628c14; */
 }
