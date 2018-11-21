@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import catalog from '@/pages/Catalog'
-import content from '@/pages/Content'
+import essay from '@/pages/Essay'
 import wrapper from '@/pages/Wrapper'
 import cover from '@/pages/Cover'
 import home from '@/pages/Home'
@@ -37,8 +37,8 @@ const routers = new Router({
         },
         {
           path: ':type/:filename',
-          name: 'content',
-          component: content,
+          name: 'essay',
+          component: essay,
         }
       ]
     },
@@ -49,13 +49,13 @@ const routers = new Router({
       children: [
         {
           path: ':type',
-          name: 'catalog',
-          component: catalog,
+          name: 'hello',
+          component: hello,
         },
         {
           path: ':type/:filename',
-          name: 'content',
-          component: content,
+          name: 'hello',
+          component: hello,
         }
       ]
     },

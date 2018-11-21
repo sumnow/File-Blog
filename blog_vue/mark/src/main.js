@@ -5,12 +5,13 @@ import App from './App'
 import router from './router'
 import marked from './marked'
 import load from './components/Loading'
+import Logger from 'console_colorpoint'
 
 Vue.component('loading', load)
 
 // Vue.use(load);
 
-
+window.log = new Logger(true)
 // Vue.prototype.$load = Load;
 
 // Vue.component(Load)

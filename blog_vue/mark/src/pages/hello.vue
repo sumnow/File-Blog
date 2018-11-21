@@ -3,31 +3,43 @@
     <div class="flexbox catelog-title_pc" >
       <div class="flexbox">
         <div v-for="(item,index) in typeList" :key="index" :class="{ active: activeArr.type == item.typeName }" @click="selectByType(item.typeName, index)">
-          {{item.typeName}}
+          <span>{{item.typeName}}</span>
         </div>
       </div>
     </div>
     <div :class="{'catalog-body_pc': true, 'before-transformed': beforeChange.index > activeArr.typeIndex, 'after-transformed': beforeChange.index < activeArr.typeIndex }">
-      <div v-for="(item, index) in showCatalogList" :key="index" class="catalog-body_pc-block flexbox">
-        <div>{{item.name}}</div>
-        <div>{{item.date}}</div>
+      <div v-for="(item, index) in showCatalogList" :key="index" :class="{'catalog-body_pc-block flexbox': true, active: activeArr.essay == item.name}" @click="toEssay(item)">
+        <div class="catalog-body_pc-title">
+          <span>{{item.name}}</span>
+        </div>
+        <div class="catalog-body_pc-date">
+          <span>{{item.date}}</span>
+        </div>
       </div>
     </div>
     <div class="flexbox catelog-tag_pc">
       <div v-for="(item,index) in tagList" :key="index" :class="{ active: activeArr.tag == item }" @click="selectByTag(item)">
-        {{item}}
+        <span>{{item}}</span>
       </div>
+    </div>
+    <div class="content-profile">
+      <essay v-if="hackReset"></essay>
     </div>
   </div>
 </template>
 
 <script>
 import { fetch } from "../service";
+import essay from "../components/Essay";
 
 export default {
   name: "hello",
+  components: {
+    essay: essay
+  },
   data() {
     return {
+      hackReset: true,
       beforeChange: {
         index: 0,
         locked: false
@@ -38,7 +50,8 @@ export default {
       activeArr: {
         tag: "",
         typeIndex: 0,
-        type: ""
+        type: "",
+        essay: ""
       }
     };
   },
@@ -58,7 +71,7 @@ export default {
   },
   watch: {
     activeArrType(n, o) {
-      console.log(`set ${o}=>${n}`);
+      log.blue(`set ${o}=>${n}`);
       this.catalogList = this.showCatalogList = this.typeList.filter(
         e => e.typeName == this.activeArrType
       )[0].data;
@@ -85,6 +98,18 @@ export default {
         this.activeArr.typeIndex = i;
         this.$router.push(`/body/${e}`);
       }
+    },
+    toEssay(item) {
+      this.$router.push(
+        `/body/${this.$route.params.type}/${encodeURI(
+          encodeURI(item.input.slice(0, -3))
+        )}`
+      );
+      this.activeArr.essay = item.name
+      this.hackReset = false;
+      this.$nextTick(() => {
+        this.hackReset = true;
+      });
     }
   },
   created() {
@@ -110,7 +135,6 @@ export default {
           });
         })
       ).then(res => {
-        console.log(res);
         const reg = /^(\d{4}-(0[0-9]|1[0-2])-(3[0-1]|[0-2][0-9]))_([\S\s]+)\[([\S\s]+)\]/;
         this.typeList.forEach((e, i) => {
           this.typeList[i].data = res[i].reverse().map(el => {
@@ -150,13 +174,25 @@ export default {
   display: flex;
 }
 .catelog-profile_pc {
-  grid-template: 1fr 300px 1fr / auto;
+  height: 100%;
+  grid-template: 100px 1fr 100px / 30% 70%;
+  grid-template-areas:
+    "title main"
+    "catalog main"
+    "tag main";
 }
 .catelog-title_pc {
-  height: 50px;
-  line-height: 50px;
+  grid-area: title;
+  height: 100%;
   justify-content: space-between;
   align-items: stretch;
+}
+.catelog-title_pc > .flexbox > div {
+  display: flex;
+  align-items: center;
+}
+.catelog-title_pc span {
+  width: 100%;
 }
 .catelog-title_pc div {
   flex: 1;
@@ -166,6 +202,7 @@ export default {
   background: lightgreen;
 }
 .catalog-body_pc {
+  grid-area: catalog;
   line-height: 30px;
   overflow: auto;
 }
@@ -187,12 +224,36 @@ export default {
 }
 .catalog-body_pc-block {
   height: 12.5%;
+  line-height: 18px;
+  font-size: 12px;
   box-sizing: border-box;
   padding: 0 10px;
   justify-content: space-between;
   transform: translateX(0px);
 }
 
+.active.catalog-body_pc-block {
+  background: #fff;
+}
+
+.catalog-body_pc-title {
+  width: 70%;
+  display: table;
+  height: 100%;
+}
+.catalog-body_pc-title span {
+  display: table-cell;
+  vertical-align: middle;
+}
+.catalog-body_pc-date {
+  width: 30%;
+  display: table;
+  height: 100%;
+}
+.catalog-body_pc-date span {
+  display: table-cell;
+  vertical-align: middle;
+}
 .before-transformed > .catalog-body_pc-block {
   animation: beforeTransformed 0.5s;
   animation-fill-mode: forwards;
@@ -250,16 +311,25 @@ export default {
   animation-delay: 0.4s;
 }
 .catelog-tag_pc {
-  height: 50px;
-  line-height: 50px;
+  grid-area: tag;
   justify-content: space-between;
   align-items: stretch;
+  overflow-x: auto;
 }
-.catelog-tag_pc div {
+.catelog-tag_pc > div {
+  height: 100%;
   flex: 1;
+  display: flex;
   text-align: center;
+  align-items: center;
 }
 .catelog-tag_pc .active {
   background: lightblue;
+}
+.catelog-tag_pc > div > span {
+  width: 100%;
+}
+.content-profile {
+  grid-area: main;
 }
 </style>
