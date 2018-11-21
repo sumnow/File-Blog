@@ -12,7 +12,7 @@ import changeTheme from "./util/theme";
 export default {
   name: "app",
   mounted() {
-    console.log('version: v2.9.4');
+    console.log('version: v3.0.1');
     changeTheme();
   }
 };
@@ -48,6 +48,7 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  user-select: none;
 }
 
 #app {
