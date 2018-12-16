@@ -798,6 +798,7 @@ Renderer.prototype.heading = function(text, level, raw) {
     + ' id="'
     + this.options.headerPrefix
     + raw.toLowerCase().replace(/[^\w]+/g, '-')
+    + parseInt(Math.random()*100000,10)
     + '">'
     + text
     + '</h'

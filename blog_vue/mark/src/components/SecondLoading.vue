@@ -16,11 +16,11 @@ export default {
 .loading {
   position: absolute;
   left: 50%;
-  top: 40%;
+  top: 50%;
   width: 10em;
   height: 10em;
-  margin: 1em auto;
   filter: blur(0.3em) contrast(50);
+  transform: translate(-50%, -50%);
 }
 
 .cir {

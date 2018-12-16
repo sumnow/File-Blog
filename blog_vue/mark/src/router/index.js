@@ -11,7 +11,7 @@ import hello from '@/pages/hello'
 Vue.use(Router)
 
 const routers = new Router({
-  mode: 'hash',
+  mode: 'history',
   routes: [
     {
       path: '/cover',
@@ -63,11 +63,7 @@ const routers = new Router({
   ]
 })
 
-
-
-  routers.push('/home')
-
-
+  // routers.push('/home')
 
 export default routers
 

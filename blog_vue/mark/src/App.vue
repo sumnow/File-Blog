@@ -1,19 +1,33 @@
 <template>
-  <div id="app" >
+  <div id="app">
     <keep-alive include="cover">
-      <router-view />
+      <router-view/>
     </keep-alive>
   </div>
 </template>
 
 <script>
-import changeTheme from "./util/theme";
+import {changeThemePc, changeThemePhone} from "./util/theme";
 
 export default {
   name: "app",
+  computed: {
+    isComputer() {
+      return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
+        navigator.userAgent
+      );
+    }
+  },
   mounted() {
-    console.log('version: v3.0.1');
-    changeTheme();
+    console.log("version: v3.0.1");
+    if(this.isComputer) {
+      changeThemePc(1)
+      if (new Date().getHours() < 7 || new Date().getHours() > 21) {
+        changeThemePc()
+      }
+    }else{
+      changeThemePhone()
+    }
   }
 };
 </script>
@@ -329,13 +343,13 @@ table {
 
 table tr {
   border-top: 1px solid #cccccc;
-  background-color: white;
+  background-color: var(--background-color);
   margin: 0;
   padding: 0;
 }
 
 table tr:nth-child(2n) {
-  background-color: #f8f8f8;
+  background-color: var(--primary-color);
 }
 
 table tr th {

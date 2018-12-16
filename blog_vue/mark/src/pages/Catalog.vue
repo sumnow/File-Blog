@@ -1,7 +1,7 @@
 <template>
 	<div class="catalog">
 		<div class="header flexbox">
-			<div @click="changeTheme">Title</div>
+			<div @click="changeThemePhone">Title</div>
 			<div class="mod-search" :class="{searchshow: iptClass}">
 				<span @click="searchCatalog">Search</span>
 				<input type="text" v-model.trim="searchMessage" ref="input_search"/>
@@ -56,7 +56,7 @@
 
 <script>
 import {request} from "../service";
-import changeTheme from "../util/theme";
+import {changeThemePhone} from "../util/theme";
 export default {
   name: "catalog",
   create: {},
@@ -83,8 +83,8 @@ export default {
   },
   methods: {
     // change theme
-    changeTheme() {
-      changeTheme(++this.currentTheme);
+    changeThemePhone() {
+      changeThemePhone(++this.currentTheme);
     },
 
     //
