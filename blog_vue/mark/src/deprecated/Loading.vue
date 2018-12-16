@@ -63,6 +63,7 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
+  transform: translate(-50% -50%); 
 }
 body {
   background-color: #262e6f;
