@@ -63,7 +63,7 @@ const routers = new Router({
   ]
 })
 
-  // routers.push('/home')
+  routers.push('/home')
 
 export default routers
 

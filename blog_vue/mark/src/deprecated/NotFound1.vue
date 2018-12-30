@@ -1,5 +1,6 @@
 <template>
   <div class="bg_black">
+    <div>Something is wrong!</div>
     <div>
       <div class="profile-pic">
         <div></div>
@@ -52,6 +53,7 @@
         <div></div>
       </div>
     </div>
+    <div class>@mydia</div>
   </div>
 </template>
 
@@ -65,12 +67,14 @@ export default {
       );
     }
   },
-  mounted() {}
+  mounted() {
+  }
 };
 </script>
 
 <style>
 .bg_black {
+  display: grid;
   grid-template-rows: 100px 1fr 100px;
   width: 100vw;
   height: 100vh;
@@ -81,16 +85,13 @@ export default {
 .profile-pic {
   display: grid;
   grid-template: repeat(6, 1fr) / repeat(8, 1fr);
+  grid-gap: 4px;
   margin: 0 auto;
-  width: 100vw;
-  height: 100vh;
+  width: calc(4 * 1.2 * 100px);
+  height: calc(3 * 1.2 * 100px);
   background-image: url(../assets/saber.jpg);
   background-size: cover;
   background-color: #000;
-}
-.profile-pic div {
-  width: calc(100vw / 8);
-  height: calc(100vh / 6);
 }
 @keyframes fade {
   50% {
