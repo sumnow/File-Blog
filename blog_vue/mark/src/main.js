@@ -4,11 +4,11 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import marked from './marked'
-import Logger from 'console_colorpoint'
+// import Logger from 'console_colorpoint'
 
 // Vue.use(load);
 
-window.log = new Logger(process.env.NODE_ENV == 'production')
+// window.log = new Logger(process.env.NODE_ENV == 'production')
 // Vue.prototype.$load = Load;
 
 // Vue.component(Load)
