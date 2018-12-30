@@ -99,7 +99,7 @@ export default {
   },
   watch: {
     activeArrType(n, o) {
-      log.blue(`set ${o}=>${n}`);
+      // log.blue(`set ${o}=>${n}`);
       // setTimeout(() => {
       this.catalogList = this.showCatalogList = this.typeList.filter(
         e => e.typeName == this.activeArrType
