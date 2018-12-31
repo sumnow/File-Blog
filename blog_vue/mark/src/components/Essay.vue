@@ -1,10 +1,10 @@
 <template>
   <div class="content-wrap">
-    <div class="ul-content-href">
+    <!-- <div class="ul-content-href">
       <div class="li-content-href" v-for="item in hrefList" :key="item.href">
         <a :href="item.href" :style="{fontSize: 26-item.level*3+'px' }">{{item.name}}</a>
       </div>
-    </div>
+    </div>-->
     <div class="scroll-wrap" v-if="content">
       <div class="content-text" id="content-text" v-html="content"></div>
     </div>
@@ -74,15 +74,14 @@ export default {
 
           this.content = changeAnnnotationReg(markdata);
           const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
+          // console.log(document.querySelector())
           this.hrefList = this.content.match(_reg).map(e => {
             return {
-              level: e.replace(_reg, '$1'),
+              level: e.replace(_reg, "$1"),
               href: e.replace(_reg, "#$2"),
               name: e.replace(_reg, "$3")
             };
           });
-          // this.hrefList = this.content.match(reg1).map(e => e.replace(reg1, '$1_$2'));
-          console.log(this.hrefList)
         },
         fail: data => {
           this.content = data;
@@ -90,7 +89,8 @@ export default {
       });
     }
   },
-  mounted() {},
+  mounted() {
+  },
   deactivated() {
     this.$destroy();
   }
