@@ -4,23 +4,18 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import marked from './marked'
-// import Logger from 'console_colorpoint'
 
 // Vue.use(load);
 
-// window.log = new Logger(process.env.NODE_ENV == 'production')
-// Vue.prototype.$load = Load;
-
-// Vue.component(Load)
-
+if (process.env.NODE_ENV === 'development') {
+  import('console_colorpoint').then(res=>{
+    var Logger = res.default
+    window.log = new Logger()
+    log.blueviolet('start log!')
+  })
+}
 
 Vue.prototype.marked = ctx => marked(ctx);
-
-
-// console.log(Loading, LoadConstructor)
-
-
-// Loading.methods.showLoad();
 
 // Vue.use({
 //   install: function(Vue){
@@ -28,14 +23,11 @@ Vue.prototype.marked = ctx => marked(ctx);
 //   }
 // })
 
-
 Vue.config.productionTip = false
 
 router.beforeEach((to, from, next) => {
   next();
 })
-
-
 
 /* eslint-disable no-new */
 new Vue({
