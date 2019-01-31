@@ -15,6 +15,8 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
+Vue.config.performance = true;
+Vue.config.devtools = true;
 Vue.prototype.marked = ctx => marked(ctx);
 
 // Vue.use({

@@ -1,10 +1,20 @@
 <template>
   <div class="content-wrap">
-    <!-- <div class="ul-content-href">
-      <div class="li-content-href" v-for="item in hrefList" :key="item.href">
-        <a :href="item.href" :style="{fontSize: 26-item.level*3+'px' }">{{item.name}}</a>
-      </div>
-    </div>-->
+    <ul class="ul-content-href">
+      <li class="li-catalog">Catalog 目录</li>
+      <li
+        class="li-content-href"
+        v-for="item in hrefList"
+        :key="item.href"
+        :style="{marginLeft: item.level*10+'px'}"
+      >
+        <div
+          :href="item.href"
+          :style="{  fontSize: 30 - item.level*4+'px' }"
+          @click="gotoActive(item)"
+        >{{item.name}}</div>
+      </li>
+    </ul>
     <div class="scroll-wrap" v-if="content">
       <div class="content-text" id="content-text" v-html="content"></div>
     </div>
@@ -31,6 +41,10 @@ export default {
   methods: {
     back() {
       this.$router.go(-1);
+    },
+    gotoActive(item) {
+      console.log(item);
+      document.querySelector(".scroll-wrap").scrollTo(0, item.scrollTop);
     }
   },
   created() {
@@ -82,6 +96,15 @@ export default {
               name: e.replace(_reg, "$3")
             };
           });
+          this.$nextTick(() => {
+            this.hrefList.map(e => {
+              console.log(e.name);
+              var x = document.querySelector(e.href);
+              console.dir(x);
+              e.scrollTop = x.offsetTop;
+              console.log(x);
+            });
+          });
         },
         fail: data => {
           this.content = data;
@@ -89,8 +112,7 @@ export default {
       });
     }
   },
-  mounted() {
-  },
+  mounted() {},
   deactivated() {
     this.$destroy();
   }
@@ -105,10 +127,23 @@ export default {
 }
 
 .ul-content-href {
-  width: 200px;
+  width: 20vw;
+  height: 100vh;
+  overflow-y: auto;
+  margin: 0;
+  border-right: 1vw solid #eee;
+}
+
+.li-catalog {
+  font-size: 32px;
+  font-weight: bold;
+  list-style: none;
 }
 
 .li-content-href {
+  list-style-type: square;
+  word-wrap: none;
+  word-break: break-all;
 }
 
 .li-content-href a {
@@ -119,15 +154,11 @@ export default {
 .content-text {
   padding-bottom: 30px;
 }
-/* .content-text:before,.content-text:after {
-  display: table;
-  content: '';
-} */
 
 .scroll-wrap {
   flex: 1;
   height: 100vh;
-  padding: 0 5vw;
+  padding: 0 5vw 0 3vw;
   overflow: auto;
 }
 
