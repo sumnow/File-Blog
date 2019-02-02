@@ -762,6 +762,9 @@ function Renderer(options) {
 }
 
 Renderer.prototype.code = function(code, lang, escaped) {
+  if(typeof(lang) === 'string') {
+    lang = lang.toLowerCase()
+  }
   if (this.options.highlight) {
     var out = this.options.highlight(code, lang);
     if (out != null && out !== code) {
@@ -771,15 +774,17 @@ Renderer.prototype.code = function(code, lang, escaped) {
   }
 
   if (!lang) {
-    return '<pre><code>'
+    return '<pre class='
+      + this.options.langPrefix 
+      +'js><code>'
       + (escaped ? code : escape(code, true))
       + '\n</code></pre>';
   }
 
-  return '<pre><code class="'
+  return '<pre class="'
     + this.options.langPrefix
-    + escape(lang, true)
-    + '">'
+    + lang
+    + '"><code>'
     + (escaped ? code : escape(code, true))
     + '\n</code></pre>\n';
 };

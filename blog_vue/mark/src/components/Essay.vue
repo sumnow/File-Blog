@@ -1,6 +1,6 @@
 <template>
   <div class="content-wrap">
-    <ul class="ul-content-href">
+    <ul class="ul-content-href" v-if="content">
       <li class="li-catalog">Catalog 目录</li>
       <li
         class="li-content-href"
@@ -10,7 +10,7 @@
       >
         <div
           :href="item.href"
-          :style="{  fontSize: 30 - item.level*4+'px' }"
+          :style="{  fontSize: 28 - item.level*3+'px' }"
           @click="gotoActive(item)"
         >{{item.name}}</div>
       </li>
@@ -43,7 +43,6 @@ export default {
       this.$router.go(-1);
     },
     gotoActive(item) {
-      console.log(item);
       document.querySelector(".scroll-wrap").scrollTo(0, item.scrollTop);
     }
   },
@@ -88,7 +87,6 @@ export default {
 
           this.content = changeAnnnotationReg(markdata);
           const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
-          // console.log(document.querySelector())
           this.hrefList = this.content.match(_reg).map(e => {
             return {
               level: e.replace(_reg, "$1"),
@@ -98,11 +96,8 @@ export default {
           });
           this.$nextTick(() => {
             this.hrefList.map(e => {
-              console.log(e.name);
               var x = document.querySelector(e.href);
-              console.dir(x);
               e.scrollTop = x.offsetTop;
-              console.log(x);
             });
           });
         },
@@ -129,14 +124,14 @@ export default {
 .ul-content-href {
   width: 20vw;
   height: 100vh;
+  /* padding: 10vh 0; */
   overflow-y: auto;
   margin: 0;
   border-right: 1vw solid #eee;
 }
 
 .li-catalog {
-  font-size: 32px;
-  font-weight: bold;
+  font-size: 30px;
   list-style: none;
 }
 
@@ -158,7 +153,7 @@ export default {
 .scroll-wrap {
   flex: 1;
   height: 100vh;
-  padding: 0 5vw 0 3vw;
+  padding: 0 7vw 0 3vw;
   overflow: auto;
 }
 

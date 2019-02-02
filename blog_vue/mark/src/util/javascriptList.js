@@ -5,7 +5,7 @@ export default [{
   keyword: ['import', 'return', 'export', 'default'],
   color: '#c586c0'
 }, {
-  keyword: ['Math', 'console', 'this', 'document', 'arguments', 'null', 'undefined', 'Object', 'String', 'Number', 'Array', 'Promise', 'Set', 'Map', 'prototype'],
+  keyword: ['Math', 'console', 'this', 'document', 'arguments', 'null', 'undefined', 'Object', 'String', 'Number', 'Array', 'Promise', 'Set', 'Map', 'prototype', 'Error'],
   color: '#9cdcfe'
 }, {
   keyword: ['random', 'pow', 'round', 'floor', 'log', 'replace', 'from', 'map', 'forEach', 'parseInt', 'push', 'unshift', 'shift', 'pull', 'remove', 'append', 'prepend'],

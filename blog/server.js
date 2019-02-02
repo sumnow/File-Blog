@@ -20,7 +20,6 @@ const srv = http.createServer((req, res) => {
     router.init(req, res);
     const params = url.parse(req.url, true).query;
     const paths = url.parse(req.url, true).pathname;
-    console.log(paths, params);
 
     if (paths === '/catalog') {
         if (params.type) {

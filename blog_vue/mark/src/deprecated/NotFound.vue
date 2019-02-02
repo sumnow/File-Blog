@@ -133,7 +133,6 @@ export default {
       });
       if (zhaoyun1)
       zhaoyun1.setXandY(0, 0 + zhaoyun1.speed * t);
-      console.log(zhaoyun1)
       zhaoyun1.render();
       // 缩短刷新速率
       if (!(t % 10)) {

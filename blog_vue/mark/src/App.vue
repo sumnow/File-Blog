@@ -19,7 +19,7 @@ export default {
     }
   },
   mounted() {
-    console.log("version: v3.1.1");
+    console.log("version: v3.1.2");
     if(this.isComputer) {
       changeThemePc(1)
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
@@ -74,6 +74,7 @@ html {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;
+  font-size: 16px;
   line-height: 2;
   overflow: hidden;
   background-color: var(--background-color);
@@ -497,13 +498,171 @@ pre code {
 }
 
 pre {
+  position: relative;
   background-color: #1e1e1e;
   color: #fff;
   font-size: 13px;
   line-height: 19px;
   overflow: auto;
-  padding: 6px 10px;
-  border-radius: 3px;
+  padding: 30px 10px 15px;
+  border-radius: 6px;
+}
+
+.lang-c:before{
+  position: absolute;
+  top: 5px;
+  content: 'c';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+
+.lang-js:before{
+  position: absolute;
+  top: 5px;
+  content: 'js';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+
+.lang-ts:before{
+  position: absolute;
+  top: 5px;
+  content: 'ts';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-java:before{
+  position: absolute;
+  top: 5px;
+  content: 'java';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-bash:before{
+  position: absolute;
+  top: 5px;
+  content: 'bash';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+
+.lang-go:before{
+  position: absolute;
+  top: 5px;
+  content: 'go';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+
+.lang-css:before{
+  position: absolute;
+  top: 5px;
+  content: 'css';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-html:before{
+  position: absolute;
+  top: 5px;
+  content: 'html';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-python:before{
+  position: absolute;
+  top: 5px;
+  content: 'python';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-javascript:before{
+  position: absolute;
+  top: 5px;
+  content: 'javascript';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-swift:before{
+  position: absolute;
+  top: 5px;
+  content: 'swift';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-basic:before{
+  position: absolute;
+  top: 5px;
+  content: 'basic';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-sql:before{
+  position: absolute;
+  top: 5px;
+  content: 'sql';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-php:before{
+  position: absolute;
+  top: 5px;
+  content: 'php';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-ruby:before{
+  position: absolute;
+  top: 5px;
+  content: 'ruby';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-perl:before{
+  position: absolute;
+  top: 5px;
+  content: 'perl';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-rust:before{
+  position: absolute;
+  top: 5px;
+  content: 'rust';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-kotlin:before{
+  position: absolute;
+  top: 5px;
+  content: 'kotlin';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
+}
+.lang-r:before{
+  position: absolute;
+  top: 5px;
+  content: 'r';
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0,0%,100%,.4);
 }
 
 pre code,
@@ -528,6 +687,8 @@ code {
 * {
   -webkit-print-color-adjust: exact;
 }
+
+
 
 @media screen and (min-width: 914px) {
   body {

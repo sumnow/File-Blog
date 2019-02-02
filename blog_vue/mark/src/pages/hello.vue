@@ -1,7 +1,7 @@
 <template>
   <div class="profile_pc">
     <!-- essay -->
-    <div :class="['content-profile']">
+    <div :class="['content-profile']" @click="catalogSwap = false;">
       <essay v-if="hackReset"></essay>
     </div>
     <!-- <div :class="{'catalog-profile_pc':true, 'float': isCatalogFloat, }"> -->
@@ -71,7 +71,7 @@ export default {
         locked: false
       },
       catalogSwap: true,
-      isCatalogFloat: false,
+      // isCatalogFloat: false,
       typeList: [],
       catalogList: [],
       showCatalogList: [],
@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     swapCatalog() {
-      this.isCatalogFloat = true;
+      // this.isCatalogFloat = true;
       this.catalogSwap = !this.catalogSwap;
     },
     selectByTag(i) {

@@ -32,7 +32,7 @@ router.beforeEach((to, from, next) => {
 })
 
 /* eslint-disable no-new */
-new Vue({
+const vm = new Vue({
   el: '#app',
   router,
   template: '<App/>',
