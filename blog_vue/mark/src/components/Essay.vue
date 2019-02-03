@@ -43,6 +43,10 @@ export default {
       this.$router.go(-1);
     },
     gotoActive(item) {
+      this.hrefList.map(e => {
+        var x = document.querySelector(e.href);
+        e.scrollTop = x.offsetTop;
+      });
       document.querySelector(".scroll-wrap").scrollTo(0, item.scrollTop);
     }
   },

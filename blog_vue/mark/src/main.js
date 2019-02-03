@@ -8,6 +8,7 @@ import marked from './marked'
 // Vue.use(load);
 
 if (process.env.NODE_ENV === 'development') {
+  console.log('develop now')
   import('console_colorpoint').then(res=>{
     var Logger = res.default
     window.log = new Logger()
