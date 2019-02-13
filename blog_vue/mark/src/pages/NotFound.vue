@@ -1,55 +1,59 @@
 <template>
-  <div class="bg_black">
-    <div>
-      <div class="profile-pic">
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
-        <div></div>
+  <div>
+      <canvas id="bgcanvas" style="position:absolute;z-index:2"></canvas>
+      <canvas id="fgcanvas" style="position:absolute;z-index:4"></canvas>
+    <div class="bg_black">
+      <div>
+        <div class="profile-pic">
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
     </div>
   </div>
@@ -65,7 +69,133 @@ export default {
       );
     }
   },
-  mounted() {}
+
+  methods: {
+    ready() {}
+  },
+  mounted() {
+    this.$nextTick(() => {
+
+      console.log(document.getElementById("bgcanvas"))
+      let bgflakes = new Array();
+      let fgflakes = new Array();
+      let bgFlakeCount = 200;
+      let fgFlakeCount = 50;
+      let frameCount = 0;
+      let wind = 0;
+      let dwidth;
+      let dheight;
+      let mouseX, mouseY, orientation, orientX;
+      let  bgcanvas = document.getElementById("bgcanvas");
+      let  fgcanvas = document.getElementById("fgcanvas");
+      function init() {
+        dwidth = window.innerWidth;
+        dheight = window.innerHeight;
+        console.log(dwidth,dheight)
+        bgcanvas.width = dwidth;
+        bgcanvas.height = dheight;
+        fgcanvas.width = dwidth;
+        fgcanvas.height = dheight;
+        let ctx = fgcanvas.getContext("2d");
+        if (!bgcanvas.getContext) return; // bye IE!
+        for (let i = 0; i < bgFlakeCount; i++) {
+          bgflakes.push(new Flake(bgcanvas.width, bgcanvas.height, 0, 3, ctx));
+        }
+        for (let i = 0; i < fgFlakeCount; i++) {
+          fgflakes.push(
+            new Flake(fgcanvas.width, fgcanvas.height, 0.2, 4, ctx)
+          );
+        }
+        setInterval(draw, 50);
+      }
+
+      function setWind() {
+        if (!orientation) {
+          let mx = mouseX - dwidth / 2;
+          wind = (mx / dwidth) * 3;
+        } else {
+          wind = parseFloat(orientX) * 3;
+        }
+        if (isNaN(wind)) {
+          wind = 0;
+        }
+      }
+
+      function draw() {
+        frameCount += 1;
+        let g = bgcanvas.getContext("2d");
+        let h = fgcanvas.getContext("2d");
+        g.clearRect(0, 0, bgcanvas.width, bgcanvas.height);
+        h.clearRect(0, 0, fgcanvas.width, fgcanvas.height);
+        setWind();
+        for (let i = 0; i < bgFlakeCount; i++) {
+          bgflakes[i].move(frameCount, wind);
+          bgflakes[i].draw(g);
+        }
+        for (let i = 0; i < fgFlakeCount; i++) {
+          fgflakes[i].move(frameCount, wind);
+          fgflakes[i].draw(h);
+        }
+      }
+
+      function Flake(w, h, a, s, ctx) {
+        this.canvasWidth = w;
+        this.canvasHeight = h;
+        this.x = Math.random() * dwidth;
+        this.y = Math.random() * -1 * h;
+        this.alfa = Math.random() * 0.5 + a;
+
+        this.speed = Math.random();
+        this.size = (s - this.speed - this.alfa) * 2;
+        // let grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size) //创建一个渐变色线性对象
+        // grad.addColorStop(0, "#fff");                  //定义渐变色颜色
+        // grad.addColorStop(1, "rgba(255,255,255," + this.alfa + ")");
+        this.color = "rgba(255,255,255," + this.alfa + ")";
+        // this.color = grad
+        this.amp = Math.random() * 2;
+        this.shift = Math.random() * 25 + 25;
+        if (Math.random() > 0.5) this.shift *= -1;
+        this.drift = Math.random() - 0.5;
+
+        this.draw = function(g) {
+          let grad = ctx.createRadialGradient(
+            this.x,
+            this.y,
+            0,
+            this.x,
+            this.y,
+            this.size * 1
+          ); //创建一个渐变色线性对象
+          grad.addColorStop(0, "#fff"); //定义渐变色颜色
+          grad.addColorStop(1, "rgba(255,255,255, 0)");
+          // grad.addColorStop(1, "#000");
+          // g.fillStyle = this.color;
+          g.fillStyle = grad;
+          g.beginPath();
+          g.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
+          g.closePath();
+          g.fill();
+        };
+
+        this.move = function(f, wind) {
+          this.y += this.speed;
+          this.x += Math.cos(f / this.shift) * this.amp + this.drift + wind;
+          if (this.y > this.canvasHeight) {
+            this.restart();
+          }
+        };
+
+        this.restart = function() {
+          this.y = -20;
+          this.shift = Math.random() * 25 + 25;
+          this.x = 200;
+        };
+      }
+
+      init()
+
+    });
+  }
 };
 </script>
 
