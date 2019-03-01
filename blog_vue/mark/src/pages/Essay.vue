@@ -48,7 +48,7 @@ export default {
       .addEventListener("scroll", this.handleScroll);
 
     const changeImgURL = data => {
-      const reg = /!\[(\w+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg))\)/g;
+      const reg = /!\[(\S+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg|bmp|gif|svg|webp))\)/g;
       return data.replace(reg, "![$1](markdown/knowledge$2)");
     };
 

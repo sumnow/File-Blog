@@ -10,7 +10,7 @@
       >
         <div
           :href="item.href"
-          :style="{  fontSize: 28 - item.level*3+'px' }"
+          :style="{  fontSize: 22 - item.level*2+'px' }"
           @click="gotoActive(item)"
         >{{item.name}}</div>
       </li>
@@ -52,7 +52,7 @@ export default {
   },
   created() {
     const changeImgURL = data => {
-      const reg = /!\[(\w+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg))\)/g;
+      const reg = /!\[(\S+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg|bmp|gif|svg|webp))\)/g;
       return data.replace(reg, "![$1](markdown/knowledge$2)");
     };
 
@@ -128,19 +128,22 @@ export default {
 .ul-content-href {
   width: 20vw;
   height: 100vh;
-  /* padding: 10vh 0; */
+  padding-right: 2vw;
   overflow-y: auto;
   margin: 0;
-  border-right: 1vw solid #eee;
+  border-right: 1px solid #eee;
 }
 
+.li-catalog:nth-child(1) {
+  font-weight: bold;
+}
 .li-catalog {
-  font-size: 30px;
+  font-size: 20px;
   list-style: none;
 }
 
 .li-content-href {
-  list-style-type: square;
+  list-style-type: none;
   word-wrap: none;
   word-break: break-all;
 }
