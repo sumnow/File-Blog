@@ -15,7 +15,7 @@
         >{{item.name}}</div>
       </li>
     </ul>
-    <div class="scroll-wrap" v-if="content">
+    <div class="scroll-wrap" v-if="content" @scroll="handleScroll">
       <div class="content-text" id="content-text" v-html="content"></div>
     </div>
     <loading v-else></loading>
@@ -32,7 +32,8 @@ export default {
   data() {
     return {
       content: "",
-      hrefList: []
+      hrefList: [],
+      scorllMark: 0
     };
   },
   components: {
@@ -47,13 +48,20 @@ export default {
         var x = document.querySelector(e.href);
         e.scrollTop = x.offsetTop;
       });
-      document.querySelector(".scroll-wrap").scrollTo(0, item.scrollTop);
+      document.querySelector(".scroll-wrap").scrollTo({
+        top: item.scrollTop,
+        left: 0,
+        behavior: "smooth"
+      });
+    },
+    handleScroll(e) {
+      window.location.hash = `${(Math.ceil(e.target.scrollTop).toString(32))}`;
     }
   },
   created() {
     const changeImgURL = data => {
       const reg = /!\[(\S+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg|bmp|gif|svg|webp))\)/g;
-      return data.replace(reg, "![$1](markdown/knowledge$2)");
+      return data.replace(reg, "![$1](../../markdown/knowledge$2)");
     };
 
     //
@@ -98,12 +106,12 @@ export default {
               name: e.replace(_reg, "$3")
             };
           });
-          this.$nextTick(() => {
-            this.hrefList.map(e => {
-              var x = document.querySelector(e.href);
-              e.scrollTop = x.offsetTop;
-            });
-          });
+          // this.$nextTick(() => {
+          //   this.hrefList.map(e => {
+          //     var x = document.querySelector(e.href);
+          //     e.scrollTop = x.offsetTop;
+          //   });
+          // });
         },
         fail: data => {
           this.content = data;
@@ -111,7 +119,20 @@ export default {
       });
     }
   },
-  mounted() {},
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
+    setTimeout(() => {
+      document.querySelector(".scroll-wrap").scrollTo({
+        top: parseInt(window.location.hash.slice(1),32) || 0,
+        left: 0,
+        behavior: "smooth"
+      });
+    }, 800);
+    // this.$refs.wrapper.scrollTo(0)
+    // this.$nextTick(() => {
+    // console.log(document.querySelector(".scroll-wrap"))
+    // });
+  },
   deactivated() {
     this.$destroy();
   }
