@@ -76,7 +76,6 @@ export default {
   mounted() {
     this.$nextTick(() => {
 
-      console.log(document.getElementById("bgcanvas"))
       let bgflakes = new Array();
       let fgflakes = new Array();
       let bgFlakeCount = 200;
@@ -91,7 +90,6 @@ export default {
       function init() {
         dwidth = window.innerWidth;
         dheight = window.innerHeight;
-        console.log(dwidth,dheight)
         bgcanvas.width = dwidth;
         bgcanvas.height = dheight;
         fgcanvas.width = dwidth;

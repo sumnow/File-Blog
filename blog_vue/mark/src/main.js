@@ -9,7 +9,7 @@ import marked from './marked'
 
 if (process.env.NODE_ENV === 'development') {
   console.log('develop now')
-  import('console_colorpoint').then(res=>{
+  import('console_colorpoint').then(res => {
     var Logger = res.default
     window.log = new Logger()
     log.blueviolet('start log!')

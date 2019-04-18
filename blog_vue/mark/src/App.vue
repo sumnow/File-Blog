@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import {changeThemePc, changeThemePhone} from "./util/theme";
+import { changeThemePc, changeThemePhone } from "./util/theme";
 
 export default {
   name: "app",
@@ -19,20 +19,29 @@ export default {
     }
   },
   mounted() {
-    console.log("version: v3.2.2");
-    if(this.isComputer) {
-      changeThemePc(1)
+    console.log("version: v3.2.3");
+    if (this.isComputer) {
+      changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
-        changeThemePc()
+        changeThemePc();
       }
-    }else{
-      changeThemePhone()
+    } else {
+      changeThemePhone();
     }
   }
 };
 </script>
 
 <style>
+/* format MathJax */
+.mjx-chtml {
+  outline: 0;
+}
+.MJXc-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+/* root */
 :root {
   --background-color: rgb(
     var(--background-color-r),
@@ -508,161 +517,161 @@ pre {
   border-radius: 6px;
 }
 
-.lang-c:before{
+.lang-c:before {
   position: absolute;
   top: 5px;
-  content: 'c';
+  content: "c";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
 
-.lang-js:before{
+.lang-js:before {
   position: absolute;
   top: 5px;
-  content: 'js';
+  content: "js";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
 
-.lang-ts:before{
+.lang-ts:before {
   position: absolute;
   top: 5px;
-  content: 'ts';
+  content: "ts";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-java:before{
+.lang-java:before {
   position: absolute;
   top: 5px;
-  content: 'java';
+  content: "java";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-bash:before{
+.lang-bash:before {
   position: absolute;
   top: 5px;
-  content: 'bash';
+  content: "bash";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
-}
-
-.lang-go:before{
-  position: absolute;
-  top: 5px;
-  content: 'go';
-  font-size: 16px;
-  line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
 
-.lang-css:before{
+.lang-go:before {
   position: absolute;
   top: 5px;
-  content: 'css';
+  content: "go";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-html:before{
+
+.lang-css:before {
   position: absolute;
   top: 5px;
-  content: 'html';
+  content: "css";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-python:before{
+.lang-html:before {
   position: absolute;
   top: 5px;
-  content: 'python';
+  content: "html";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-javascript:before{
+.lang-python:before {
   position: absolute;
   top: 5px;
-  content: 'javascript';
+  content: "python";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-swift:before{
+.lang-javascript:before {
   position: absolute;
   top: 5px;
-  content: 'swift';
+  content: "javascript";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-basic:before{
+.lang-swift:before {
   position: absolute;
   top: 5px;
-  content: 'basic';
+  content: "swift";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-sql:before{
+.lang-basic:before {
   position: absolute;
   top: 5px;
-  content: 'sql';
+  content: "basic";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-php:before{
+.lang-sql:before {
   position: absolute;
   top: 5px;
-  content: 'php';
+  content: "sql";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-ruby:before{
+.lang-php:before {
   position: absolute;
   top: 5px;
-  content: 'ruby';
+  content: "php";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-perl:before{
+.lang-ruby:before {
   position: absolute;
   top: 5px;
-  content: 'perl';
+  content: "ruby";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-rust:before{
+.lang-perl:before {
   position: absolute;
   top: 5px;
-  content: 'rust';
+  content: "perl";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-kotlin:before{
+.lang-rust:before {
   position: absolute;
   top: 5px;
-  content: 'kotlin';
+  content: "rust";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
 }
-.lang-r:before{
+.lang-kotlin:before {
   position: absolute;
   top: 5px;
-  content: 'r';
+  content: "kotlin";
   font-size: 16px;
   line-height: 20px;
-  color: hsla(0,0%,100%,.4);
+  color: hsla(0, 0%, 100%, 0.4);
+}
+.lang-r:before {
+  position: absolute;
+  top: 5px;
+  content: "r";
+  font-size: 16px;
+  line-height: 20px;
+  color: hsla(0, 0%, 100%, 0.4);
 }
 
 pre code,
@@ -687,8 +696,6 @@ code {
 * {
   -webkit-print-color-adjust: exact;
 }
-
-
 
 @media screen and (min-width: 914px) {
   body {

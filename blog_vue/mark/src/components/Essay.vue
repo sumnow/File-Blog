@@ -127,6 +127,7 @@ export default {
         left: 0,
         behavior: "smooth"
       });
+      window.MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('app')]);
     }, 800);
     // this.$refs.wrapper.scrollTo(0)
     // this.$nextTick(() => {
