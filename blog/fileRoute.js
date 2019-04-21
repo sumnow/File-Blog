@@ -25,47 +25,45 @@ module.exports = {
     },
     routePathGet: {},
     routePathPost: {},
-    get: function(pathname, fn) {
+    get: function (pathname, fn) {
         this.routePathGet[pathname] = fn;
     },
-    post: function(pathname, fn) {
+    post: function (pathname, fn) {
         this.routePathPost[pathname] = fn;
     },
     rootPath: "",
-    setRootPath: function(rp) {
+    setRootPath: function (rp) {
         this.rootPath = rp;
     },
-    sendFile: function(response, pathname) {
-        
+    sendFile: function (response, pathname) {
+
         pathname = this.rootPath + pathname;
         pathname = path.normalize(pathname);
 
         var ext = path.extname(pathname).slice(1);
         var ft = this.fileType[ext] || "text/plain";
 
-       
-        
         fs.readFile(pathname, (err, data) => {
             if (err) {
-                console.log('[Path Error]'+err)
+                console.log('[Path Error]' + err)
                 this.sendFile(response, '/index.html')
             } else {
                 response.setHeader("Content-type", [ft, "charset=utf-8"]);
-                // response.setHeader("Cache-Control", "max-age=6000");
+                response.setHeader("Cache-Control", "max-age=6000");
                 response.statusCode = 200;
                 response.end(data, "binary");
             }
         });
     },
 
-    init: function(request, response) {
+    init: function (request, response) {
         var fn = undefined;
         var pathname = request.url;
-        
+
         //去除URL中的参数影响
-        [...pathname].forEach((e,i)=>{
-            if(e === '?'){
-                pathname = pathname.slice(0,i)
+        [...pathname].forEach((e, i) => {
+            if (e === '?') {
+                pathname = pathname.slice(0, i)
             }
         })
 

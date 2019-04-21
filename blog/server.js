@@ -25,13 +25,13 @@ const srv = http.createServer((req, res) => {
             if (params.type) {
                 if (params.filename) {
                     const text = fs.readFileSync(`markdown/knowledge/code/${params.type}/${decodeURI(decodeURI(params.filename))}.md`, 'utf8');
-                    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+                    res.writeHead(200, { 'Content-Type': 'application/json',"Cache-Control": "max-age=6000", 'Access-Control-Allow-Origin': '*' });
                     res.write(JSON.stringify(text));
                     res.end();
                 } else {
                     const dir = fs.readdirSync(`markdown/knowledge/code/${params.type}`, (err, files) => files)
                     const jsondir = JSON.stringify(dir);
-                    res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+                    res.writeHead(200, { 'Content-Type': 'application/json',"Cache-Control": "max-age=6000", 'Access-Control-Allow-Origin': '*' });
                     res.write(jsondir);
                     res.end();
                 }
@@ -40,12 +40,12 @@ const srv = http.createServer((req, res) => {
                     return files;
                 })
                 const jsondir = JSON.stringify(dir);
-                res.writeHead(200, { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' });
+                res.writeHead(200, { 'Content-Type': 'application/json',"Cache-Control": "max-age=6000", 'Access-Control-Allow-Origin': '*' });
                 res.write(jsondir);
                 res.end();
             }
         } catch (e) {
-            console.log('[File Error]'+ e)
+            console.log('[File Error]' + e)
             res.writeHead(404);
             res.end('Not File')
         }
