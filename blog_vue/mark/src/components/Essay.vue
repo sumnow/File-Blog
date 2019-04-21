@@ -1,7 +1,7 @@
 <template>
   <div class="content-wrap">
     <ul class="ul-content-href" v-if="content">
-      <li class="li-catalog">Catalog 目录</li>
+      <li class="li-catalog" @click="$emit('swap')">Catalog</li>
       <li
         class="li-content-href"
         v-for="item in hrefList"
@@ -15,7 +15,7 @@
         >{{item.name}}</div>
       </li>
     </ul>
-    <div class="scroll-wrap" v-if="content" @scroll="handleScroll">
+    <div class="scroll-wrap" v-if="content" @scroll="handleScroll" @click="$emit('closeSwap')">
       <div class="content-text" id="content-text" v-html="content"></div>
     </div>
     <loading v-else></loading>
