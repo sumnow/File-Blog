@@ -2,7 +2,7 @@
 
 ## version
 
-> v3.2.2
+> v3.2.5
 
 ## introduction
 
