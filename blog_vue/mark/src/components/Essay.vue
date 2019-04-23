@@ -150,30 +150,37 @@ export default {
 .ul-content-href {
   width: 20vw;
   height: 100vh;
-  padding-right: 2vw;
   overflow-y: auto;
   margin: 0;
   border-right: 1px solid #eee;
+  background-color: #eee;
 }
 
-.li-catalog:nth-child(1) {
-  font-weight: bold;
-}
 .li-catalog {
-  font-size: 20px;
+  font-family: 'Monoca';
+  font-style: italic;
+  font-size: 24px;
+  font-weight: bold;
   list-style: none;
+  letter-spacing: 14px;
 }
 
 .li-content-href {
+  margin-right: 5px;
+  padding: 10px 0;
   list-style-type: none;
   word-wrap: none;
   word-break: break-all;
 }
+.li-content-href:nth-child(1) {
+  font-weight: bold;
+}
+.li-content-href +.li-content-href{
+  border-top: 1px solid #ccc;
+}
 
-.li-content-href a {
-  display: block;
-  color: inherit;
-  text-decoration: none;
+.li-content-href div {
+  margin-left: 10px;
 }
 .content-text {
   padding-bottom: 30px;
