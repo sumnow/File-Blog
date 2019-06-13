@@ -19,7 +19,7 @@ export default {
     }
   },
   mounted() {
-    console.log("version: v3.2.5");
+    console.log("version: v3.3.0");
     if (this.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
