@@ -11,14 +11,14 @@
       <!-- tag -->
       <div class="flexbox catalog-title_pc">
         <!-- <div class="flexbox"> -->
-          <div
-            v-for="(item,index) in typeList"
-            :key="index"
-            :class="{ deactive: activeArr.type != item.typeName }"
-            @click="selectByType(item.typeName, index)"
-          >
-            <span>{{item.typeName}}</span>
-          </div>
+        <div
+          v-for="(item,index) in typeList"
+          :key="index"
+          :class="{ deactive: activeArr.type != item.typeName }"
+          @click="selectByType(item.typeName, index)"
+        >
+          <span>{{item.typeName}}</span>
+        </div>
         <!-- </div> -->
       </div>
       <!-- catalog -->
@@ -135,8 +135,8 @@ export default {
     },
     toEssay(item) {
       this.$router.push(
-        `/body/${this.$route.params.type}/${encodeURI(
-          encodeURI(item.input.slice(0, -3))
+        `/body/${this.$route.params.type}/${encodeURIComponent(
+          encodeURIComponent(item.input.slice(0, -3))
         )}`
       );
       this.activeArr.essay = item.name;
@@ -144,6 +144,7 @@ export default {
       this.$nextTick(() => {
         this.hackReset = true;
       });
+      console.log(this.activeArr)
     }
   },
   created() {
@@ -257,7 +258,6 @@ export default {
   width: 100%;
 }
 .catalog-title_pc div {
-
 }
 .catalog-title_pc .deactive {
   background: var(--primary-color);

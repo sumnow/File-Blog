@@ -1,22 +1,47 @@
 <template>
-  <div class="content-wrap">
-    <ul class="ul-content-href" v-if="content">
-      <li class="li-catalog" @click="$emit('swap')">Catalog</li>
-      <li
-        class="li-content-href"
-        v-for="item in hrefList"
-        :key="item.href"
-        :style="{marginLeft: item.level*10+'px'}"
-      >
+  <div class="content_wrap">
+    <div class="module-header-top" v-if="content">
+      <div class="module-header_wrap">
         <div
-          :href="item.href"
-          :style="{  fontSize: 22 - item.level*2+'px' }"
-          @click="gotoActive(item)"
-        >{{item.name}}</div>
-      </li>
-    </ul>
-    <div class="scroll-wrap" v-if="content" @scroll="handleScroll" @click="$emit('closeSwap')">
-      <div class="content-text" id="content-text" v-html="content"></div>
+          :class="['module-title_wrap',showCatalog? '':'display_title']"
+          @click="showCatalog=!showCatalog"
+        >
+          <div :class="['module-title_inner',showCatalog?'' : 'display_title']">{{hrefList[0].name}}</div>
+        </div>
+        <!-- <div class="module-tag">{{fileNameInfo[5]}}</div> -->
+      </div>
+      <div class="module-date_wrap">
+        <div class="module-date_date">{{fileNameInfo[3]}}</div>
+        <div class="module-date_line">
+          <svg width="100%" height="100%" version="1.1">
+            <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1"></line>
+          </svg>
+        </div>
+        <div class="module-date_month">{{fileNameInfo[2]}}-{{fileNameInfo[1]}}</div>
+        <div class="module-date_day">{{currentDay}}</div>
+      </div>
+    </div>
+    <div
+      class="module-bottom_wrap"
+      v-if="content"
+      @scroll="handleScroll"
+      @click="$emit('closeSwap')"
+    >
+      <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
+        <div class="ul-content-href">
+          <div
+            class="li-content-href"
+            v-for="item in hrefList"
+            :key="item.href"
+            :style="{ marginLeft: `${item.level*10}px`}"
+          >
+            <div :href="item.href" @click="gotoActive(item)">{{ `${item.no}. ${item.name}`}}</div>
+          </div>
+        </div>
+      </div>
+      <div class="module-content-scroll_wrap">
+        <div class="module-content-text" id="module-content-text" v-html="content"></div>
+      </div>
     </div>
     <loading v-else></loading>
   </div>
@@ -32,12 +57,28 @@ export default {
   data() {
     return {
       content: "",
+      showCatalog: true,
       hrefList: [],
-      scorllMark: 0
+      scorllMark: 0,
+      fileNameInfo: [],
+      HEADERHEIGHT: 90
     };
   },
   components: {
     loading
+  },
+  computed: {
+    currentDay() {
+      return [
+        "Sunday",
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday",
+        "Saturday"
+      ][this.fileNameInfo[6]];
+    }
   },
   methods: {
     back() {
@@ -48,14 +89,14 @@ export default {
         var x = document.querySelector(e.href);
         e.scrollTop = x.offsetTop;
       });
-      document.querySelector(".scroll-wrap").scrollTo({
-        top: item.scrollTop,
+      document.querySelector(".module-content-scroll_wrap").scrollTo({
+        top: item.scrollTop - this.HEADERHEIGHT,
         left: 0,
         behavior: "smooth"
       });
     },
     handleScroll(e) {
-      window.location.hash = `${(Math.ceil(e.target.scrollTop).toString(32))}`;
+      window.location.hash = `${Math.ceil(e.target.scrollTop).toString(32)}`;
     }
   },
   created() {
@@ -86,6 +127,16 @@ export default {
           filename: this.$route.params.filename
         },
         success: data => {
+          const obj = {};
+          obj.name = decodeURIComponent(this.$route.params.filename);
+          const reg = /^(?:(\d{4})-(0[0-9]|1[0-2])-(3[0-1]|[0-2][0-9]))_([\S\s]+)\[([\S\s]+)\]/;
+          const _arr = obj.name.match(reg);
+          this.fileNameInfo = _arr.slice(0);
+          this.fileNameInfo.push(
+            new Date(`${_arr[1]}-${_arr[2]}-${_arr[3]}`).getDay()
+          );
+          console.log(this.fileNameInfo);
+
           data = changeImgURL(data);
 
           let markdata = this.marked(data);
@@ -99,13 +150,29 @@ export default {
 
           this.content = changeAnnnotationReg(markdata);
           const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
-          this.hrefList = this.content.match(_reg).map(e => {
+          this.hrefList = this.content.match(_reg).map((e, i) => {
             return {
+              order: i,
               level: e.replace(_reg, "$1"),
               href: e.replace(_reg, "#$2"),
               name: e.replace(_reg, "$3")
             };
           });
+          const _list = [];
+          Array.from(new Set(this.hrefList.map(e => e.level))).forEach(e => {
+            _list.push(
+              ...this.hrefList
+                .filter(se => se.level === e)
+                .map((ge, gi) => {
+                  return {
+                    no: `${ge.level}.${gi}`,
+                    ...ge
+                  };
+                })
+            );
+          });
+          this.hrefList = _list;
+          console.log(_list);
           // this.$nextTick(() => {
           //   this.hrefList.map(e => {
           //     var x = document.querySelector(e.href);
@@ -122,16 +189,20 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
     setTimeout(() => {
-      document.querySelector(".scroll-wrap").scrollTo({
-        top: parseInt(window.location.hash.slice(1),32) || 0,
+      document.querySelector(".module-content-scroll_wrap").scrollTo({
+        top: parseInt(window.location.hash.slice(1), 32) || 0,
         left: 0,
         behavior: "smooth"
       });
-      window.MathJax.Hub.Queue(["Typeset", MathJax.Hub, document.getElementById('app')]);
+      window.MathJax.Hub.Queue([
+        "Typeset",
+        MathJax.Hub,
+        document.getElementById("app")
+      ]);
     }, 800);
     // this.$refs.wrapper.scrollTo(0)
     // this.$nextTick(() => {
-    // console.log(document.querySelector(".scroll-wrap"))
+    // console.log(document.querySelector(".module-content-scroll_wrap"))
     // });
   },
   deactivated() {
@@ -141,55 +212,147 @@ export default {
 </script>
 
 <style scoped>
-.content-wrap {
+.content_wrap {
   position: relative;
+  height: 100vh;
+  transition-delay: ;
+}
+.module-date_wrap {
+  position: relative;
+  display: grid;
+  grid-template: 30px 10px 30px/90px 20px 140px;
+  grid-template-areas:
+    "date line month"
+    "date line _"
+    "date line day";
+  grid-gap: 0px 10px;
+  width: 280px;
+  height: 70px;
+  padding-right: 10px;
+  font-weight: 800;
+}
+
+.module-date_wrap div {
+}
+.module-date_date {
+  grid-area: date;
+  height: 70px;
+  color: rgb(0, 23, 44);
+  font-size: 84px;
+  line-height: 70px;
+}
+.module-date_month {
+  grid-area: month;
+  width: 140px;
+  height: 30px;
+  font-size: 36px;
+  line-height: 1;
+}
+.module-date_day {
+  grid-area: day;
+  box-sizing: border-box;
+  width: 120px;
+  padding-top: 15px;
+  height: 15px;
+  font-size: 18px;
+  line-height: 15px;
+}
+.module-date_line {
+  grid-area: line;
+  width: 20px;
+  height: 70px;
+}
+.module-header_wrap {
+  flex: 1;
+}
+.module-title_wrap {
+  /* width: 40vw; */
+  height: 40px;
+  font-size: 30px;
+  line-height: 40px;
+  font-weight: 600;
+  transition: all 1s;
+  transform: translateX(20%);
+  /* letter-spacing: 1vw; */
+}
+.module-title_wrap.display_title {
+  /* letter-spacing: 0px;  */
+  transform: translateX(0%);
+  transition: all 1s;
+}
+.module-title_inner {
+  margin-left: 0;
+}
+.module-title_inner.display_title {
+  /* transform: translateX(-50%);  */
+}
+.module-title_header {
+  height: 40px;
+  font-size: 40px;
+  text-align: center;
+  line-height: 40px;
+  font-weight: 600;
+}
+.module-title_header-high {
+  height: 70px;
+  font-size: 60px;
+  text-align: center;
+  line-height: 70px;
+  font-weight: 600;
+}
+.module-tag_wrap {
   display: flex;
-  height: 100vh;
+  flex-wrap: wrap;
+  width: 280px;
+  height: 80px;
+  justify-content: space-around;
 }
-
-.ul-content-href {
-  width: 20vw;
-  height: 100vh;
-  overflow-y: auto;
+.module-title_catalog {
+  display: flex;
+  justify-content: space-around;
+}
+.module-header-top {
+  display: flex;
+  width: 100vw;
+  height: 90px;
   margin: 0;
-  border-right: 1px solid #eee;
-  background-color: #eee;
+  padding: 10px 2vw;
+  box-sizing: border-box;
 }
-
-.li-catalog {
-  font-family: 'Monoca';
-  font-style: italic;
-  font-size: 24px;
-  font-weight: bold;
-  list-style: none;
-  letter-spacing: 14px;
+.module-catalog-href_wrap {
+  width: 0vw;
+  height: calc(100vh - 90px);
+  background: #ccc;
+  transition: all 1s;
+  overflow: auto;
+}
+.module-catalog-href_wrap.display_catalog {
+  width: 20vw;
 }
 
 .li-content-href {
-  margin-right: 5px;
-  padding: 10px 0;
-  list-style-type: none;
-  word-wrap: none;
-  word-break: break-all;
-}
-.li-content-href:nth-child(1) {
-  font-weight: bold;
-}
-.li-content-href +.li-content-href{
-  border-top: 1px solid #ccc;
+  display: flex;
+  margin: 20px 0;
+  line-height: 1.5;
+  opacity: 0;
+  overflow: hidden;
+  transition: all 1s;
 }
 
-.li-content-href div {
-  margin-left: 10px;
+.display_catalog .li-content-href {
+  opacity: 1;
 }
-.content-text {
+
+.module-content-text {
   padding-bottom: 30px;
 }
-
-.scroll-wrap {
+.module-bottom_wrap {
+  display: flex;
+}
+.module-content-scroll_wrap {
   flex: 1;
-  height: 100vh;
-  padding: 0 7vw 0 3vw;
+  height: calc(100vh - 90px);
+  padding: 0 3vw;
   overflow: auto;
 }
 
