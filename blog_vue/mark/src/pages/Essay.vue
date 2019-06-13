@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import {request} from "../service";
+import { request } from "../service";
 import colorList from "../util";
 
 export default {
@@ -75,16 +75,16 @@ export default {
         },
         success: data => {
           data = changeImgURL(data);
-  
+
           let markdata = this.marked(data);
-  
+
           markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g, function(w) {
             colorList.forEach((e, i) => {
               w = changeKeyWord(colorList[i], w);
             });
             return w;
           });
-  
+
           this.content = changeAnnnotationReg(markdata);
         },
         fail: data => {
