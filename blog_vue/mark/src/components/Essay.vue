@@ -21,12 +21,7 @@
         <div class="module-date_day">{{currentDay}}</div>
       </div>
     </div>
-    <div
-      class="module-bottom_wrap"
-      v-if="content"
-      @scroll="handleScroll"
-      @click="$emit('closeSwap')"
-    >
+    <div class="module-bottom_wrap" v-if="content" @click="$emit('closeSwap')">
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
         <div class="ul-content-href">
           <div
@@ -39,7 +34,7 @@
           </div>
         </div>
       </div>
-      <div class="module-content-scroll_wrap">
+      <div class="module-content-scroll_wrap" @scroll="handleScroll">
         <div class="module-content-text" id="module-content-text" v-html="content"></div>
       </div>
     </div>
