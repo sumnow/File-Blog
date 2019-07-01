@@ -26,7 +26,7 @@ const routers = new Router({
       // redirect: '/code/catalog'
     },
     {
-      path: '/code',
+      path: '/m/code',
       name: 'wrapper',
       component: wrapper,
       children: [
@@ -43,7 +43,7 @@ const routers = new Router({
       ]
     },
     {
-      path: '/body',
+      path: '/code',
       name: 'hello',
       component: hello,
       children: [

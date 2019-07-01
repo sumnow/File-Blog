@@ -16,8 +16,8 @@
 </template>
 
 <script>
-import { request } from "../service";
-import colorList from "../util";
+import { request } from "@/service";
+import colorList from "@/util";
 
 export default {
   name: "essay",

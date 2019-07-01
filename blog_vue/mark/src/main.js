@@ -14,6 +14,10 @@ if (process.env.NODE_ENV === 'development') {
     window.log = new Logger()
     log.blueviolet('start log!')
   })
+} else {
+  window.log = function (_) {
+    return void 0
+  }
 }
 
 Vue.config.performance = true;
@@ -25,6 +29,12 @@ Vue.prototype.marked = ctx => marked(ctx);
 //     Vue.component('Loading',Loading)
 //   }
 // })
+
+window.isComputer =
+  !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
+    navigator.userAgent
+  );
+
 
 Vue.config.productionTip = false
 

@@ -7,20 +7,15 @@
 </template>
 
 <script>
-import { changeThemePc, changeThemePhone } from "./util/theme";
+import { changeThemePc, changeThemePhone } from "@/util/theme";
+import { commonMixin } from "@/util/mixin.js";
 
 export default {
   name: "app",
-  computed: {
-    isComputer() {
-      return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
-        navigator.userAgent
-      );
-    }
-  },
+  mixin: [commonMixin],
   mounted() {
-    console.log("version: v3.3.0");
-    if (this.isComputer) {
+    console.log("version: v3.3.3");
+    if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
         changeThemePc();

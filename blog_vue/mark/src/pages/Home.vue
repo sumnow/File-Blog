@@ -1,30 +1,25 @@
 <template>
-  <div class="">
-      <Cover></Cover>
-      <div class="navigate-home_wrapper">
-        <div class="navigator-home">
-          <div v-for="item in list" :key="item" @click="toCatalog(item)" >{{item}}</div>
-        </div>
+  <div class>
+    <Cover></Cover>
+    <div class="navigate-home_wrapper">
+      <div class="navigator-home">
+        <div v-for="item in list" :key="item" @click="toCatalog(item)">{{item}}</div>
       </div>
+    </div>
   </div>
 </template>
 
 <script>
-import {request} from "../service";
-import Cover from "./Cover"; 
+import { request } from "@/service";
+import Cover from "@/pages/Cover";
+import { commonMixin } from "@/util/mixin";
 
 export default {
   name: "home",
   components: {
     Cover
   },
-  computed: {
-    isComputer() {
-      return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
-        navigator.userAgent
-      );
-    }
-  },
+  mixin: [commonMixin],
   data() {
     return {
       list: []
@@ -32,10 +27,10 @@ export default {
   },
   methods: {
     toCatalog(i) {
-      if(this.isComputer) {
-        this.$router.push(`/body/${i}`);
-      } else {
+      if (window.isComputer) {
         this.$router.push(`/code/${i}`);
+      } else {
+        this.$router.push(`/m/code/${i}`);
       }
     }
   },
@@ -58,7 +53,7 @@ export default {
   height: 100vh;
   z-index: 2;
   display: flex;
-  align-items:center;
+  align-items: center;
   justify-content: center;
 }
 .navigator-home {
@@ -70,7 +65,6 @@ export default {
   font-size: 28px;
   color: #fff;
   text-align: center;
-  
 }
 .navigator-home div {
   position: relative;
@@ -79,24 +73,24 @@ export default {
   position: absolute;
   left: 0;
   top: 0;
-  content: '';
+  content: "";
   width: 50vw;
   height: 1px;
   background: linear-gradient(90deg, #fff, #000);
-  transform: scaleX(0)
+  transform: scaleX(0);
 }
 .navigator-home div:after {
   position: absolute;
   left: 0;
   bottom: 0;
-  content: '';
+  content: "";
   width: 50vw;
   height: 1px;
   background: linear-gradient(-90deg, #fff, #000);
-  transform: scaleX(0)
+  transform: scaleX(0);
 }
-.navigator-home div:after :hover{
+.navigator-home div:after :hover {
   transform: scaleX(1);
-  transition: 
+  transition: ;
 }
 </style>

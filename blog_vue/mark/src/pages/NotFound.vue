@@ -1,7 +1,7 @@
 <template>
   <div>
-      <canvas id="bgcanvas" style="position:absolute;z-index:2"></canvas>
-      <canvas id="fgcanvas" style="position:absolute;z-index:4"></canvas>
+    <canvas id="bgcanvas" style="position:absolute;z-index:2"></canvas>
+    <canvas id="fgcanvas" style="position:absolute;z-index:4"></canvas>
     <div class="bg_black">
       <div>
         <div class="profile-pic">
@@ -60,22 +60,16 @@
 </template>
 
 <script>
+import { commonMixin } from "@/util/mixin";
+
 export default {
   name: "noFound",
-  computed: {
-    isComputer() {
-      return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
-        navigator.userAgent
-      );
-    }
-  },
-
+  mixin: [commonMixin],
   methods: {
     ready() {}
   },
   mounted() {
     this.$nextTick(() => {
-
       let bgflakes = new Array();
       let fgflakes = new Array();
       let bgFlakeCount = 200;
@@ -85,8 +79,8 @@ export default {
       let dwidth;
       let dheight;
       let mouseX, mouseY, orientation, orientX;
-      let  bgcanvas = document.getElementById("bgcanvas");
-      let  fgcanvas = document.getElementById("fgcanvas");
+      let bgcanvas = document.getElementById("bgcanvas");
+      let fgcanvas = document.getElementById("fgcanvas");
       function init() {
         dwidth = window.innerWidth;
         dheight = window.innerHeight;
@@ -190,8 +184,7 @@ export default {
         };
       }
 
-      init()
-
+      init();
     });
   }
 };

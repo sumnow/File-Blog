@@ -11,8 +11,8 @@
 </template>
 
 <script>
-import dalleTop from '../components/DalleTop'
-import dalleBottom from '../components/DalleBottom'
+import dalleTop from '@/components/DalleTop'
+import dalleBottom from '@/components/DalleBottom'
 // import loading from '../components/Loading'
 
 

@@ -55,14 +55,16 @@
 </template>
 
 <script>
-import { fetch } from "../service";
-import essay from "../components/Essay";
+import { fetch } from "@/service";
+import essay from "@/components/Essay";
+import { commonMixin } from "@/util/mixin.js";
 
 export default {
   name: "hello",
   components: {
     essay: essay
   },
+  mixins: [commonMixin],
   data() {
     return {
       hackReset: true,
@@ -130,13 +132,13 @@ export default {
         this.activeArr.type = e;
         this.activeArr.tag = "";
         this.activeArr.typeIndex = i;
-        this.$router.push(`/body/${e}`);
+        this.$router.push(`/code/${e}`);
       }
     },
     toEssay(item) {
       this.$router.push(
-        `/body/${this.$route.params.type}/${encodeURIComponent(
-          encodeURIComponent(item.input.slice(0, -3))
+        `/code/${this.$route.params.type}/${encodeURIComponent(
+          encodeURIComponent(item.input)
         )}`
       );
       this.activeArr.essay = item.name;
@@ -144,7 +146,6 @@ export default {
       this.$nextTick(() => {
         this.hackReset = true;
       });
-      console.log(this.activeArr)
     }
   },
   created() {
@@ -170,23 +171,20 @@ export default {
           });
         })
       ).then(res => {
-        const reg = /^(\d{4}-(0[0-9]|1[0-2])-(3[0-1]|[0-2][0-9]))_([\S\s]+)\[([\S\s]+)\]/;
+        const reg = this.regFileName;
         this.typeList.forEach((e, i) => {
           this.typeList[i].data = res[i].reverse().map(el => {
-            const _arr = el.match(reg);
-            return _arr
-              ? {
-                  date: _arr[1] || "",
-                  name: _arr[4] || "",
-                  tags: _arr[5].split(",") || "",
-                  input: _arr["input"] || ""
-                }
-              : {
-                  date: "null_time",
-                  name: "null_name",
-                  tags: "null_tag",
-                  input: "null_input"
-                };
+            const _arr = el.replace(/\.md/,'').match(reg);
+            if (_arr) {
+              return {
+                date: `${_arr[1]}-${_arr[2]}-${_arr[3]}` || "",
+                name: _arr[4].replace(/\_/g, " ") || "",
+                tags: _arr[5].split(",") || "",
+                input: _arr["input"] || ""
+              };
+            } else {
+              console.warn(`parse ${e} error`);
+            }
           });
         });
         this.activeArr["type"] = this.$route.params.type;

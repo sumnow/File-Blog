@@ -1,65 +1,111 @@
 <template>
-	<div class="catalog">
-		<div class="header flexbox">
-			<div @click="changeThemePhone">Title</div>
-			<div class="mod-search" :class="{searchshow: iptClass}">
-				<span @click="searchCatalog">Search</span>
-				<input type="text" v-model.trim="searchMessage" ref="input_search"/>
-			</div>
-			<div @click="sortReserve">Time</div>
-		</div>
-		<div class="entry-wrap">
-			<div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
-				<div class="catalog-entry-son flexbox" @click="showContent(item.input)">
+  <div class="catalog">
+    <div class="header flexbox">
+      <div @click="changeThemePhone">Title</div>
+      <div class="mod-search" :class="{searchshow: iptClass}">
+        <span @click="searchCatalog">Search</span>
+        <input type="text" v-model.trim="searchMessage" ref="input_search">
+      </div>
+      <div @click="sortReserve">Time</div>
+    </div>
+    <div class="entry-wrap">
+      <div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
+        <div class="catalog-entry-son flexbox" @click="showContent(item.input)">
           <div class="catalog-entry-son-name">
-            <svg aria-hidden="true" class="icon-file" height="16" version="1.1" viewBox="0 0 12 16" width="12">
-              <path d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"></path>
+            <svg
+              aria-hidden="true"
+              class="icon-file"
+              height="16"
+              version="1.1"
+              viewBox="0 0 12 16"
+              width="12"
+            >
+              <path
+                d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"
+              ></path>
             </svg>
             <span>{{item.name}}</span>
           </div>
-          <div class="catalog-entry-son-tags">
-            <div v-for="(elItem, elIndex) in item.tags" :key="elItem">
-              {{elItem}}
-            </div>
-          </div>
+          <!-- <div class="catalog-entry-son-tags">
+            <div v-for="(elItem, elIndex) in item.tags" :key="elItem">{{elItem}}</div>
+          </div> -->
           <div class="catalog-entry-son-date">
             <span>{{item.date}}</span>
           </div>
-				</div>
-			</div>
-		</div>
-		<div class="entry-num">
-			<div class="down" @click="toNum('down')">
-        <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="777"><path d="M65.582671 288.791335l446.417329 446.41733 446.417329-446.41733z" p-id="778"></path></svg>
+        </div>
       </div>
-			<div class="decade">{{parseInt((entryNum+1)/10)}}</div>
+    </div>
+    <div class="entry-num">
+      <div class="down" @click="toNum('down')">
+        <svg
+          class="icon"
+          style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="777"
+        >
+          <path d="M65.582671 288.791335l446.417329 446.41733 446.417329-446.41733z" p-id="778"></path>
+        </svg>
+      </div>
+      <div class="decade">{{parseInt((entryNum+1)/10)}}</div>
 
       <div class="up" @click="toNum('up')">
-        <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="757"><path d="M65.582671 735.208665l446.417329-446.41733 446.417329 446.41733z" p-id="758"></path></svg>
+        <svg
+          class="icon"
+          style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="757"
+        >
+          <path d="M65.582671 735.208665l446.417329-446.41733 446.417329 446.41733z" p-id="758"></path>
+        </svg>
       </div>
-			<div class="left" @click="toNum('left')">
-        <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="817"><path d="M735.208665 65.582671l-446.41733 446.417329 446.41733 446.417329z" p-id="818"></path></svg>
+      <div class="left" @click="toNum('left')">
+        <svg
+          class="icon"
+          style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="817"
+        >
+          <path d="M735.208665 65.582671l-446.41733 446.417329 446.41733 446.417329z" p-id="818"></path>
+        </svg>
       </div>
-			<div class="unit">{{(entryNum+1)%10}}</div>
-			<div class="right" @click="toNum('right')">
-        <svg class="icon" style="fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="797"><path d="M288.791335 65.582671l446.41733 446.417329-446.41733 446.417329z" p-id="798"></path></svg>
+      <div class="unit">{{(entryNum+1)%10}}</div>
+      <div class="right" @click="toNum('right')">
+        <svg
+          class="icon"
+          style="fill: currentColor;overflow: hidden;"
+          viewBox="0 0 1024 1024"
+          version="1.1"
+          xmlns="http://www.w3.org/2000/svg"
+          p-id="797"
+        >
+          <path d="M288.791335 65.582671l446.41733 446.417329-446.41733 446.417329z" p-id="798"></path>
+        </svg>
       </div>
 
-			<!-- <div @click="backtoFirst"> -->
-        <!-- <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="427"><path d="M460.8 486.4 486.4 486.4 486.4 460.8 486.4 243.2C486.4 108.884349 377.51565 0 243.2 0 108.884349 0 0 108.884349 0 243.2 0 377.51565 108.884349 486.4 243.2 486.4L460.8 486.4ZM51.2 243.2C51.2 137.161328 137.161328 51.2 243.2 51.2 349.238671 51.2 435.2 137.161328 435.2 243.2L435.2 460.8 460.8 435.2 243.2 435.2C137.161328 435.2 51.2 349.238671 51.2 243.2ZM460.8 588.8 435.2 563.2 435.2 780.8C435.2 886.838671 349.238671 972.8 243.2 972.8 137.161328 972.8 51.2 886.838671 51.2 780.8 51.2 674.761329 137.161328 588.8 243.2 588.8L460.8 588.8ZM0 780.8C0 915.11565 108.884349 1024 243.2 1024 377.51565 1024 486.4 915.11565 486.4 780.8L486.4 563.2 486.4 537.6 460.8 537.6 243.2 537.6C108.884349 537.6 0 646.48435 0 780.8ZM563.2 435.2 588.8 460.8 588.8 243.2C588.8 137.161328 674.761329 51.2 780.8 51.2 886.838671 51.2 972.8 137.161328 972.8 243.2 972.8 349.238671 886.838671 435.2 780.8 435.2L563.2 435.2ZM1024 243.2C1024 108.884349 915.11565 0 780.8 0 646.48435 0 537.6 108.884349 537.6 243.2L537.6 460.8 537.6 486.4 563.2 486.4 780.8 486.4C915.11565 486.4 1024 377.51565 1024 243.2ZM1024 780.8C1024 646.48435 915.11565 537.6 780.8 537.6L563.2 537.6 537.6 537.6 537.6 563.2 537.6 780.8C537.6 915.11565 646.48435 1024 780.8 1024 818.513163 1024 855.051123 1015.390662 888.179087 999.065099 900.861235 992.815296 906.075682 977.467919 899.825882 964.785773 893.576079 952.103625 878.228702 946.889178 865.546554 953.138978 839.420429 966.014014 810.620764 972.8 780.8 972.8 674.761329 972.8 588.8 886.838671 588.8 780.8L588.8 563.2 563.2 588.8 780.8 588.8C886.838671 588.8 972.8 674.761329 972.8 780.8 972.8 799.469549 970.142607 817.755731 964.968006 835.279443 960.963957 848.839106 968.71031 863.07731 982.269973 867.081361 995.829636 871.085412 1010.06784 863.339057 1014.071891 849.779394 1020.63305 827.560122 1024 804.391296 1024 780.8Z" p-id="428"></path></svg> -->
+      <!-- <div @click="backtoFirst"> -->
+      <!-- <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="427"><path d="M460.8 486.4 486.4 486.4 486.4 460.8 486.4 243.2C486.4 108.884349 377.51565 0 243.2 0 108.884349 0 0 108.884349 0 243.2 0 377.51565 108.884349 486.4 243.2 486.4L460.8 486.4ZM51.2 243.2C51.2 137.161328 137.161328 51.2 243.2 51.2 349.238671 51.2 435.2 137.161328 435.2 243.2L435.2 460.8 460.8 435.2 243.2 435.2C137.161328 435.2 51.2 349.238671 51.2 243.2ZM460.8 588.8 435.2 563.2 435.2 780.8C435.2 886.838671 349.238671 972.8 243.2 972.8 137.161328 972.8 51.2 886.838671 51.2 780.8 51.2 674.761329 137.161328 588.8 243.2 588.8L460.8 588.8ZM0 780.8C0 915.11565 108.884349 1024 243.2 1024 377.51565 1024 486.4 915.11565 486.4 780.8L486.4 563.2 486.4 537.6 460.8 537.6 243.2 537.6C108.884349 537.6 0 646.48435 0 780.8ZM563.2 435.2 588.8 460.8 588.8 243.2C588.8 137.161328 674.761329 51.2 780.8 51.2 886.838671 51.2 972.8 137.161328 972.8 243.2 972.8 349.238671 886.838671 435.2 780.8 435.2L563.2 435.2ZM1024 243.2C1024 108.884349 915.11565 0 780.8 0 646.48435 0 537.6 108.884349 537.6 243.2L537.6 460.8 537.6 486.4 563.2 486.4 780.8 486.4C915.11565 486.4 1024 377.51565 1024 243.2ZM1024 780.8C1024 646.48435 915.11565 537.6 780.8 537.6L563.2 537.6 537.6 537.6 537.6 563.2 537.6 780.8C537.6 915.11565 646.48435 1024 780.8 1024 818.513163 1024 855.051123 1015.390662 888.179087 999.065099 900.861235 992.815296 906.075682 977.467919 899.825882 964.785773 893.576079 952.103625 878.228702 946.889178 865.546554 953.138978 839.420429 966.014014 810.620764 972.8 780.8 972.8 674.761329 972.8 588.8 886.838671 588.8 780.8L588.8 563.2 563.2 588.8 780.8 588.8C886.838671 588.8 972.8 674.761329 972.8 780.8 972.8 799.469549 970.142607 817.755731 964.968006 835.279443 960.963957 848.839106 968.71031 863.07731 982.269973 867.081361 995.829636 871.085412 1010.06784 863.339057 1014.071891 849.779394 1020.63305 827.560122 1024 804.391296 1024 780.8Z" p-id="428"></path></svg> -->
       <!-- </div> -->
-			<div @click="backtoFirst">{{title.length}}</div>
-			<!-- <div v-for="(v, i) in title" :key="i" @click="toNum(i)" :class="{active: i === entryNum}">{{i+1}}</div> -->
-		</div>
-	</div>
+      <div @click="backtoFirst">{{title.length}}</div>
+      <!-- <div v-for="(v, i) in title" :key="i" @click="toNum(i)" :class="{active: i === entryNum}">{{i+1}}</div> -->
+    </div>
+  </div>
 </template>
 
 <script>
-import {request} from "../service";
-import {changeThemePhone} from "../util/theme";
+import { request } from "@/service";
+import { changeThemePhone } from "@/util/theme";
+import { commonMixin } from "@/util/mixin.js";
+
 export default {
   name: "catalog",
   create: {},
+  mixins: [commonMixin],
   data() {
     return {
       titleArr: [],
@@ -75,7 +121,7 @@ export default {
   },
   watch: {
     searchMessage: function(val) {
-      const reg = new RegExp(`${val}`, 'ig');
+      const reg = new RegExp(`${val}`, "ig");
       this.filterTitleArr = this.titleArr.filter(e => reg.test(e.input));
       this.title = this.catalogPage(this.filterTitleArr);
       this.backtoFirst();
@@ -90,7 +136,9 @@ export default {
     //
     showContent(item) {
       this.$router.push(
-        `${this.$route.params.type}/${encodeURI(encodeURI(item.slice(0, -3)))}`
+        `${this.$route.params.type}/${encodeURIComponent(
+          encodeURIComponent(item)
+        )}`
       );
     },
 
@@ -155,23 +203,20 @@ export default {
           type: this.$route.params.type
         },
         success: data => {
-          const reg = /^(\d{4}-(0[0-9]|1[0-2])-(3[0-1]|[0-2][0-9]))_([\S\s]+)\[([\S\s]+)\]/;
+          const reg = this.regFileName;
 
           this.titleArr = data.reverse().map((e, i) => {
-            const _arr = e.match(reg);
-            return _arr
-              ? {
-                  date: _arr[1] || "",
-                  name: _arr[4] || "",
-                  tags: _arr[5].split(',') || "",
-                  input: _arr["input"] || ""
-                }
-              : {
-                date: 'null_time',
-                name: 'null_name',
-                tags: 'null_tag',
-                input: 'null_input'
+            const _arr = e.replace(/\.md/,'').match(reg);
+            if (_arr) {
+              return {
+                date: `${_arr[1]}-${_arr[2]}-${_arr[3]}` || "",
+                name: _arr[4].replace(/\_/g, " ") || "",
+                tags: _arr[5].split(",") || "",
+                input: _arr["input"] || ""
               };
+            } else {
+              console.warn(`parse ${e} error`);
+            }
           });
           this.title = this.catalogPage(this.titleArr);
         }
@@ -179,8 +224,7 @@ export default {
     }
   },
   activated() {
-    function sorts (arr) {
-    }
+    function sorts(arr) {}
   }
 };
 </script>
