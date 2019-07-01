@@ -1,12 +1,15 @@
 <template>
   <div class="canvas_wrapper">
-      <canvas id="canvas"></canvas>
+    <canvas id="canvas"></canvas>
   </div>
 </template>
 
 <script>
+import { commonMixin } from "@/util/mixin";
+
 export default {
   name: "cover",
+  mixin: [commonMixin],
   data() {
     return {
       arrMobCanvas: [
@@ -107,10 +110,10 @@ export default {
             E *= 1.5;
             if (G > E) {
               J = d;
-              F = (G / E * d) | 0;
+              F = ((G / E) * d) | 0;
               D = m * 0.4;
             } else {
-              J = (m / G * d + 0.5) | 0;
+              J = ((m / G) * d + 0.5) | 0;
               F = d;
               D = q * 0.4;
             }
@@ -271,7 +274,7 @@ export default {
               let r =
                 (width + height) *
                 0.8 *
-                (cos((time + i) * (0.05 + sin(time * 0.00002) / PI * 0.2)) /
+                (cos((time + i) * (0.05 + (sin(time * 0.00002) / PI) * 0.2)) /
                   PI);
               ctx.fillRect(
                 sin(i) * r + width / 2,
@@ -285,20 +288,13 @@ export default {
       ]
     };
   },
-  computed: {
-    isComputer() {
-      return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
-        navigator.userAgent
-      );
-    }
-  },
   created() {},
   mounted() {
     const canvas = document.getElementById("canvas");
-    const WINDOW_WIDTH = this.isComputer
+    const WINDOW_WIDTH = window.isComputer
       ? document.body.offsetWidth
       : screen.width;
-    const WINDOW_HEIGHT = this.isComputer
+    const WINDOW_HEIGHT = window.isComputer
       ? document.body.offsetHeight
       : screen.height;
     canvas.width = WINDOW_WIDTH;
@@ -310,10 +306,14 @@ export default {
       height: WINDOW_HEIGHT
     };
 
-    if (!this.isComputer) {
-      this.arrMobCanvas[parseInt(Math.random()*this.arrMobCanvas.length)](canvasObj)
+    if (!window.isComputer) {
+      this.arrMobCanvas[parseInt(Math.random() * this.arrMobCanvas.length)](
+        canvasObj
+      );
     } else {
-      this.arrPCCanvas[parseInt(Math.random()*this.arrPCCanvas.length)](canvasObj)
+      this.arrPCCanvas[parseInt(Math.random() * this.arrPCCanvas.length)](
+        canvasObj
+      );
     }
   }
 };

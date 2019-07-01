@@ -6,7 +6,6 @@ let LoadConstructor = Vue.extend(Loading);
 let instance
 
 LoadConstructor.prototype.close = function () {
-    // console.log(this)
     this.mask = false;
 }
 
@@ -17,7 +16,7 @@ const Load = function (options = {}) {
     // }
     // let onShowLoad = options.showLoad
     options = merge({}, defaults, options);
-    
+
     let mask = options.mask
 
     Vue.nextTick(() => {

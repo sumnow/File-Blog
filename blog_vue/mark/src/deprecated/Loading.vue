@@ -1,19 +1,19 @@
 <template>
-    <div class="flex-container">  
-      <div class="unit">  
-        <div class="heart" >  
-          <div class="heart-piece-0"></div>  
-          <div class="heart-piece-1"></div>  
-          <div class="heart-piece-2"></div>  
-          <div class="heart-piece-3"></div>  
-          <div class="heart-piece-4"></div>  
-          <div class="heart-piece-5"></div>  
-          <div class="heart-piece-6"></div>  
-          <div class="heart-piece-7"></div>  
-          <div class="heart-piece-8"></div>  
-        </div>  
-      </div>  
-    </div>  
+    <div class="flex-container">
+      <div class="unit">
+        <div class="heart" >
+          <div class="heart-piece-0"></div>
+          <div class="heart-piece-1"></div>
+          <div class="heart-piece-2"></div>
+          <div class="heart-piece-3"></div>
+          <div class="heart-piece-4"></div>
+          <div class="heart-piece-5"></div>
+          <div class="heart-piece-6"></div>
+          <div class="heart-piece-7"></div>
+          <div class="heart-piece-8"></div>
+        </div>
+      </div>
+    </div>
 </template>
 
 <script>
@@ -29,7 +29,6 @@ export default {
       // setTimeout(()=>{
       this.mask = !this.mask;
       // },1000)
-      // console.log(this.mask);
     }
   },
   mounted() {
@@ -63,7 +62,7 @@ body {
   -webkit-box-align: center;
   -ms-flex-align: center;
   align-items: center;
-  transform: translate(-50% -50%); 
+  transform: translate(-50% -50%);
 }
 body {
   background-color: #262e6f;

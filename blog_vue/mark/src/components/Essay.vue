@@ -46,9 +46,11 @@
 import { request } from "../service";
 import colorList from "../util";
 import loading from "./SecondLoading";
+import { commonMixin } from "../util/mixin.js";
 
 export default {
   name: "essay",
+  mixins: [commonMixin],
   data() {
     return {
       content: "",
@@ -124,13 +126,13 @@ export default {
         success: data => {
           const obj = {};
           obj.name = decodeURIComponent(this.$route.params.filename);
-          const reg = /^(?:(\d{4})-(0[0-9]|1[0-2])-(3[0-1]|[0-2][0-9]))_([\S\s]+)\[([\S\s]+)\]/;
+          const reg = this.regFileName;
           const _arr = obj.name.match(reg);
           this.fileNameInfo = _arr.slice(0);
           this.fileNameInfo.push(
             new Date(`${_arr[1]}-${_arr[2]}-${_arr[3]}`).getDay()
           );
-          console.log(this.fileNameInfo);
+          // log.red(this.fileNameInfo);
 
           data = changeImgURL(data);
 
@@ -167,7 +169,7 @@ export default {
             );
           });
           this.hrefList = _list;
-          console.log(_list);
+          // log.green(_list);
           // this.$nextTick(() => {
           //   this.hrefList.map(e => {
           //     var x = document.querySelector(e.href);
@@ -184,21 +186,19 @@ export default {
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
     setTimeout(() => {
-      document.querySelector(".module-content-scroll_wrap").scrollTo({
-        top: parseInt(window.location.hash.slice(1), 32) || 0,
-        left: 0,
-        behavior: "smooth"
-      });
+      if (document.querySelector(".module-content-scroll_wrap")) {
+        document.querySelector(".module-content-scroll_wrap").scrollTo({
+          top: parseInt(window.location.hash.slice(1), 32) || 0,
+          left: 0,
+          behavior: "smooth"
+        });
+      }
       window.MathJax.Hub.Queue([
         "Typeset",
         MathJax.Hub,
         document.getElementById("app")
       ]);
     }, 800);
-    // this.$refs.wrapper.scrollTo(0)
-    // this.$nextTick(() => {
-    // console.log(document.querySelector(".module-content-scroll_wrap"))
-    // });
   },
   deactivated() {
     this.$destroy();
