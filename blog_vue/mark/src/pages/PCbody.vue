@@ -60,7 +60,7 @@ import essay from "@/components/Essay";
 import { commonMixin } from "@/util/mixin.js";
 
 export default {
-  name: "hello",
+  name: "PCbody",
   components: {
     essay: essay
   },
@@ -136,6 +136,10 @@ export default {
       }
     },
     toEssay(item) {
+      if (item.input === "ERROR") {
+        console.warn(`[FILE ERROR]:${item.input}`);
+        return void 0;
+      }
       this.$router.push(
         `/code/${this.$route.params.type}/${encodeURIComponent(
           encodeURIComponent(item.input)
@@ -174,7 +178,7 @@ export default {
         const reg = this.regFileName;
         this.typeList.forEach((e, i) => {
           this.typeList[i].data = res[i].reverse().map(el => {
-            const _arr = el.replace(/\.md/,'').match(reg);
+            const _arr = el.replace(/\.md/, "").match(reg);
             if (_arr) {
               return {
                 date: `${_arr[1]}-${_arr[2]}-${_arr[3]}` || "",
@@ -183,7 +187,13 @@ export default {
                 input: _arr["input"] || ""
               };
             } else {
-              console.warn(`parse ${e} error`);
+              console.warn(`parse ${el} error`);
+              return {
+                date: "xxxx-xx-xx",
+                name: "ERROR",
+                tags: ["ERROR"],
+                input: "ERROR"
+              };
             }
           });
         });

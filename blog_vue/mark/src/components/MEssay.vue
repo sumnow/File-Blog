@@ -20,7 +20,7 @@ import { request } from "@/service";
 import colorList from "@/util";
 
 export default {
-  name: "essay",
+  name: "MEssay",
   data() {
     return {
       content: ""

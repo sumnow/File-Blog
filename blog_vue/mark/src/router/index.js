@@ -1,12 +1,12 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import catalog from '@/pages/Catalog'
-import essay from '@/pages/Essay'
-import wrapper from '@/pages/Wrapper'
+import catalog from '@/components/MCatalog'
+import essay from '@/components/MEssay'
+import MWrap from '@/pages/MWrap'
 import cover from '@/pages/Cover'
 import home from '@/pages/Home'
 import notFound from '@/pages/NotFound'
-import hello from '@/pages/hello'
+import PCbody from '@/pages/PCbody'
 
 Vue.use(Router)
 
@@ -27,35 +27,35 @@ const routers = new Router({
     },
     {
       path: '/m/code',
-      name: 'wrapper',
-      component: wrapper,
+      name: 'MWrap',
+      component: MWrap,
       children: [
         {
           path: ':type',
-          name: 'catalog',
+          name: 'MCatalog',
           component: catalog,
         },
         {
           path: ':type/:filename',
-          name: 'essay',
+          name: 'MEssay',
           component: essay,
         }
       ]
     },
     {
       path: '/code',
-      name: 'hello',
-      component: hello,
+      name: 'PCbody',
+      component: PCbody,
       children: [
         {
           path: ':type',
-          name: 'hello',
-          component: hello,
+          name: 'PCbody',
+          component: PCbody,
         },
         {
           path: ':type/:filename',
-          name: 'hello',
-          component: hello,
+          name: 'PCbody',
+          component: PCbody,
         }
       ]
     },

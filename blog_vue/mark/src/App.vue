@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <keep-alive include="cover">
-      <router-view/>
+      <router-view />
     </keep-alive>
   </div>
 </template>
@@ -14,7 +14,7 @@ export default {
   name: "app",
   mixin: [commonMixin],
   mounted() {
-    console.log("version: v3.3.3");
+    console.log("version: v3.3.4");
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
@@ -54,6 +54,12 @@ export default {
     var(--primary-color-r),
     var(--primary-color-g),
     var(--primary-color-b)
+  );
+  --primary-hover-color: rgba(
+    var(--primary-color-r),
+    var(--primary-color-g),
+    var(--primary-color-b),
+    0.5
   );
 }
 

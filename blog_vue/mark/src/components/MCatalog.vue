@@ -103,7 +103,7 @@ import { changeThemePhone } from "@/util/theme";
 import { commonMixin } from "@/util/mixin.js";
 
 export default {
-  name: "catalog",
+  name: "MCatalog",
   create: {},
   mixins: [commonMixin],
   data() {

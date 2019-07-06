@@ -14,7 +14,7 @@
         <div class="module-date_date">{{fileNameInfo[3]}}</div>
         <div class="module-date_line">
           <svg width="100%" height="100%" version="1.1">
-            <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1"></line>
+            <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1" />
           </svg>
         </div>
         <div class="module-date_month">{{fileNameInfo[2]}}-{{fileNameInfo[1]}}</div>
@@ -25,12 +25,13 @@
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
         <div class="ul-content-href">
           <div
-            class="li-content-href"
+            :class="['li-content-href', item.active ? 'active' : '']"
             v-for="item in hrefList"
             :key="item.href"
-            :style="{ marginLeft: `${item.level*10}px`}"
+            :style="{ paddingLeft: `${item.level*10}px`}"
+            @click="gotoActive(item)"
           >
-            <div :href="item.href" @click="gotoActive(item)">{{ `${item.no}. ${item.name}`}}</div>
+            <div :href="item.href">{{ `${item.no}. ${item.name}`}}</div>
           </div>
         </div>
       </div>
@@ -56,6 +57,7 @@ export default {
       content: "",
       showCatalog: true,
       hrefList: [],
+      hrefListActive: undefined,
       scorllMark: 0,
       fileNameInfo: [],
       HEADERHEIGHT: 90
@@ -82,15 +84,17 @@ export default {
       this.$router.go(-1);
     },
     gotoActive(item) {
-      this.hrefList.map(e => {
+      this.hrefList.forEach(e => {
         var x = document.querySelector(e.href);
         e.scrollTop = x.offsetTop;
+        e.active = false;
       });
       document.querySelector(".module-content-scroll_wrap").scrollTo({
         top: item.scrollTop - this.HEADERHEIGHT,
         left: 0,
         behavior: "smooth"
       });
+      item.active = true;
     },
     handleScroll(e) {
       window.location.hash = `${Math.ceil(e.target.scrollTop).toString(32)}`;
@@ -152,7 +156,8 @@ export default {
               order: i,
               level: e.replace(_reg, "$1"),
               href: e.replace(_reg, "#$2"),
-              name: e.replace(_reg, "$3")
+              name: e.replace(_reg, "$3"),
+              active: false
             };
           });
           const _list = [];
@@ -317,7 +322,8 @@ export default {
 .module-catalog-href_wrap {
   width: 0vw;
   height: calc(100vh - 90px);
-  background: #ccc;
+  /* background: #fff; */
+  background-color: var(--primary-color);
   transition: all 1s;
   overflow: auto;
 }
@@ -327,15 +333,24 @@ export default {
 
 .li-content-href {
   display: flex;
-  margin: 20px 0;
+  padding: 20px 0;
   line-height: 1.5;
   opacity: 0;
   overflow: hidden;
-  transition: all 1s;
+  transition: width 1s;
+  /* border-color: #e36209 #e1e4e8 transparent; */
+}
+
+.li-content-href:hover {
+  cursor: pointer;
+}
+.li-content-href.active {
+  background: var(--background-color)
 }
 
 .display_catalog .li-content-href {
   opacity: 1;
+  /* background: var(--background-color); */
 }
 
 .module-content-text {
