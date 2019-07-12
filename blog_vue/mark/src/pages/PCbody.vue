@@ -222,7 +222,7 @@ export default {
   right: 0;
 }
 .swapright {
-  right: -30vw;
+  right: -29vw;
   transition: right 0.5s;
 }
 .catalog-profile_pc {

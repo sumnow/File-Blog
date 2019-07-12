@@ -1,7 +1,6 @@
 export const commonMixin = {
   computed: {
     isComputer() {
-      console.log(123)
       return !/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/.test(
         window.navigator.userAgent
       );

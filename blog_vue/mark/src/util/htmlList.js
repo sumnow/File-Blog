@@ -1,7 +1,9 @@
 export default [{
-  keyword: ['div', 'canvas', 'body', 'html', 'li', 'ul', 'button', 'img', 'span', 'script'],
-  color: '#569cd6'
+  keyword: ['html', 'body', 'head', 'link', 'script', 'div', 'canvas', 'ul', 'li', 'button', 'img', 'span'],
+  description: 'tag',
+  color: '#c75f66'
 }, {
-  keyword: ['id', 'class', 'src'],
-  color: '#c586c0'
+  keyword: ['id', 'class', 'src', 'type', 'style'],
+  description: 'tag attribution',
+  color: '#c694e8'
 }]
