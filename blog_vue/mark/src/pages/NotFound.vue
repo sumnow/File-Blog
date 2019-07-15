@@ -1,60 +1,7 @@
 <template>
   <div>
-    <canvas id="bgcanvas" style="position:absolute;z-index:2"></canvas>
-    <canvas id="fgcanvas" style="position:absolute;z-index:4"></canvas>
     <div class="bg_black">
-      <div>
-        <div class="profile-pic">
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
-      </div>
+      <canvas class="maze" id="maze"></canvas>
     </div>
   </div>
 </template>
@@ -70,121 +17,374 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      let bgflakes = new Array();
-      let fgflakes = new Array();
-      let bgFlakeCount = 200;
-      let fgFlakeCount = 50;
-      let frameCount = 0;
-      let wind = 0;
-      let dwidth;
-      let dheight;
-      let mouseX, mouseY, orientation, orientX;
-      let bgcanvas = document.getElementById("bgcanvas");
-      let fgcanvas = document.getElementById("fgcanvas");
-      function init() {
-        dwidth = window.innerWidth;
-        dheight = window.innerHeight;
-        bgcanvas.width = dwidth;
-        bgcanvas.height = dheight;
-        fgcanvas.width = dwidth;
-        fgcanvas.height = dheight;
-        let ctx = fgcanvas.getContext("2d");
-        if (!bgcanvas.getContext) return; // bye IE!
-        for (let i = 0; i < bgFlakeCount; i++) {
-          bgflakes.push(new Flake(bgcanvas.width, bgcanvas.height, 0, 3, ctx));
-        }
-        for (let i = 0; i < fgFlakeCount; i++) {
-          fgflakes.push(
-            new Flake(fgcanvas.width, fgcanvas.height, 0.2, 4, ctx)
-          );
-        }
-        setInterval(draw, 50);
-      }
-
-      function setWind() {
-        if (!orientation) {
-          let mx = mouseX - dwidth / 2;
-          wind = (mx / dwidth) * 3;
-        } else {
-          wind = parseFloat(orientX) * 3;
-        }
-        if (isNaN(wind)) {
-          wind = 0;
-        }
-      }
-
-      function draw() {
-        frameCount += 1;
-        let g = bgcanvas.getContext("2d");
-        let h = fgcanvas.getContext("2d");
-        g.clearRect(0, 0, bgcanvas.width, bgcanvas.height);
-        h.clearRect(0, 0, fgcanvas.width, fgcanvas.height);
-        setWind();
-        for (let i = 0; i < bgFlakeCount; i++) {
-          bgflakes[i].move(frameCount, wind);
-          bgflakes[i].draw(g);
-        }
-        for (let i = 0; i < fgFlakeCount; i++) {
-          fgflakes[i].move(frameCount, wind);
-          fgflakes[i].draw(h);
-        }
-      }
-
-      function Flake(w, h, a, s, ctx) {
-        this.canvasWidth = w;
-        this.canvasHeight = h;
-        this.x = Math.random() * dwidth;
-        this.y = Math.random() * -1 * h;
-        this.alfa = Math.random() * 0.5 + a;
-
-        this.speed = Math.random();
-        this.size = (s - this.speed - this.alfa) * 2;
-        // let grad = ctx.createRadialGradient(this.x, this.y, 0, this.x, this.y, this.size) //创建一个渐变色线性对象
-        // grad.addColorStop(0, "#fff");                  //定义渐变色颜色
-        // grad.addColorStop(1, "rgba(255,255,255," + this.alfa + ")");
-        this.color = "rgba(255,255,255," + this.alfa + ")";
-        // this.color = grad
-        this.amp = Math.random() * 2;
-        this.shift = Math.random() * 25 + 25;
-        if (Math.random() > 0.5) this.shift *= -1;
-        this.drift = Math.random() - 0.5;
-
-        this.draw = function(g) {
-          let grad = ctx.createRadialGradient(
-            this.x,
-            this.y,
-            0,
-            this.x,
-            this.y,
-            this.size * 1
-          ); //创建一个渐变色线性对象
-          grad.addColorStop(0, "#fff"); //定义渐变色颜色
-          grad.addColorStop(1, "rgba(255,255,255, 0)");
-          // grad.addColorStop(1, "#000");
-          // g.fillStyle = this.color;
-          g.fillStyle = grad;
-          g.beginPath();
-          g.arc(this.x, this.y, this.size, 0, Math.PI * 2, true);
-          g.closePath();
-          g.fill();
-        };
-
-        this.move = function(f, wind) {
-          this.y += this.speed;
-          this.x += Math.cos(f / this.shift) * this.amp + this.drift + wind;
-          if (this.y > this.canvasHeight) {
-            this.restart();
+      class UnionSet {
+        constructor(size) {
+          this.set = new Array(size);
+          for (var i = this.set.length - 1; i >= 0; i--) {
+            this.set[i] = -1;
           }
-        };
+        }
 
-        this.restart = function() {
-          this.y = -20;
-          this.shift = Math.random() * 25 + 25;
-          this.x = 200;
-        };
+        union(root1, root2) {
+          if (this.set[root1] < this.set[root2]) {
+            this.set[root2] = root1;
+          } else {
+            if (this.set[root1] === this.set[root2]) {
+              this.set[root2]--;
+            }
+            this.set[root1] = root2;
+          }
+        }
+
+        findSet(x) {
+          if (this.set[x] < 0) return x;
+          return (this.set[x] = this.findSet(this.set[x]));
+        }
+
+        sameSet(x, y) {
+          return this.findSet(x) === this.findSet(y);
+        }
+
+        unionElement(x, y) {
+          this.union(this.findSet(x), this.findSet(y));
+        }
       }
 
-      init();
+      class Maze {
+        constructor(columns, rows, canvas) {
+          this.columns = columns;
+          this.rows = rows;
+          this.cells = columns * rows;
+          //存放是连通的格子，{1: [2, 11]}表示第1个格子和第2、11个格子是相通的
+          this.linkedMap = {};
+          this.unionSets = new UnionSet(this.cells);
+          this.canvas = canvas;
+        }
+
+        //生成迷宫
+        generate() {
+          //每次任意取两个相邻的格子，如果它们不在同一个连通集，
+          //则拆掉中间的墙，让它们连在一起成为一个连通集
+          while (!this.firstLastLinked() || !this.linkedToFirstCell()) {
+            var cellPairs = this.pickRandomCellPairs();
+            if (!this.unionSets.sameSet(cellPairs[0], cellPairs[1])) {
+              this.unionSets.unionElement(cellPairs[0], cellPairs[1]);
+              this.addLinkedMap(cellPairs[0], cellPairs[1]);
+            }
+          }
+        }
+
+        firstLastLinked() {
+          return this.unionSets.sameSet(0, this.cells - 1);
+        }
+
+        linkedToFirstCell() {
+          for (var i = 1; i < this.cells; i++) {
+            if (!this.unionSets.sameSet(0, i)) return false;
+          }
+          return true;
+        }
+
+        //取出随机的两个挨着的格子
+        pickRandomCellPairs() {
+          var cell = (Math.random() * this.cells) >> 0;
+          //再取一个相邻格子，0 = 上，1 = 右，2 = 下，3 = 左
+          var neiborCells = [];
+          var row = (cell / this.columns) >> 0,
+            column = cell % this.rows;
+          //不是第一排的有上方的相邻元素
+          if (row !== 0) {
+            neiborCells.push(cell - this.columns);
+          }
+          //不是最后一排的有下面的相邻元素
+          if (row !== this.rows - 1) {
+            neiborCells.push(cell + this.columns);
+          }
+          if (column !== 0) {
+            neiborCells.push(cell - 1);
+          }
+          if (column !== this.columns - 1) {
+            neiborCells.push(cell + 1);
+          }
+          var index = (Math.random() * neiborCells.length) >> 0;
+          return [cell, neiborCells[index]];
+        }
+
+        addLinkedMap(x, y) {
+          if (!this.linkedMap[x]) this.linkedMap[x] = [];
+          if (!this.linkedMap[y]) this.linkedMap[y] = [];
+          if (this.linkedMap[x].indexOf(y) < 0) {
+            this.linkedMap[x].push(y);
+          }
+          if (this.linkedMap[y].indexOf(x) < 0) {
+            this.linkedMap[y].push(x);
+          }
+        }
+
+        draw() {
+          var linkedMap = this.linkedMap;
+          var cellWidth = this.canvas.width / this.columns,
+            cellHeight = this.canvas.height / this.rows;
+          var canvasBuffer = document.createElement("canvas");
+          canvasBuffer.width = this.canvas.width;
+          canvasBuffer.height = this.canvas.height;
+          var ctx = canvasBuffer.getContext("2d");
+          ctx.translate(0.5, 0.5);
+          for (var i = 0; i < this.cells; i++) {
+            var row = (i / this.columns) >> 0,
+              column = i % this.columns;
+            //画右边的竖线
+            if (
+              column !== this.columns - 1 &&
+              (!linkedMap[i] || linkedMap[i].indexOf(i + 1) < 0)
+            ) {
+              ctx.moveTo(
+                ((column + 1) * cellWidth) >> 0,
+                (row * cellHeight) >> 0
+              );
+              ctx.lineTo(
+                ((column + 1) * cellWidth) >> 0,
+                ((row + 1) * cellHeight) >> 0
+              );
+            }
+            //画下面的横线
+            if (
+              row !== this.rows - 1 &&
+              (!linkedMap[i] || linkedMap[i].indexOf(i + this.columns) < 0)
+            ) {
+              ctx.moveTo(
+                (column * cellWidth) >> 0,
+                ((row + 1) * cellHeight) >> 0
+              );
+              ctx.lineTo(
+                ((column + 1) * cellWidth) >> 0,
+                ((row + 1) * cellHeight) >> 0
+              );
+            }
+          }
+          ctx.strokeStyle = "#fff";
+          ctx.stroke();
+          this.drawBorder(ctx, cellWidth, cellHeight);
+          this.canvas.getContext("2d").drawImage(canvasBuffer, 0, 0);
+        }
+
+        drawBorder(ctx, cellWidth, cellHeight) {
+          ctx.moveTo(0, cellHeight);
+          ctx.lineTo(0, this.rows * cellHeight - 1);
+          ctx.lineTo(this.columns * cellWidth - 1, this.rows * cellHeight - 1);
+          ctx.moveTo(
+            this.columns * cellWidth - 1,
+            this.rows * cellHeight - 1 - cellHeight
+          );
+          ctx.lineTo(this.columns * cellWidth - 1, 0);
+          ctx.lineTo(0, 0);
+          ctx.stroke();
+        }
+
+        calPath() {
+          var pathTable = new Array(this.cells);
+          for (var i = 0; i < pathTable.length; i++) {
+            pathTable[i] = { known: false, prevCell: -1 };
+          }
+          pathTable[0].known = true;
+          var map = this.linkedMap;
+          //用一个队列存储当前层的节点，先进队列的结点优先处理
+          var unSearchCells = [0];
+          var j = 0;
+          while (!pathTable[pathTable.length - 1].known) {
+            while (unSearchCells.length) {
+              var cell = unSearchCells.pop();
+              for (var i = 0; i < map[cell].length; i++) {
+                if (pathTable[map[cell][i]].known) continue;
+                pathTable[map[cell][i]].known = true;
+                pathTable[map[cell][i]].prevCell = cell;
+                unSearchCells.unshift(map[cell][i]);
+                if (pathTable[pathTable.length - 1].known) break;
+              }
+            }
+          }
+          var cell = this.cells - 1;
+          var path = [cell];
+          while (cell !== 0) {
+            var cell = pathTable[cell].prevCell;
+            path.push(cell);
+          }
+          return path;
+        }
+
+        drawPath(path) {
+          var cellWidth = this.canvas.width / this.columns,
+            cellHeight = this.canvas.height / this.rows;
+          var canvasBuffer = document.createElement("canvas");
+          canvasBuffer.width = this.canvas.width;
+          canvasBuffer.height = this.canvas.height;
+          var ctx = canvasBuffer.getContext("2d");
+          ctx.moveTo(
+            this.canvas.width - 1,
+            this.canvas.height - cellHeight / 2
+          );
+          for (var i = 0; i < path.length; i++) {
+            var row = Math.floor(path[i] / this.columns);
+            var column = path[i] % this.columns;
+            var row_prev = this.rows - 1;
+            var column_prev = this.columns;
+            var row_next = 0;
+            var column_next = 0;
+            if (i > 0) {
+              row_prev = Math.floor(path[i - 1] / this.columns);
+              column_prev = path[i - 1] % this.columns;
+            }
+            if (i < path.length - 1) {
+              row_next = Math.floor(path[i + 1] / this.columns);
+              column_next = path[i + 1] % this.columns;
+            } else {
+              row_next = 0;
+              column_next = -1;
+            }
+            if (row_next === row_prev) {
+              // 同一行，画横线
+              if (column > column_next) {
+                ctx.lineTo(column * cellWidth, (row_prev + 0.5) * cellHeight);
+              } else {
+                ctx.lineTo(
+                  (column + 1) * cellWidth,
+                  (row_prev + 0.5) * cellHeight
+                );
+              }
+            }
+            if (column_next === column_prev) {
+              // 同一列，画纵线
+              if (row > row_next) {
+                ctx.lineTo((column + 0.5) * cellWidth, row * cellHeight);
+              } else {
+                ctx.lineTo((column + 0.5) * cellWidth, (row + 1) * cellHeight);
+              }
+            }
+            if (
+              row === row_next &&
+              column < column_next &&
+              row < row_prev &&
+              column === column_prev
+            ) {
+              ctx.moveTo((column + 0.5) * cellWidth, (row + 1) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 1) * cellWidth, (row + 0.5) * cellHeight);
+            }
+            if (
+              row === row_prev &&
+              column < column_prev &&
+              row < row_next &&
+              column === column_next
+            ) {
+              ctx.moveTo((column + 1) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 1) * cellHeight);
+            }
+            if (
+              row === row_next &&
+              column > column_next &&
+              row < row_prev &&
+              column === column_prev
+            ) {
+              ctx.moveTo((column + 0.5) * cellWidth, (row + 1) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo(column * cellWidth, (row + 0.5) * cellHeight);
+            }
+            if (
+              row === row_prev &&
+              column > column_prev &&
+              row < row_next &&
+              column === column_next
+            ) {
+              ctx.moveTo(column * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 1) * cellHeight);
+            }
+            if (
+              row === row_next &&
+              column < column_next &&
+              row > row_prev &&
+              column === column_prev
+            ) {
+              ctx.moveTo((column + 0.5) * cellWidth, row * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 1) * cellWidth, (row + 0.5) * cellHeight);
+            }
+            if (
+              row === row_prev &&
+              column < column_prev &&
+              row > row_next &&
+              column === column_next
+            ) {
+              ctx.moveTo((column + 1) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, row * cellHeight);
+            }
+            if (
+              row === row_next &&
+              column > column_next &&
+              row > row_prev &&
+              column === column_prev
+            ) {
+              ctx.moveTo((column + 0.5) * cellWidth, row * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo(column * cellWidth, (row + 0.5) * cellHeight);
+            }
+            if (
+              row === row_prev &&
+              column > column_prev &&
+              row > row_next &&
+              column === column_next
+            ) {
+              ctx.moveTo(column * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, (row + 0.5) * cellHeight);
+              ctx.lineTo((column + 0.5) * cellWidth, row * cellHeight);
+            }
+          }
+
+          ctx.strokeStyle = "#FF0000";
+          // ctx.shadowColor = "#fff";
+          // ctx.shadowBlur = 40;
+          ctx.lineWidth = 6;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = 0;
+          ctx.strokeStyle = "#fff";
+          ctx.stroke();
+          // ctx.fill();
+          this.canvas.getContext("2d").drawImage(canvasBuffer, 0, 0);
+        }
+      }
+
+      const WINDOW_WIDTH = this.isComputer
+        ? document.body.offsetWidth
+        : screen.width;
+      const WINDOW_HEIGHT = this.isComputer
+        ? document.body.offsetHeight
+        : screen.height;
+      var canvas = document.getElementById("maze");
+      canvas.width = Math.min(WINDOW_WIDTH, WINDOW_HEIGHT) - 40;
+      canvas.height = Math.min(WINDOW_WIDTH, WINDOW_HEIGHT) - 40;
+      document.querySelector(".bg_black").style.padding =
+        WINDOW_WIDTH - WINDOW_HEIGHT > 0
+          ? "10px " + (WINDOW_WIDTH - WINDOW_HEIGHT) / 2 + "px"
+          : (WINDOW_HEIGHT - WINDOW_WIDTH) / 2 + "px 10px";
+      const column = Math.floor(canvas.width / 15);
+      const row = Math.floor(canvas.width / 15);
+
+      var maze = new Maze(column, row, canvas);
+
+      console.time("generate maze");
+      maze.generate();
+      console.timeEnd("generate maze");
+      console.time("draw maze");
+      maze.draw();
+      console.timeEnd("draw maze");
+      console.time("calculate path");
+      var path = maze.calPath();
+      console.timeEnd("calculate path");
+      console.time("draw path");
+      maze.drawPath(path);
+      console.timeEnd("draw path");
     });
   }
 };
@@ -195,177 +395,9 @@ export default {
   grid-template-rows: 100px 1fr 100px;
   width: 100vw;
   height: 100vh;
+  padding: 10px;
   background: #000;
   color: #fff;
   text-align: center;
-}
-.profile-pic {
-  display: grid;
-  grid-template: repeat(6, 1fr) / repeat(8, 1fr);
-  margin: 0 auto;
-  width: 100vw;
-  height: 100vh;
-  background-image: url(../assets/saber.jpg);
-  background-size: cover;
-  background-color: #000;
-}
-.profile-pic div {
-  width: calc(100vw / 8);
-  height: calc(100vh / 6);
-}
-@keyframes fade {
-  50% {
-    background-color: rgba(0, 0, 0, 100%);
-  }
-}
-.profile-pic div {
-  outline: 2px solid #000;
-  background-color: rgba(0, 0, 0, 0);
-  animation: fade 24s infinite;
-}
-
-.profile-pic div:nth-of-type(1) {
-  animation-delay: 0.25s;
-}
-.profile-pic div:nth-of-type(2) {
-  animation-delay: 0.5s;
-}
-.profile-pic div:nth-of-type(3) {
-  animation-delay: 0.75s;
-}
-.profile-pic div:nth-of-type(4) {
-  animation-delay: 1s;
-}
-.profile-pic div:nth-of-type(5) {
-  animation-delay: 1.25s;
-}
-.profile-pic div:nth-of-type(6) {
-  animation-delay: 1.5s;
-}
-.profile-pic div:nth-of-type(7) {
-  animation-delay: 1.75s;
-}
-.profile-pic div:nth-of-type(8) {
-  animation-delay: 2s;
-}
-.profile-pic div:nth-of-type(9) {
-  animation-delay: 2.25s;
-}
-.profile-pic div:nth-of-type(10) {
-  animation-delay: 2.5s;
-}
-.profile-pic div:nth-of-type(11) {
-  animation-delay: 2.75s;
-}
-.profile-pic div:nth-of-type(12) {
-  animation-delay: 3s;
-}
-.profile-pic div:nth-of-type(13) {
-  animation-delay: 3.25s;
-}
-.profile-pic div:nth-of-type(14) {
-  animation-delay: 3.5s;
-}
-.profile-pic div:nth-of-type(15) {
-  animation-delay: 3.75s;
-}
-.profile-pic div:nth-of-type(16) {
-  animation-delay: 4s;
-}
-.profile-pic div:nth-of-type(17) {
-  animation-delay: 4.25s;
-}
-.profile-pic div:nth-of-type(18) {
-  animation-delay: 4.5s;
-}
-.profile-pic div:nth-of-type(19) {
-  animation-delay: 4.75s;
-}
-.profile-pic div:nth-of-type(20) {
-  animation-delay: 5s;
-}
-.profile-pic div:nth-of-type(21) {
-  animation-delay: 5.25s;
-}
-.profile-pic div:nth-of-type(22) {
-  animation-delay: 5.5s;
-}
-.profile-pic div:nth-of-type(23) {
-  animation-delay: 5.75s;
-}
-.profile-pic div:nth-of-type(24) {
-  animation-delay: 6s;
-}
-.profile-pic div:nth-of-type(25) {
-  animation-delay: 6.25s;
-}
-.profile-pic div:nth-of-type(26) {
-  animation-delay: 6.5s;
-}
-.profile-pic div:nth-of-type(27) {
-  animation-delay: 6.75s;
-}
-.profile-pic div:nth-of-type(28) {
-  animation-delay: 7s;
-}
-.profile-pic div:nth-of-type(29) {
-  animation-delay: 7.25s;
-}
-.profile-pic div:nth-of-type(30) {
-  animation-delay: 7.5s;
-}
-.profile-pic div:nth-of-type(31) {
-  animation-delay: 7.75s;
-}
-.profile-pic div:nth-of-type(32) {
-  animation-delay: 8s;
-}
-.profile-pic div:nth-of-type(33) {
-  animation-delay: 8.25s;
-}
-.profile-pic div:nth-of-type(34) {
-  animation-delay: 8.5s;
-}
-.profile-pic div:nth-of-type(35) {
-  animation-delay: 8.75s;
-}
-.profile-pic div:nth-of-type(36) {
-  animation-delay: 9s;
-}
-.profile-pic div:nth-of-type(37) {
-  animation-delay: 9.25s;
-}
-.profile-pic div:nth-of-type(38) {
-  animation-delay: 9.5s;
-}
-.profile-pic div:nth-of-type(39) {
-  animation-delay: 9.75s;
-}
-.profile-pic div:nth-of-type(40) {
-  animation-delay: 10s;
-}
-.profile-pic div:nth-of-type(41) {
-  animation-delay: 10.25s;
-}
-.profile-pic div:nth-of-type(42) {
-  animation-delay: 10.5s;
-}
-.profile-pic div:nth-of-type(43) {
-  animation-delay: 10.75s;
-}
-.profile-pic div:nth-of-type(44) {
-  animation-delay: 11s;
-}
-.profile-pic div:nth-of-type(45) {
-  animation-delay: 11.25s;
-}
-.profile-pic div:nth-of-type(46) {
-  animation-delay: 11.5s;
-}
-.profile-pic div:nth-of-type(47) {
-  animation-delay: 11.75s;
-}
-.profile-pic div:nth-of-type(48) {
-  animation-delay: 12s;
 }
 </style>

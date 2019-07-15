@@ -3,7 +3,8 @@ export default [{
   description: 'tag',
   color: '#c75f66'
 }, {
-  keyword: ['id', 'class', 'src', 'type', 'style'],
+  // 没有style ,因为style会影响页面已经存在的属性
+  keyword: ['id', 'class', 'src', 'type'],
   description: 'tag attribution',
   color: '#c694e8'
 }]

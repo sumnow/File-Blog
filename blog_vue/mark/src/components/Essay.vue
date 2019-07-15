@@ -128,15 +128,13 @@ export default {
           filename: this.$route.params.filename
         },
         success: data => {
-          const obj = {};
-          obj.name = decodeURIComponent(this.$route.params.filename);
-          const reg = this.regFileName;
-          const _arr = obj.name.match(reg);
-          this.fileNameInfo = _arr.slice(0);
-          this.fileNameInfo.push(
-            new Date(`${_arr[1]}-${_arr[2]}-${_arr[3]}`).getDay()
-          );
-          // log.red(this.fileNameInfo);
+          const fileInfo = [
+            decodeURIComponent(this.$route.params.filename)
+          ].map(e => {
+            return this.parseFileName(e);
+          })[0];
+          this.fileNameInfo = fileInfo.date.split("-");
+          this.fileNameInfo.push(new Date(fileInfo.date).getDay());
 
           data = changeImgURL(data);
 
@@ -345,7 +343,7 @@ export default {
   cursor: pointer;
 }
 .li-content-href.active {
-  background: var(--background-color)
+  background: var(--background-color);
 }
 
 .display_catalog .li-content-href {

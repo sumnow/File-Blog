@@ -175,26 +175,9 @@ export default {
           });
         })
       ).then(res => {
-        const reg = this.regFileName;
         this.typeList.forEach((e, i) => {
           this.typeList[i].data = res[i].reverse().map(el => {
-            const _arr = el.replace(/\.md/, "").match(reg);
-            if (_arr) {
-              return {
-                date: `${_arr[1]}-${_arr[2]}-${_arr[3]}` || "",
-                name: _arr[4].replace(/\_/g, " ") || "",
-                tags: _arr[5].split(",") || "",
-                input: _arr["input"] || ""
-              };
-            } else {
-              console.warn(`parse ${el} error`);
-              return {
-                date: "xxxx-xx-xx",
-                name: "ERROR",
-                tags: ["ERROR"],
-                input: "ERROR"
-              };
-            }
+            return this.parseFileName(el);
           });
         });
         this.activeArr["type"] = this.$route.params.type;

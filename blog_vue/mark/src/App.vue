@@ -14,7 +14,7 @@ export default {
   name: "app",
   mixin: [commonMixin],
   mounted() {
-    console.log("version: v3.3.4");
+    console.log("version: v3.3.5");
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
