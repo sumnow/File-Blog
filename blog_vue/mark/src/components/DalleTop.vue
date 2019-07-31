@@ -41,7 +41,7 @@ export default {
   position: relative;
   z-index: 10;
   height: 50vh;
-  transform: translateY(-40vh);
+  transform: translateY(-45vh);
   transition: all .5s;
 }
 .top.near {

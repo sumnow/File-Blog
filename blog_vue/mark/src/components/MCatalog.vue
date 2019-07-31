@@ -1,29 +1,17 @@
 <template>
-  <div class="catalog">
+  <div class="mob-catalog">
     <div class="header flexbox">
-      <div @click="changeThemePhone">Title</div>
-      <div class="mod-search" :class="{searchshow: iptClass}">
+      <div >Title</div>
+      <!-- <div class="mod-search" :class="{searchshow: iptClass}">
         <span @click="searchCatalog">Search</span>
         <input type="text" v-model.trim="searchMessage" ref="input_search" />
-      </div>
-      <div @click="sortReserve">Time</div>
+      </div> -->
+      <div>Time</div>
     </div>
     <div class="entry-wrap">
       <div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
         <div class="catalog-entry-son flexbox" @click="showContent(item.input)">
           <div class="catalog-entry-son-name">
-            <svg
-              aria-hidden="true"
-              class="icon-file"
-              height="16"
-              version="1.1"
-              viewBox="0 0 12 16"
-              width="12"
-            >
-              <path
-                d="M6 5H2V4h4v1zM2 8h7V7H2v1zm0 2h7V9H2v1zm0 2h7v-1H2v1zm10-7.5V14c0 .55-.45 1-1 1H1c-.55 0-1-.45-1-1V2c0-.55.45-1 1-1h7.5L12 4.5zM11 5L8 2H1v12h10V5z"
-              />
-            </svg>
             <span>{{item.name}}</span>
           </div>
           <!-- <div class="catalog-entry-son-tags">
@@ -183,7 +171,7 @@ export default {
       this.titleArr = this.titleArr.reverse();
       this.title = this.catalogPage(this.titleArr);
     },
-    catalogPage(arrayBefore, pageSize = 8) {
+    catalogPage(arrayBefore, pageSize = 10) {
       const arrayAfter = [];
       for (let i = 0; i < arrayBefore.length / pageSize; i++) {
         arrayAfter.push(
@@ -218,8 +206,8 @@ export default {
 </script>
 
 <style scoped>
-.catalog {
-  height: 80vh;
+.mob-catalog {
+  height: 90vh;
   padding: 2vh 5vw;
 }
 
@@ -263,13 +251,10 @@ export default {
   cursor: pointer;
 }
 .catalog-entry {
-  height: 5.75vh;
-  line-height: 5.75vh;
+  height: 7vh;
+  line-height: 7vh;
   color: rgba(255, 255, 255, 0.2);
   overflow: hidden;
-}
-.catalog-entry + .catalog-entry {
-  margin-top: 2vh;
 }
 
 .catalog-entry .icon-file {
@@ -284,7 +269,7 @@ export default {
 }
 
 .entry-wrap {
-  height: 60vh;
+  height: 70vh;
 }
 
 .entry-num {

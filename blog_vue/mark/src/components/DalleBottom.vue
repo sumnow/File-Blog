@@ -37,7 +37,7 @@ export default {
   top: -10px;
   width: 100vw;
   height: 50vh;
-  transform: translateY(40vh);
+  transform: translateY(45vh);
   transition: all .5s;
 }
 .bottom.near {
