@@ -6,6 +6,7 @@ var path = require("path");
 var router = require('./fileRoute');
 var port = process.argv[2] || 8080;
 var pagePath = "/index.html"
+var mongofind = require('./mongofind')
 
 router.setRootPath(__dirname);
 
@@ -21,28 +22,16 @@ const srv = http.createServer((req, res) => {
 
     // 处理文件请求接口
     if (paths === '/catalog') {
+        console.log('\n<get> params:')
+        console.log(params)
+        console.log('\n-------------\n')
         try {
-            if (params.type) {
-                if (params.filename) {
-                    const text = fs.readFileSync(`markdown/knowledge/code/${params.type}/${decodeURI(decodeURI(params.filename))}.md`, 'utf8');
-                    res.writeHead(200, { 'Content-Type': 'application/json',"Cache-Control": "max-age=6000", 'Access-Control-Allow-Origin': '*' });
-                    res.write(JSON.stringify(text));
-                    res.end();
-                } else {
-                    const dir = fs.readdirSync(`markdown/knowledge/code/${params.type}`, (err, files) => files)
-                    const jsondir = JSON.stringify(dir);
-                    res.writeHead(200, { 'Content-Type': 'application/json',"Cache-Control": "max-age=6000", 'Access-Control-Allow-Origin': '*' });
-                    res.write(jsondir);
-                    res.end();
-                }
+            const reg = /(\d{4})(0[0-9]|1[0-2])(3[0-1]|[0-2][0-9])(\d)/
+            if (reg.test(params.filename)) {
+                const _arr = params.filename.match(reg)
+                mongofind.find(res, { "date": `${_arr[1]}${_arr[2]}${_arr[3]}`, "number": _arr[4] })
             } else {
-                const dir = fs.readdirSync('markdown/knowledge/code', function (err, files) {
-                    return files;
-                })
-                const jsondir = JSON.stringify(dir);
-                res.writeHead(200, { 'Content-Type': 'application/json',"Cache-Control": "max-age=6000", 'Access-Control-Allow-Origin': '*' });
-                res.write(jsondir);
-                res.end();
+                mongofind.find(res, { projection: { "_id": 0, "content": 0 } })
             }
         } catch (e) {
             console.log('[File Error]' + e)
