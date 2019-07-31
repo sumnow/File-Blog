@@ -54,9 +54,9 @@ export default {
 
 .container {
   position: absolute;
-  top: 10vh;
+  top: 5vh;
   width: 100vw;
-  height: 80vh;
+  height: 90vh;
   z-index: 0;
   background-color: var(--background-color);
   opacity: 1;

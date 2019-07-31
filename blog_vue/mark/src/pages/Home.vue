@@ -25,24 +25,13 @@ export default {
       list: []
     };
   },
-  methods: {
-    toCatalog(i) {
-      if (window.isComputer) {
-        this.$router.push(`/code/${i}`);
-      } else {
-        this.$router.push(`/m/code/${i}`);
-      }
-    }
-  },
+  methods: {},
   created() {
-    request({
-      url: "/catalog",
-      data: {},
-      method: "GET",
-      success: data => {
-        this.list = data;
-      }
-    });
+    if (window.isComputer) {
+      this.$router.push(`/code`);
+    } else {
+      this.$router.push(`/m/code`);
+    }
   }
 };
 </script>

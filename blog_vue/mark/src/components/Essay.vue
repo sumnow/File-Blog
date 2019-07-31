@@ -11,13 +11,13 @@
         <!-- <div class="module-tag">{{fileNameInfo[5]}}</div> -->
       </div>
       <div class="module-date_wrap">
-        <div class="module-date_date">{{fileNameInfo[3]}}</div>
+        <div class="module-date_date">{{fileNameInfo[0]}}</div>
         <div class="module-date_line">
           <svg width="100%" height="100%" version="1.1">
             <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1" />
           </svg>
         </div>
-        <div class="module-date_month">{{fileNameInfo[2]}}-{{fileNameInfo[1]}}</div>
+        <div class="module-date_month">{{fileNameInfo[2]}}/{{fileNameInfo[1]}}</div>
         <div class="module-date_day">{{currentDay}}</div>
       </div>
     </div>
@@ -76,7 +76,7 @@ export default {
         "Thursday",
         "Friday",
         "Saturday"
-      ][this.fileNameInfo[6]];
+      ][this.fileNameInfo[3]];
     }
   },
   methods: {
@@ -133,9 +133,8 @@ export default {
           ].map(e => {
             return this.parseFileName(e);
           })[0];
-          this.fileNameInfo = fileInfo.date.split("-");
+          this.fileNameInfo = fileInfo.date.split("-").reverse();
           this.fileNameInfo.push(new Date(fileInfo.date).getDay());
-
           data = changeImgURL(data);
 
           let markdata = this.marked(data);
@@ -250,10 +249,10 @@ export default {
   grid-area: day;
   box-sizing: border-box;
   width: 120px;
-  padding-top: 15px;
-  height: 15px;
-  font-size: 18px;
-  line-height: 15px;
+  padding-top: 8px;
+  height: 26px;
+  font-size: 26px;
+  line-height: 26px;
 }
 .module-date_line {
   grid-area: line;
