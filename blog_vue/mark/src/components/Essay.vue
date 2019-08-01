@@ -101,11 +101,6 @@ export default {
     }
   },
   created() {
-    const changeImgURL = data => {
-      const reg = /!\[(\S+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg|bmp|gif|svg|webp))\)/g;
-      return data.replace(reg, "![$1](../../markdown/knowledge$2)");
-    };
-
     //
     function changeKeyWord(color, data) {
       const regs = color.keyword.reduce((a, b) => {
@@ -124,7 +119,6 @@ export default {
         url: `/catalog`,
         method: "GET",
         params: {
-          type: this.$route.params.type,
           filename: this.$route.params.filename
         },
         success: data => {
@@ -135,7 +129,8 @@ export default {
           })[0];
           this.fileNameInfo = fileInfo.date.split("-").reverse();
           this.fileNameInfo.push(new Date(fileInfo.date).getDay());
-          data = changeImgURL(data);
+          data = data[0].content;
+          data = this.changeImgURL(data);
 
           let markdata = this.marked(data);
 

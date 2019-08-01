@@ -11,56 +11,46 @@ import PCbody from '@/pages/PCbody'
 Vue.use(Router)
 
 const routers = new Router({
-  mode: 'history',
-  routes: [
-    {
-      path: '/cover',
-      name: 'cover',
-      component: cover,
-      // redirect: '/code/catalog'
-    },
-    {
-      path: '/home',
-      name: 'home',
-      component: home,
-      // redirect: '/code/catalog'
-    },
-    {
-      path: '/m/code',
-      name: 'MWrap',
-      component: MWrap,
-      children: [
+    mode: 'history',
+    routes: [
         {
-          path: ':type',
-          name: 'MCatalog',
-          component: catalog,
+            path: '/cover',
+            name: 'cover',
+            component: cover,
+            // redirect: '/code/catalog'
         },
         {
-          path: ':type/:filename',
-          name: 'MEssay',
-          component: essay,
-        }
-      ]
-    },
-    {
-      path: '/code',
-      name: 'PCbody',
-      component: PCbody,
-      children: [
-        {
-          path: ':type',
-          name: 'PCbody',
-          component: PCbody,
+            path: '/home',
+            name: 'home',
+            component: home,
+            // redirect: '/code/catalog'
         },
         {
-          path: ':type/:filename',
-          name: 'PCbody',
-          component: PCbody,
-        }
-      ]
-    },
-    { path: '*', component: notFound }
-  ]
+            path: '/m/code',
+            name: 'MWrap',
+            component: MWrap,
+            children: [
+                {
+                    path: ':filename',
+                    name: 'MEssay',
+                    component: essay,
+                }
+            ]
+        },
+        {
+            path: '/code',
+            name: 'PCbody',
+            component: PCbody,
+            children: [
+                {
+                    path: ':filename',
+                    name: 'PCbody',
+                    component: PCbody,
+                }
+            ]
+        },
+        { path: '*', component: notFound }
+    ]
 })
 
 // routers.push('/home')

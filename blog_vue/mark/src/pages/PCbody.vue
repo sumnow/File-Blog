@@ -90,7 +90,7 @@ export default {
       },
       catalogSwap: true,
       // isCatalogFloat: false,
-      typeList: [],
+      tagList: [],
       catalogList: [],
       showCatalogList: [],
       activeArr: {
@@ -104,31 +104,24 @@ export default {
     };
   },
   computed: {
-    activeArrType() {
-      return this.activeArr.type;
-    },
-    tagList() {
-      return (
-        (this.catalogList &&
-          Array.from(
-            new Set([].concat(...this.catalogList.map(e => e.tags)))
-          )) ||
-        []
-      );
-    }
+    // tagList() {
+    //   return (
+    //     (this.catalogList &&
+    //       Array.from(
+    //         new Set(
+    //           [].concat(
+    //             this.catalogList.reduce((a, b) => a.tag.concat(b.tag), [])
+    //           )
+    //         )
+    //       )) ||
+    //     []
+    //   );
+    // }
   },
   watch: {
-    activeArrType(n, o) {
-      // log.blue(`set ${o}=>${n}`);
-      // setTimeout(() => {
-      this.catalogList = this.showCatalogList = this.typeList.filter(
-        e => e.typeName == this.activeArrType
-      )[0].data;
-
-      // }, 300);
-    },
     searchKeyword(val) {
       const reg = new RegExp(`${val}`, "ig");
+      console.log(this.tagList);
       this.showCatalogList = this.catalogList.filter(e => reg.test(e.input));
       return val;
       // this.filterTitleArr = this.titleArr.filter(e => reg.test(e.input));
@@ -147,32 +140,8 @@ export default {
       });
       this.searchKeyword = "";
     },
-    selectByType(e, i) {
-      if (this.beforeChange.locked) {
-        return;
-      } else {
-        this.beforeChange.locked = true;
-        setTimeout(() => {
-          this.beforeChange.index = i;
-          this.beforeChange.locked = false;
-        }, 1000);
-        this.activeArr.type = e;
-        this.activeArr.tag = "";
-        this.activeArr.typeIndex = i;
-        this.$router.push(`/code/${e}`);
-        this.searchKeyword = "";
-      }
-    },
     toEssay(item) {
-      if (item.input === "ERROR") {
-        console.warn(`[FILE ERROR]:${item.input}`);
-        return void 0;
-      }
-      this.$router.push(
-        `/code/${this.$route.params.type}/${encodeURIComponent(
-          encodeURIComponent(item.input)
-        )}`
-      );
+      this.$router.push(`/code/${item.date + item.number}`);
       this.activeArr.essay = item.name;
       this.hackReset = false;
       this.$nextTick(() => {
@@ -191,30 +160,22 @@ export default {
       url: "/catalog",
       method: "GET"
     }).then(res => {
-      this.typeList = res.map((e, i) => {
+      this.showCatalogList = this.catalogList = res.map(e => {
         return {
-          index: i,
-          typeName: e
+          name: e.title,
+          date: e.date,
+          number: e.number,
+          tag: e.tag || []
         };
       });
-      Promise.all(
-        this.typeList.map(e => {
-          return fetch({
-            url: "/catalog",
-            method: "GET",
-            params: {
-              type: e.typeName
-            }
-          });
-        })
-      ).then(res => {
-        this.typeList.forEach((e, i) => {
-          this.typeList[i].data = res[i].reverse().map(el => {
-            return this.parseFileName(el);
-          });
-        });
-        this.activeArr["type"] = this.$route.params.type;
-      });
+      this.tagList = Array.from(
+        new Set(
+          this.catalogList.reduce((a, b) => {
+            return { tag: [...a.tag, ...b.tag] };
+          }).tag
+        )
+      );
+      console.log(this.tagList);
     });
   },
   mounted() {}
