@@ -8,19 +8,21 @@
       </div>
     </div>
     <div class="scroll-wrap">
-      <div class="content" id="content-article">
-        <div class="content-text" id="content-text" v-html="content"></div>
+      <div class="mob-content" id="content-article">
+        <div class="mob-content-text" id="content-text" v-html="content"></div>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import {request} from "@/service";
+import { request } from "@/service";
 import colorList from "@/util";
+import { commonMixin } from "../util/mixin.js";
 
 export default {
-  name: "contentArticle",
+  name: "Mcontent",
+  mixins: [commonMixin],
   data() {
     return {
       content: ""
@@ -47,10 +49,6 @@ export default {
       .getElementById("content-article")
       .addEventListener("scroll", this.handleScroll);
 
-    const changeImgURL = data => {
-      const reg = /!\[(\w+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg))\)/g;
-      return data.replace(reg, "![$1](markdown/knowledge$2)");
-    };
 
     //
     function changeKeyWord(color, data) {
@@ -74,7 +72,7 @@ export default {
         filename: this.$route.params.filename
       },
       success: data => {
-        data = changeImgURL(data);
+        data = this.changeImgURL(data);
 
         let markdata = this.marked(data);
 
@@ -113,13 +111,13 @@ export default {
   justify-content: space-around;
 }
 
-.content {
-  height: 75vh;
+.mob-content {
+  height: 85vh;
   width: 90vw;
   padding: 0 5vw 0 4vw;
   overflow: auto;
 }
-.content-text {
+.mob-content-text {
   overflow: hidden;
 }
 /* .content-text:before,.content-text:after {

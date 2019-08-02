@@ -6,18 +6,18 @@
           :class="['module-title_wrap',showCatalog? '':'display_title']"
           @click="showCatalog=!showCatalog"
         >
-          <div :class="['module-title_inner',showCatalog?'' : 'display_title']">{{hrefList[0].name}}</div>
+          <div :class="['module-title_inner',showCatalog?'' : 'display_title']">{{title.title}}</div>
         </div>
-        <!-- <div class="module-tag">{{fileNameInfo[5]}}</div> -->
+        <!-- <div class="module-tag">{{dateInfo[5]}}</div> -->
       </div>
       <div class="module-date_wrap">
-        <div class="module-date_date">{{fileNameInfo[3]}}</div>
+        <div class="module-date_date">{{dateInfo[3]}}</div>
         <div class="module-date_line">
           <svg width="100%" height="100%" version="1.1">
-            <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1"></line>
+            <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1" />
           </svg>
         </div>
-        <div class="module-date_month">{{fileNameInfo[2]}}-{{fileNameInfo[1]}}</div>
+        <div class="module-date_month">{{dateInfo[2]}}/{{dateInfo[1]}}</div>
         <div class="module-date_day">{{currentDay}}</div>
       </div>
     </div>
@@ -25,12 +25,13 @@
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
         <div class="ul-content-href">
           <div
-            class="li-content-href"
+            :class="['li-content-href', item.active ? 'active' : '']"
             v-for="item in hrefList"
             :key="item.href"
-            :style="{ marginLeft: `${item.level*10}px`}"
+            :style="{ paddingLeft: `${item.level*10}px`}"
+            @click="gotoActive(item)"
           >
-            <div :href="item.href" @click="gotoActive(item)">{{ `${item.no}. ${item.name}`}}</div>
+            <div :href="item.href">{{ `${item.no}. ${item.name}`}}</div>
           </div>
         </div>
       </div>
@@ -54,10 +55,12 @@ export default {
   data() {
     return {
       content: "",
+      title: {},
       showCatalog: true,
       hrefList: [],
+      hrefListActive: undefined,
       scorllMark: 0,
-      fileNameInfo: [],
+      dateInfo: [],
       HEADERHEIGHT: 90
     };
   },
@@ -74,7 +77,7 @@ export default {
         "Thursday",
         "Friday",
         "Saturday"
-      ][this.fileNameInfo[6]];
+      ][this.dateInfo[4]];
     }
   },
   methods: {
@@ -82,26 +85,23 @@ export default {
       this.$router.go(-1);
     },
     gotoActive(item) {
-      this.hrefList.map(e => {
+      this.hrefList.forEach(e => {
         var x = document.querySelector(e.href);
         e.scrollTop = x.offsetTop;
+        e.active = false;
       });
       document.querySelector(".module-content-scroll_wrap").scrollTo({
         top: item.scrollTop - this.HEADERHEIGHT,
         left: 0,
         behavior: "smooth"
       });
+      item.active = true;
     },
     handleScroll(e) {
       window.location.hash = `${Math.ceil(e.target.scrollTop).toString(32)}`;
     }
   },
   created() {
-    const changeImgURL = data => {
-      const reg = /!\[(\S+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg|bmp|gif|svg|webp))\)/g;
-      return data.replace(reg, "![$1](../../markdown/knowledge$2)");
-    };
-
     //
     function changeKeyWord(color, data) {
       const regs = color.keyword.reduce((a, b) => {
@@ -115,26 +115,29 @@ export default {
       const reg2 = /[^:|>](\/\/.+\n)/g;
       return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
     }
+    function handleDate(str) {
+      return str.match(/(\d{4})(\d{2})(\d{2})/);
+    }
     if (this.$route.params.filename) {
       request({
         url: `/catalog`,
         method: "GET",
         params: {
-          type: this.$route.params.type,
           filename: this.$route.params.filename
         },
         success: data => {
-          const obj = {};
-          obj.name = decodeURIComponent(this.$route.params.filename);
-          const reg = this.regFileName;
-          const _arr = obj.name.match(reg);
-          this.fileNameInfo = _arr.slice(0);
-          this.fileNameInfo.push(
-            new Date(`${_arr[1]}-${_arr[2]}-${_arr[3]}`).getDay()
-          );
-          // log.red(this.fileNameInfo);
-
-          data = changeImgURL(data);
+          if (true) {
+            data = data[0];
+            this.title = { title: data.title, tag: data.tag };
+            this.dateInfo = handleDate(data.date);
+            this.dateInfo.push(
+              new Date(
+                `${this.dateInfo[1]}/${this.dateInfo[2]}/${this.dateInfo[3]}`
+              ).getDay()
+            );
+          }
+          data = data.content;
+          data = this.changeImgURL(data);
 
           let markdata = this.marked(data);
 
@@ -152,7 +155,8 @@ export default {
               order: i,
               level: e.replace(_reg, "$1"),
               href: e.replace(_reg, "#$2"),
-              name: e.replace(_reg, "$3")
+              name: e.replace(_reg, "$3"),
+              active: false
             };
           });
           const _list = [];
@@ -247,10 +251,10 @@ export default {
   grid-area: day;
   box-sizing: border-box;
   width: 120px;
-  padding-top: 15px;
-  height: 15px;
-  font-size: 18px;
-  line-height: 15px;
+  padding-top: 8px;
+  height: 26px;
+  font-size: 26px;
+  line-height: 26px;
 }
 .module-date_line {
   grid-area: line;
@@ -261,10 +265,9 @@ export default {
   flex: 1;
 }
 .module-title_wrap {
-  /* width: 40vw; */
-  height: 40px;
+  height: 70px;
   font-size: 30px;
-  line-height: 40px;
+  line-height: 70px;
   font-weight: 600;
   transition: all 1s;
   transform: translateX(20%);
@@ -273,7 +276,7 @@ export default {
 .module-title_wrap.display_title {
   /* letter-spacing: 0px;  */
   transform: translateX(0%);
-  transition: all 1s;
+  transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .module-title_inner {
   margin-left: 0;
@@ -317,25 +320,38 @@ export default {
 .module-catalog-href_wrap {
   width: 0vw;
   height: calc(100vh - 90px);
-  background: #ccc;
-  transition: all 1s;
+  /* background: #fff; */
+  background-color: var(--primary-color);
+  transition: all 1s 0.45s;
   overflow: auto;
 }
 .module-catalog-href_wrap.display_catalog {
   width: 20vw;
 }
+.ul-content-href {
+  width: 20vw;
+}
 
 .li-content-href {
   display: flex;
-  margin: 20px 0;
+  padding: 20px 0;
   line-height: 1.5;
   opacity: 0;
   overflow: hidden;
-  transition: all 1s;
+  word-break: break-all;
+  /* border-color: #e36209 #e1e4e8 transparent; */
+}
+
+.li-content-href:hover {
+  cursor: pointer;
+}
+.li-content-href.active {
+  background: var(--background-color);
 }
 
 .display_catalog .li-content-href {
   opacity: 1;
+  /* background: var(--background-color); */
 }
 
 .module-content-text {

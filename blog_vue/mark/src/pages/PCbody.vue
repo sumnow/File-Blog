@@ -7,20 +7,36 @@
     <!-- <div :class="{'catalog-profile_pc':true, 'float': isCatalogFloat, }"> -->
     <div :class="['catalog-profile_pc',  catalogSwap ? 'swapleft' : 'swapright' ]">
       <!-- arrow -->
-      <div class="catalog-arrow_pc" @click="swapCatalog"></div>
+      <div v-show="!catalogSwap" class="catalog-arrow_pc" @click="swapCatalog"></div>
       <!-- tag -->
-      <div class="flexbox catalog-title_pc">
-        <!-- <div class="flexbox"> -->
-        <div
+      <div class="catalog-search_pc">
+        <input
+          :class="[catalogSearchFocus ? 'catalog-search_pc_focus': '']"
+          @focus="handlerFocusSearch"
+          @blur="handlerLeaveSearch"
+          v-model.trim="searchKeyword"
+        />
+        <div class="catalog-search-icon_pc">
+          <svg id="icon-search" viewBox="0 0 24 24">
+            <title>search</title>
+            <path
+              d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"
+            />
+          </svg>
+        </div>
+      </div>
+      <!-- <div class="flexbox catalog-title_pc"> -->
+      <!-- <div class="flexbox"> -->
+      <!-- <div
           v-for="(item,index) in typeList"
           :key="index"
           :class="{ deactive: activeArr.type != item.typeName }"
           @click="selectByType(item.typeName, index)"
         >
           <span>{{item.typeName}}</span>
-        </div>
-        <!-- </div> -->
-      </div>
+      </div>-->
+      <!-- </div> -->
+      <!-- </div> -->
       <!-- catalog -->
       <div
         :class="{'catalog-body_pc': true, 'before-transformed': beforeChange.index > activeArr.typeIndex, 'after-transformed': beforeChange.index < activeArr.typeIndex }"
@@ -44,10 +60,10 @@
         <div
           v-for="(item,index) in tagList"
           :key="index"
-          :class="{ deactive: activeArr.tag != item }"
+          :class="{ deactive: activeArr.tag != item.tagName }"
           @click="selectByTag(item)"
         >
-          <span>{{item}}</span>
+          <span>{{item.tagName}}({{item.tagTotal}})</span>
         </div>
       </div>
     </div>
@@ -60,7 +76,7 @@ import essay from "@/components/Essay";
 import { commonMixin } from "@/util/mixin.js";
 
 export default {
-  name: "hello",
+  name: "PCbody",
   components: {
     essay: essay
   },
@@ -74,7 +90,7 @@ export default {
       },
       catalogSwap: true,
       // isCatalogFloat: false,
-      typeList: [],
+      tagList: [],
       catalogList: [],
       showCatalogList: [],
       activeArr: {
@@ -82,32 +98,32 @@ export default {
         typeIndex: 0,
         type: "",
         essay: ""
-      }
+      },
+      searchKeyword: "",
+      catalogSearchFocus: false
     };
   },
   computed: {
-    activeArrType() {
-      return this.activeArr.type;
-    },
-    tagList() {
-      return (
-        (this.catalogList &&
-          Array.from(
-            new Set([].concat(...this.catalogList.map(e => e.tags)))
-          )) ||
-        []
-      );
-    }
+    // tagList() {
+    //   return (
+    //     (this.catalogList &&
+    //       Array.from(
+    //         new Set(
+    //           [].concat(
+    //             this.catalogList.reduce((a, b) => a.tag.concat(b.tag), [])
+    //           )
+    //         )
+    //       )) ||
+    //     []
+    //   );
+    // }
   },
   watch: {
-    activeArrType(n, o) {
-      // log.blue(`set ${o}=>${n}`);
-      // setTimeout(() => {
-      this.catalogList = this.showCatalogList = this.typeList.filter(
-        e => e.typeName == this.activeArrType
-      )[0].data;
-
-      // }, 300);
+    searchKeyword(val) {
+      const reg = new RegExp(`${val}`, "ig");
+      console.log(this.tagList);
+      this.showCatalogList = this.catalogList.filter(e => reg.test(e.file));
+      return val;
     }
   },
   methods: {
@@ -115,37 +131,25 @@ export default {
       this.catalogSwap = !this.catalogSwap;
     },
     selectByTag(i) {
-      this.activeArr.tag = i;
+      this.activeArr.tag = i.tagName;
       this.showCatalogList = this.catalogList.filter(e => {
-        return e.tags.includes(i);
+        return e.tag.includes(i.tagName);
       });
-    },
-    selectByType(e, i) {
-      if (this.beforeChange.locked) {
-        return;
-      } else {
-        this.beforeChange.locked = true;
-        setTimeout(() => {
-          this.beforeChange.index = i;
-          this.beforeChange.locked = false;
-        }, 1000);
-        this.activeArr.type = e;
-        this.activeArr.tag = "";
-        this.activeArr.typeIndex = i;
-        this.$router.push(`/code/${e}`);
-      }
+      this.searchKeyword = "";
     },
     toEssay(item) {
-      this.$router.push(
-        `/code/${this.$route.params.type}/${encodeURIComponent(
-          encodeURIComponent(item.input)
-        )}`
-      );
+      this.$router.push(`/code/${item.date + item.number}`);
       this.activeArr.essay = item.name;
       this.hackReset = false;
       this.$nextTick(() => {
         this.hackReset = true;
       });
+    },
+    handlerFocusSearch() {
+      this.catalogSearchFocus = true;
+    },
+    handlerLeaveSearch() {
+      this.catalogSearchFocus = false;
     }
   },
   created() {
@@ -153,42 +157,41 @@ export default {
       url: "/catalog",
       method: "GET"
     }).then(res => {
-      this.typeList = res.map((e, i) => {
+      this.showCatalogList = this.catalogList = res.map(e => {
         return {
-          index: i,
-          typeName: e
+          file: e.name,
+          name: e.title,
+          date: e.date,
+          number: e.number,
+          tag: e.tag || []
+        };
+      });
+      const sl = Array.from(
+        new Set(
+          this.catalogList.reduce((a, b) => {
+            return { tag: [...a.tag, ...b.tag] };
+          }).tag
+        )
+      );
+      const obj = {};
+      sl.forEach(element => {
+        obj[element] = 0;
+      });
+
+      res.forEach(e => {
+        e.tag.forEach(se => {
+          obj[se]++;
+        });
+      });
+      console.log(obj);
+      this.tagList = Object.keys(obj).map(e => {
+        return {
+          tagTotal: obj[e],
+          tagName: e
         };
       });
 
-      Promise.all(
-        this.typeList.map(e => {
-          return fetch({
-            url: "/catalog",
-            method: "GET",
-            params: {
-              type: e.typeName
-            }
-          });
-        })
-      ).then(res => {
-        const reg = this.regFileName;
-        this.typeList.forEach((e, i) => {
-          this.typeList[i].data = res[i].reverse().map(el => {
-            const _arr = el.replace(/\.md/,'').match(reg);
-            if (_arr) {
-              return {
-                date: `${_arr[1]}-${_arr[2]}-${_arr[3]}` || "",
-                name: _arr[4].replace(/\_/g, " ") || "",
-                tags: _arr[5].split(",") || "",
-                input: _arr["input"] || ""
-              };
-            } else {
-              console.warn(`parse ${e} error`);
-            }
-          });
-        });
-        this.activeArr["type"] = this.$route.params.type;
-      });
+      console.log(this.tagList);
     });
   },
   mounted() {}
@@ -218,25 +221,51 @@ export default {
 .catalog-profile_pc {
   position: absolute;
   display: grid;
-  grid-template: 100px 1fr 100px/100%;
+  grid-template: 40px 1fr 80px/ 1fr;
   grid-template-areas:
-    "title"
+    "search"
     "catalog"
     "tag";
   width: 30vw;
   background-color: var(--primary-color);
   transition: right 0.5s;
 }
+.catalog-search_pc {
+  grid-area: search;
+  position: relative;
+  background: var(--primary-color);
+}
+.catalog-search_pc input {
+  width: 100%;
+  height: 40px;
+  padding: 0 20px 0 50px;
+  font-size: 18px;
+  background: var(--primary-color);
+  outline: none;
+  border: none;
+  transition: background 0.25s;
+}
+.catalog-search_pc .catalog-search_pc_focus {
+  background: var(--background-color);
+}
+.catalog-search-icon_pc {
+  position: absolute;
+  left: 10px;
+  top: 5px;
+  width: 30px;
+  height: 30px;
+}
 .catalog-arrow_pc {
   position: absolute;
-  left: -10px;
-  width: 12px;
-  grid-area: arrow;
-  height: 100px;
-  background-color: var(--background-color);
-  border-radius: 0 0 0 8px;
+  left: -2vw;
+  bottom: 0;
+  width: 2vw;
+  height: 100vh;
+  background: var(--primary-color);
+  /* var(--primary-color); */
+  /* border-radius: 0 0 0 8px;
   border-left: 1px solid var(--primary-color);
-  border-bottom: 1px solid var(--primary-color);
+  border-bottom: 1px solid var(--primary-color); */
 }
 .catalog-title_pc {
   grid-area: title;
@@ -248,21 +277,19 @@ export default {
   display: flex;
   flex: 1;
   align-items: center;
-  height: 100px;
+  height: 80px;
   text-align: center;
   background: var(--background-color);
 }
 .catalog-title_pc span {
   width: 100%;
 }
-.catalog-title_pc div {
-}
 .catalog-title_pc .deactive {
   background: var(--primary-color);
 }
 .catalog-body_pc {
   grid-area: catalog;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 120px);
   line-height: 30px;
   overflow: auto;
 }
@@ -385,7 +412,8 @@ export default {
   overflow-x: auto;
 }
 .catalog-tag_pc > div {
-  height: 100px;
+  height: 80px;
+  padding: 0 10px;
   flex: 1;
   display: flex;
   text-align: center;

@@ -18,9 +18,11 @@
 <script>
 import { request } from "@/service";
 import colorList from "@/util";
+import { commonMixin } from "../util/mixin.js";
 
 export default {
-  name: "essay",
+  name: "MEssay",
+  mixins: [commonMixin],
   data() {
     return {
       content: ""
@@ -47,11 +49,6 @@ export default {
       .getElementById("content-article")
       .addEventListener("scroll", this.handleScroll);
 
-    const changeImgURL = data => {
-      const reg = /!\[(\S+)\]\(\.\.\/\.\.(\/img\/\w+\.(png|jpg|bmp|gif|svg|webp))\)/g;
-      return data.replace(reg, "![$1](../../markdown/knowledge$2)");
-    };
-
     //
     function changeKeyWord(color, data) {
       const regs = color.keyword.reduce((a, b) => {
@@ -74,7 +71,7 @@ export default {
           filename: this.$route.params.filename
         },
         success: data => {
-          data = changeImgURL(data);
+          data = this.changeImgURL(data);
 
           let markdata = this.marked(data);
 
