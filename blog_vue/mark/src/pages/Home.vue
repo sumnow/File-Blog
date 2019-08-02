@@ -1,30 +1,15 @@
 <template>
-  <div class>
-    <Cover></Cover>
-    <div class="navigate-home_wrapper">
-      <div class="navigator-home">
-        <div v-for="item in list" :key="item" @click="toCatalog(item)">{{item}}</div>
-      </div>
-    </div>
-  </div>
+  <div></div>
 </template>
 
 <script>
 import { request } from "@/service";
-import Cover from "@/pages/Cover";
 import { commonMixin } from "@/util/mixin";
 
 export default {
   name: "home",
-  components: {
-    Cover
-  },
   mixin: [commonMixin],
-  data() {
-    return {
-      list: []
-    };
-  },
+  data() {},
   methods: {},
   created() {
     if (window.isComputer) {

@@ -25,18 +25,18 @@
           </svg>
         </div>
       </div>
-      <div class="flexbox catalog-title_pc">
-        <!-- <div class="flexbox"> -->
-        <!-- <div
+      <!-- <div class="flexbox catalog-title_pc"> -->
+      <!-- <div class="flexbox"> -->
+      <!-- <div
           v-for="(item,index) in typeList"
           :key="index"
           :class="{ deactive: activeArr.type != item.typeName }"
           @click="selectByType(item.typeName, index)"
         >
           <span>{{item.typeName}}</span>
-        </div>-->
-        <!-- </div> -->
-      </div>
+      </div>-->
+      <!-- </div> -->
+      <!-- </div> -->
       <!-- catalog -->
       <div
         :class="{'catalog-body_pc': true, 'before-transformed': beforeChange.index > activeArr.typeIndex, 'after-transformed': beforeChange.index < activeArr.typeIndex }"
@@ -60,10 +60,10 @@
         <div
           v-for="(item,index) in tagList"
           :key="index"
-          :class="{ deactive: activeArr.tag != item }"
+          :class="{ deactive: activeArr.tag != item.tagName }"
           @click="selectByTag(item)"
         >
-          <span>{{item}}</span>
+          <span>{{item.tagName}}({{item.tagTotal}})</span>
         </div>
       </div>
     </div>
@@ -122,11 +122,8 @@ export default {
     searchKeyword(val) {
       const reg = new RegExp(`${val}`, "ig");
       console.log(this.tagList);
-      this.showCatalogList = this.catalogList.filter(e => reg.test(e.input));
+      this.showCatalogList = this.catalogList.filter(e => reg.test(e.file));
       return val;
-      // this.filterTitleArr = this.titleArr.filter(e => reg.test(e.input));
-      // this.title = this.catalogPage(this.filterTitleArr);
-      // this.backtoFirst();
     }
   },
   methods: {
@@ -134,9 +131,9 @@ export default {
       this.catalogSwap = !this.catalogSwap;
     },
     selectByTag(i) {
-      this.activeArr.tag = i;
+      this.activeArr.tag = i.tagName;
       this.showCatalogList = this.catalogList.filter(e => {
-        return e.tags.includes(i);
+        return e.tag.includes(i.tagName);
       });
       this.searchKeyword = "";
     },
@@ -162,19 +159,38 @@ export default {
     }).then(res => {
       this.showCatalogList = this.catalogList = res.map(e => {
         return {
+          file: e.name,
           name: e.title,
           date: e.date,
           number: e.number,
           tag: e.tag || []
         };
       });
-      this.tagList = Array.from(
+      const sl = Array.from(
         new Set(
           this.catalogList.reduce((a, b) => {
             return { tag: [...a.tag, ...b.tag] };
           }).tag
         )
       );
+      const obj = {};
+      sl.forEach(element => {
+        obj[element] = 0;
+      });
+
+      res.forEach(e => {
+        e.tag.forEach(se => {
+          obj[se]++;
+        });
+      });
+      console.log(obj);
+      this.tagList = Object.keys(obj).map(e => {
+        return {
+          tagTotal: obj[e],
+          tagName: e
+        };
+      });
+
       console.log(this.tagList);
     });
   },
@@ -205,10 +221,9 @@ export default {
 .catalog-profile_pc {
   position: absolute;
   display: grid;
-  grid-template: 40px 80px 1fr 80px/ 1fr;
+  grid-template: 40px 1fr 80px/ 1fr;
   grid-template-areas:
     "search"
-    "title"
     "catalog"
     "tag";
   width: 30vw;
@@ -274,7 +289,7 @@ export default {
 }
 .catalog-body_pc {
   grid-area: catalog;
-  height: calc(100vh - 200px);
+  height: calc(100vh - 120px);
   line-height: 30px;
   overflow: auto;
 }
@@ -398,6 +413,7 @@ export default {
 }
 .catalog-tag_pc > div {
   height: 80px;
+  padding: 0 10px;
   flex: 1;
   display: flex;
   text-align: center;

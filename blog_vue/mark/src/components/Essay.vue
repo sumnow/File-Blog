@@ -6,18 +6,18 @@
           :class="['module-title_wrap',showCatalog? '':'display_title']"
           @click="showCatalog=!showCatalog"
         >
-          <div :class="['module-title_inner',showCatalog?'' : 'display_title']">{{hrefList[0].name}}</div>
+          <div :class="['module-title_inner',showCatalog?'' : 'display_title']">{{title.title}}</div>
         </div>
-        <!-- <div class="module-tag">{{fileNameInfo[5]}}</div> -->
+        <!-- <div class="module-tag">{{dateInfo[5]}}</div> -->
       </div>
       <div class="module-date_wrap">
-        <div class="module-date_date">{{fileNameInfo[0]}}</div>
+        <div class="module-date_date">{{dateInfo[3]}}</div>
         <div class="module-date_line">
           <svg width="100%" height="100%" version="1.1">
             <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1" />
           </svg>
         </div>
-        <div class="module-date_month">{{fileNameInfo[2]}}/{{fileNameInfo[1]}}</div>
+        <div class="module-date_month">{{dateInfo[2]}}/{{dateInfo[1]}}</div>
         <div class="module-date_day">{{currentDay}}</div>
       </div>
     </div>
@@ -55,11 +55,12 @@ export default {
   data() {
     return {
       content: "",
+      title: {},
       showCatalog: true,
       hrefList: [],
       hrefListActive: undefined,
       scorllMark: 0,
-      fileNameInfo: [],
+      dateInfo: [],
       HEADERHEIGHT: 90
     };
   },
@@ -76,7 +77,7 @@ export default {
         "Thursday",
         "Friday",
         "Saturday"
-      ][this.fileNameInfo[3]];
+      ][this.dateInfo[4]];
     }
   },
   methods: {
@@ -114,6 +115,9 @@ export default {
       const reg2 = /[^:|>](\/\/.+\n)/g;
       return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
     }
+    function handleDate(str) {
+      return str.match(/(\d{4})(\d{2})(\d{2})/);
+    }
     if (this.$route.params.filename) {
       request({
         url: `/catalog`,
@@ -122,14 +126,17 @@ export default {
           filename: this.$route.params.filename
         },
         success: data => {
-          const fileInfo = [
-            decodeURIComponent(this.$route.params.filename)
-          ].map(e => {
-            return this.parseFileName(e);
-          })[0];
-          this.fileNameInfo = fileInfo.date.split("-").reverse();
-          this.fileNameInfo.push(new Date(fileInfo.date).getDay());
-          data = data[0].content;
+          if (true) {
+            data = data[0];
+            this.title = { title: data.title, tag: data.tag };
+            this.dateInfo = handleDate(data.date);
+            this.dateInfo.push(
+              new Date(
+                `${this.dateInfo[1]}/${this.dateInfo[2]}/${this.dateInfo[3]}`
+              ).getDay()
+            );
+          }
+          data = data.content;
           data = this.changeImgURL(data);
 
           let markdata = this.marked(data);
@@ -258,10 +265,9 @@ export default {
   flex: 1;
 }
 .module-title_wrap {
-  /* width: 40vw; */
-  height: 40px;
+  height: 70px;
   font-size: 30px;
-  line-height: 40px;
+  line-height: 70px;
   font-weight: 600;
   transition: all 1s;
   transform: translateX(20%);
@@ -270,7 +276,7 @@ export default {
 .module-title_wrap.display_title {
   /* letter-spacing: 0px;  */
   transform: translateX(0%);
-  transition: all 1s;
+  transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
 }
 .module-title_inner {
   margin-left: 0;
@@ -316,10 +322,13 @@ export default {
   height: calc(100vh - 90px);
   /* background: #fff; */
   background-color: var(--primary-color);
-  transition: all 1s;
+  transition: all 1s 0.45s;
   overflow: auto;
 }
 .module-catalog-href_wrap.display_catalog {
+  width: 20vw;
+}
+.ul-content-href {
   width: 20vw;
 }
 
@@ -329,7 +338,7 @@ export default {
   line-height: 1.5;
   opacity: 0;
   overflow: hidden;
-  transition: width 1s;
+  word-break: break-all;
   /* border-color: #e36209 #e1e4e8 transparent; */
 }
 

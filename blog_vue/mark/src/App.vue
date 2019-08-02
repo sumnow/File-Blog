@@ -1,6 +1,5 @@
 <template>
-  <div id="app" @click="hello">
-    <div class="ripple-wrap" id="ripple" :class="[boolRapple ? 'active' : '' ]" ref="ripple"></div>
+  <div id="app">
     <keep-alive include="cover">
       <router-view />
     </keep-alive>
@@ -15,27 +14,18 @@ export default {
   name: "app",
   mixin: [commonMixin],
   data() {
-    return {
-      boolRapple: false
-    };
+    return {};
   },
   methods: {
     hello(e) {
-      this.boolRapple = true;
-      //   document.querySelector('#ripple').offsetLeft = e.pageX
-      //   document.querySelector('#ripple').offsetTop = e.pageY
-      document.querySelector("#ripple").style.left = e.pageX - 50 + "px";
-      document.querySelector("#ripple").style.top = e.pageY - 50 + "px";
-      if (window.ripple) {
-        clearTimeout(ripple);
-      }
-      window.ripple = setTimeout(() => {
-        this.boolRapple = false;
-      }, 1000);
+      this.$refs.ripple.hello({
+        x: e.x,
+        y: e.y
+      });
     }
   },
   mounted() {
-    console.log("version: v3.3.8");
+    console.log("version: v3.4.0");
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
@@ -733,69 +723,6 @@ code {
   }
   pre {
     word-wrap: break-word;
-  }
-}
-
-.ripple-wrap {
-  position: absolute;
-  content: "";
-  left: 50px;
-  top: 50px;
-  width: 100px;
-  height: 100px;
-  opacity: 0;
-  box-shadow: 0 0 20px 1px red;
-  border-radius: 50px;
-}
-.ripple-wrap:before {
-  position: absolute;
-  content: "";
-  left: -1px;
-  top: -1px;
-  width: 100px;
-  height: 100px;
-  opacity: 0;
-  box-shadow: 0 0 20px 1px blue;
-  border-radius: 50px;
-}
-.ripple-wrap:after {
-  position: absolute;
-  content: "";
-  left: -1px;
-  top: -1px;
-  width: 100px;
-  height: 100px;
-  opacity: 0;
-  box-shadow: 0 0 20px 1px green;
-  border-radius: 50px;
-}
-.ripple-wrap.active {
-  animation: doc ease-in 1s;
-  animation-delay: 0s;
-  animation-fill-mode: forwards;
-}
-.ripple-wrap.active:before {
-  animation: doc ease-in 1s;
-  animation-delay: 0.1s;
-  animation-fill-mode: forwards;
-}
-.ripple-wrap.active:after {
-  animation: doc ease-in 1s;
-  animation-delay: 0.2s;
-  animation-fill-mode: forwards;
-}
-@keyframes doc {
-  0% {
-    transform: scale(0);
-    opacity: 1;
-  }
-  90% {
-    transform: scale(1);
-    opacity: 0.5;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 0;
   }
 }
 </style>
