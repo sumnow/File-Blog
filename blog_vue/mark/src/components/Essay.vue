@@ -23,17 +23,7 @@
     </div>
     <div class="module-bottom_wrap" v-if="content" @click="$emit('closeSwap')">
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
-        <div class="ul-content-href">
-          <div
-            :class="['li-content-href', item.active ? 'active' : '']"
-            v-for="item in hrefList"
-            :key="item.href"
-            :style="{ paddingLeft: `${item.level*10}px`}"
-            @click="gotoActive(item)"
-          >
-            <div :href="item.href">{{ `${item.no}. ${item.name}`}}</div>
-          </div>
-        </div>
+        <Directory :hrefList="hrefList" />
       </div>
       <div class="module-content-scroll_wrap" @scroll="handleScroll">
         <div class="module-content-text" id="module-content-text" v-html="content"></div>
@@ -47,6 +37,7 @@
 import { request } from "../service";
 import colorList from "../util";
 import loading from "./SecondLoading";
+import Directory from "./Directory";
 import { commonMixin } from "../util/mixin.js";
 
 export default {
@@ -65,7 +56,8 @@ export default {
     };
   },
   components: {
-    loading
+    loading,
+    Directory
   },
   computed: {
     currentDay() {
@@ -84,6 +76,7 @@ export default {
     back() {
       this.$router.go(-1);
     },
+    // Directory component
     gotoActive(item) {
       this.hrefList.forEach(e => {
         var x = document.querySelector(e.href);
@@ -150,36 +143,27 @@ export default {
 
           this.content = changeAnnnotationReg(markdata);
           const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
+          var obj = {};
           this.hrefList = this.content.match(_reg).map((e, i) => {
             return {
               order: i,
+              no: `${e.replace(_reg, "$1")}.`,
+
               level: e.replace(_reg, "$1"),
               href: e.replace(_reg, "#$2"),
               name: e.replace(_reg, "$3"),
               active: false
             };
           });
-          const _list = [];
-          Array.from(new Set(this.hrefList.map(e => e.level))).forEach(e => {
-            _list.push(
-              ...this.hrefList
-                .filter(se => se.level === e)
-                .map((ge, gi) => {
-                  return {
-                    no: `${ge.level}.${gi}`,
-                    ...ge
-                  };
-                })
-            );
+          const _list = new Object();
+          this.hrefList.forEach(e => {
+            if (_list.hasOwnProperty(e.level)) {
+              _list[e.level]++;
+            } else {
+              _list[e.level] = 1;
+            }
+            e.no += _list[e.level];
           });
-          this.hrefList = _list;
-          // log.green(_list);
-          // this.$nextTick(() => {
-          //   this.hrefList.map(e => {
-          //     var x = document.querySelector(e.href);
-          //     e.scrollTop = x.offsetTop;
-          //   });
-          // });
         },
         fail: data => {
           this.content = data;
@@ -327,31 +311,6 @@ export default {
 }
 .module-catalog-href_wrap.display_catalog {
   width: 20vw;
-}
-.ul-content-href {
-  width: 20vw;
-}
-
-.li-content-href {
-  display: flex;
-  padding: 20px 0;
-  line-height: 1.5;
-  opacity: 0;
-  overflow: hidden;
-  word-break: break-all;
-  /* border-color: #e36209 #e1e4e8 transparent; */
-}
-
-.li-content-href:hover {
-  cursor: pointer;
-}
-.li-content-href.active {
-  background: var(--background-color);
-}
-
-.display_catalog .li-content-href {
-  opacity: 1;
-  /* background: var(--background-color); */
 }
 
 .module-content-text {

@@ -121,7 +121,6 @@ export default {
   watch: {
     searchKeyword(val) {
       const reg = new RegExp(`${val}`, "ig");
-      console.log(this.tagList);
       this.showCatalogList = this.catalogList.filter(e => reg.test(e.file));
       return val;
     }
@@ -183,7 +182,6 @@ export default {
           obj[se]++;
         });
       });
-      console.log(obj);
       this.tagList = Object.keys(obj).map(e => {
         return {
           tagTotal: obj[e],
@@ -191,7 +189,6 @@ export default {
         };
       });
 
-      console.log(this.tagList);
     });
   },
   mounted() {}

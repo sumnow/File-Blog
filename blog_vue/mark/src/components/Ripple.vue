@@ -15,7 +15,6 @@ export default {
   },
   methods: {
     hello(target) {
-      console.log(this, target);
       this.boolRipple = true;
       let { x, y } = target;
       const { canvas, width, height } = this.canvasObj;
@@ -24,7 +23,6 @@ export default {
       let v = 2;
       function render() {
         r += Math.log((v = v + 1000));
-        console.log(r);
         canvas.clearRect(0, 0, width, height);
         canvas.beginPath();
         canvas.arc(100, 75, r, 0, 2 * Math.PI);

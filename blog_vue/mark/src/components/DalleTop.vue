@@ -1,8 +1,7 @@
 <template>
   <div class="top near" ref="top">
     <div class="header">
-      <div class="header-content">
-      </div>
+      <div class="header-content"></div>
       <div class="arcbg"></div>
     </div>
   </div>
@@ -11,29 +10,27 @@
 <script>
 export default {
   data() {
-    return {
-
-    }
+    return {};
   },
   watch: {
-    $route (e,v) {
-      let arr = this.$refs.top
-      arr.classList.add("near")
+    $route(e, v) {
+      let arr = this.$refs.top;
+      arr.classList.add("near");
       this.changeNear(arr);
     }
   },
   methods: {
     changeNear(target) {
       setTimeout(function() {
-        target.classList.remove("near")
+        target.classList.remove("near");
       }, 750);
     }
   },
-  mounted () {
-    let arr = this.$refs.top
+  mounted() {
+    let arr = this.$refs.top;
     this.changeNear(arr);
   }
-}
+};
 </script>
 
 <style scoped>
@@ -42,7 +39,7 @@ export default {
   z-index: 10;
   height: 50vh;
   transform: translateY(-45vh);
-  transition: all .5s;
+  transition: all 0.5s;
 }
 .top.near {
   transform: translate(0);
