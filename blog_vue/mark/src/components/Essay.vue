@@ -10,16 +10,7 @@
         </div>
         <!-- <div class="module-tag">{{dateInfo[5]}}</div> -->
       </div>
-      <div class="module-date_wrap">
-        <div class="module-date_date">{{dateInfo[3]}}</div>
-        <div class="module-date_line">
-          <svg width="100%" height="100%" version="1.1">
-            <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1" />
-          </svg>
-        </div>
-        <div class="module-date_month">{{dateInfo[2]}}/{{dateInfo[1]}}</div>
-        <div class="module-date_day">{{currentDay}}</div>
-      </div>
+      <DateInfo :dateInfo="dateInfo" />
     </div>
     <div class="module-bottom_wrap" v-if="content" @click="$emit('closeSwap')">
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
@@ -38,6 +29,7 @@ import { request } from "../service";
 import colorList from "../util";
 import loading from "./SecondLoading";
 import Directory from "./Directory";
+import DateInfo from "./DateInfo";
 import { commonMixin } from "../util/mixin.js";
 
 export default {
@@ -57,21 +49,10 @@ export default {
   },
   components: {
     loading,
-    Directory
+    Directory,
+    DateInfo
   },
-  computed: {
-    currentDay() {
-      return [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ][this.dateInfo[4]];
-    }
-  },
+
   methods: {
     back() {
       this.$router.go(-1);
@@ -95,7 +76,6 @@ export default {
     }
   },
   created() {
-    //
     function changeKeyWord(color, data) {
       const regs = color.keyword.reduce((a, b) => {
         return `${a}|${b}`;
@@ -109,7 +89,36 @@ export default {
       return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
     }
     function handleDate(str) {
-      return str.match(/(\d{4})(\d{2})(\d{2})/);
+      this.dateInfo = str.match(/(\d{4})(\d{2})(\d{2})/);
+      this.dateInfo.push(
+        new Date(
+          `${this.dateInfo[1]}/${this.dateInfo[2]}/${this.dateInfo[3]}`
+        ).getDay()
+      );
+    }
+    function handleHrefList() {
+      const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
+      var obj = {};
+      this.hrefList = this.content.match(_reg).map((e, i) => {
+        return {
+          order: i,
+          no: `${e.replace(_reg, "$1")}.`,
+
+          level: e.replace(_reg, "$1"),
+          href: e.replace(_reg, "#$2"),
+          name: e.replace(_reg, "$3"),
+          active: false
+        };
+      });
+      const _list = new Object();
+      this.hrefList.forEach(e => {
+        if (_list.hasOwnProperty(e.level)) {
+          _list[e.level]++;
+        } else {
+          _list[e.level] = 1;
+        }
+        e.no += _list[e.level];
+      });
     }
     if (this.$route.params.filename) {
       request({
@@ -119,18 +128,11 @@ export default {
           filename: this.$route.params.filename
         },
         success: data => {
-          if (true) {
-            data = data[0];
-            this.title = { title: data.title, tag: data.tag };
-            this.dateInfo = handleDate(data.date);
-            this.dateInfo.push(
-              new Date(
-                `${this.dateInfo[1]}/${this.dateInfo[2]}/${this.dateInfo[3]}`
-              ).getDay()
-            );
-          }
-          data = data.content;
-          data = this.changeImgURL(data);
+          data = data[0];
+          this.title = { title: data.title, tag: data.tag };
+          this.handleDate(data.date);
+
+          data = this.changeImgURL(data.content);
 
           let markdata = this.marked(data);
 
@@ -142,28 +144,9 @@ export default {
           });
 
           this.content = changeAnnnotationReg(markdata);
-          const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
-          var obj = {};
-          this.hrefList = this.content.match(_reg).map((e, i) => {
-            return {
-              order: i,
-              no: `${e.replace(_reg, "$1")}.`,
 
-              level: e.replace(_reg, "$1"),
-              href: e.replace(_reg, "#$2"),
-              name: e.replace(_reg, "$3"),
-              active: false
-            };
-          });
-          const _list = new Object();
-          this.hrefList.forEach(e => {
-            if (_list.hasOwnProperty(e.level)) {
-              _list[e.level]++;
-            } else {
-              _list[e.level] = 1;
-            }
-            e.no += _list[e.level];
-          });
+          // directory
+          handleHrefList();
         },
         fail: data => {
           this.content = data;
@@ -198,53 +181,8 @@ export default {
 .content_wrap {
   position: relative;
   height: 100vh;
-  transition-delay: ;
-}
-.module-date_wrap {
-  position: relative;
-  display: grid;
-  grid-template: 30px 10px 30px/90px 20px 140px;
-  grid-template-areas:
-    "date line month"
-    "date line _"
-    "date line day";
-  grid-gap: 0px 10px;
-  width: 280px;
-  height: 70px;
-  padding-right: 10px;
-  font-weight: 800;
 }
 
-.module-date_wrap div {
-}
-.module-date_date {
-  grid-area: date;
-  height: 70px;
-  color: rgb(0, 23, 44);
-  font-size: 84px;
-  line-height: 70px;
-}
-.module-date_month {
-  grid-area: month;
-  width: 140px;
-  height: 30px;
-  font-size: 36px;
-  line-height: 1;
-}
-.module-date_day {
-  grid-area: day;
-  box-sizing: border-box;
-  width: 120px;
-  padding-top: 8px;
-  height: 26px;
-  font-size: 26px;
-  line-height: 26px;
-}
-.module-date_line {
-  grid-area: line;
-  width: 20px;
-  height: 70px;
-}
 .module-header_wrap {
   flex: 1;
 }
@@ -298,7 +236,7 @@ export default {
   width: 100vw;
   height: 90px;
   margin: 0;
-  padding: 10px 2vw;
+  padding: 10px 3vw;
   box-sizing: border-box;
 }
 .module-catalog-href_wrap {
