@@ -13,9 +13,6 @@ import { commonMixin } from "@/util/mixin.js";
 export default {
   name: "app",
   mixin: [commonMixin],
-  data() {
-    return {};
-  },
   methods: {
     hello(e) {
       this.$refs.ripple.hello({
@@ -25,7 +22,7 @@ export default {
     }
   },
   mounted() {
-    console.log("version: v3.4.0");
+    console.log("version: v3.4.2");
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {

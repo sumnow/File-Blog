@@ -10,9 +10,9 @@
     </div>
     <div class="entry-wrap">
       <div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
-        <div class="catalog-entry-son flexbox" @click="showContent(item.input)">
+        <div class="catalog-entry-son flexbox" @click="showContent(item)">
           <div class="catalog-entry-son-name">
-            <span>{{item.name}}</span>
+            <span>{{item.title}}</span>
           </div>
           <!-- <div class="catalog-entry-son-tags">
             <div v-for="(elItem, elIndex) in item.tags" :key="elItem">{{elItem}}</div>
@@ -123,11 +123,8 @@ export default {
 
     //
     showContent(item) {
-      this.$router.push(
-        `${this.$route.params.type}/${encodeURIComponent(
-          encodeURIComponent(item)
-        )}`
-      );
+      console.log(item)
+      this.$router.push('code/'+item.date+item.number);
     },
 
     searchCatalog() {
@@ -166,7 +163,7 @@ export default {
     },
     backtoFirst() {
       this.toNum("home");
-    },
+    },  
     sortReserve() {
       this.titleArr = this.titleArr.reverse();
       this.title = this.catalogPage(this.titleArr);
@@ -191,9 +188,8 @@ export default {
           type: this.$route.params.type
         },
         success: data => {
-          this.titleArr = data.reverse().map(e => {
-            return this.parseFileName(e);
-          });
+          console.log(data)
+          this.titleArr = data.reverse()
           this.title = this.catalogPage(this.titleArr);
         }
       });

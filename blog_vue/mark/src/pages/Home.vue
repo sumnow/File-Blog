@@ -9,7 +9,6 @@ import { commonMixin } from "@/util/mixin";
 export default {
   name: "home",
   mixin: [commonMixin],
-  data() {},
   methods: {},
   created() {
     if (window.isComputer) {

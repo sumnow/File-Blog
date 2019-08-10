@@ -26,7 +26,6 @@
 
 <script>
 import { request } from "../service";
-import colorList from "../util";
 import loading from "./SecondLoading";
 import Directory from "./Directory";
 import DateInfo from "./DateInfo";
@@ -76,50 +75,6 @@ export default {
     }
   },
   created() {
-    function changeKeyWord(color, data) {
-      const regs = color.keyword.reduce((a, b) => {
-        return `${a}|${b}`;
-      });
-      const reg = new RegExp(`\\b(${regs})\\b`, "g");
-      return data.replace(reg, `<font style="color: ${color.color}">$1</font>`);
-    }
-
-    function changeAnnnotationReg(mark) {
-      const reg2 = /[^:|>](\/\/.+\n)/g;
-      return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
-    }
-    function handleDate(str) {
-      this.dateInfo = str.match(/(\d{4})(\d{2})(\d{2})/);
-      this.dateInfo.push(
-        new Date(
-          `${this.dateInfo[1]}/${this.dateInfo[2]}/${this.dateInfo[3]}`
-        ).getDay()
-      );
-    }
-    function handleHrefList() {
-      const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
-      var obj = {};
-      this.hrefList = this.content.match(_reg).map((e, i) => {
-        return {
-          order: i,
-          no: `${e.replace(_reg, "$1")}.`,
-
-          level: e.replace(_reg, "$1"),
-          href: e.replace(_reg, "#$2"),
-          name: e.replace(_reg, "$3"),
-          active: false
-        };
-      });
-      const _list = new Object();
-      this.hrefList.forEach(e => {
-        if (_list.hasOwnProperty(e.level)) {
-          _list[e.level]++;
-        } else {
-          _list[e.level] = 1;
-        }
-        e.no += _list[e.level];
-      });
-    }
     if (this.$route.params.filename) {
       request({
         url: `/catalog`,
@@ -130,23 +85,14 @@ export default {
         success: data => {
           data = data[0];
           this.title = { title: data.title, tag: data.tag };
-          this.handleDate(data.date);
+          this.dateInfo = this.handleDate(data.date);
 
           data = this.changeImgURL(data.content);
 
-          let markdata = this.marked(data);
-
-          markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g, function(w) {
-            colorList.forEach((e, i) => {
-              w = changeKeyWord(colorList[i], w);
-            });
-            return w;
-          });
-
-          this.content = changeAnnnotationReg(markdata);
+          this.content = this.handleKeyword(this.marked(data));
 
           // directory
-          handleHrefList();
+          this.hrefList = this.handleHrefList(this.content);
         },
         fail: data => {
           this.content = data;
@@ -172,7 +118,7 @@ export default {
     }, 800);
   },
   deactivated() {
-    this.$destroy();
+    // this.$destroy();
   }
 };
 </script>
