@@ -88,7 +88,7 @@ html {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  font-family: IBM Plex Sans, -apple-system, BlinkMacSystemFont, Segoe UI,
+  font-family:Monaco, IBM Plex Sans, -apple-system, BlinkMacSystemFont, Segoe UI,
     Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
     Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   -webkit-font-smoothing: antialiased;

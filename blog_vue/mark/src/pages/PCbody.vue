@@ -188,7 +188,6 @@ export default {
           tagName: e
         };
       });
-
     });
   },
   mounted() {}
@@ -311,6 +310,7 @@ export default {
   }
 }
 .catalog-body_pc-block {
+  width: calc(30vw - 30px);
   height: 12.5%;
   min-height: 30px;
   line-height: 18px;
@@ -318,12 +318,14 @@ export default {
   box-sizing: border-box;
   padding: 0 10px;
   justify-content: space-between;
-  transform: translateX(0px);
-  opacity: 1;
+  transform: translateX(30px);
   background-color: var(--primary-color);
+  transition: transform 0.25s ease-in;
+  /* background: var(--background-color); */
 }
 
 .active.catalog-body_pc-block {
+  transform: translateX(0px);
   background: var(--background-color);
 }
 

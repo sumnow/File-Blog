@@ -1,11 +1,11 @@
 <template>
   <div class="mob-catalog">
     <div class="header flexbox">
-      <div >Title</div>
-      <!-- <div class="mod-search" :class="{searchshow: iptClass}">
+      <div>Title</div>
+      <div class="mod-search" :class="{searchshow: iptClass}">
         <span @click="searchCatalog">Search</span>
         <input type="text" v-model.trim="searchMessage" ref="input_search" />
-      </div> -->
+      </div>
       <div>Time</div>
     </div>
     <div class="entry-wrap">
@@ -110,7 +110,7 @@ export default {
   watch: {
     searchMessage: function(val) {
       const reg = new RegExp(`${val}`, "ig");
-      this.filterTitleArr = this.titleArr.filter(e => reg.test(e.input));
+      this.filterTitleArr = this.titleArr.filter(e => reg.test(e.name));
       this.title = this.catalogPage(this.filterTitleArr);
       this.backtoFirst();
     }
@@ -123,8 +123,7 @@ export default {
 
     //
     showContent(item) {
-      console.log(item)
-      this.$router.push('code/'+item.date+item.number);
+      this.$router.push("code/" + item.date + item.number);
     },
 
     searchCatalog() {
@@ -163,7 +162,7 @@ export default {
     },
     backtoFirst() {
       this.toNum("home");
-    },  
+    },
     sortReserve() {
       this.titleArr = this.titleArr.reverse();
       this.title = this.catalogPage(this.titleArr);
@@ -188,8 +187,7 @@ export default {
           type: this.$route.params.type
         },
         success: data => {
-          console.log(data)
-          this.titleArr = data.reverse()
+          this.titleArr = data.reverse();
           this.title = this.catalogPage(this.titleArr);
         }
       });

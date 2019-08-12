@@ -31,7 +31,7 @@ export const commonMixin = {
         },
         changeImgURL(data) {
             const reg = /!\[(\S+)\]\(\.\.(\/img\/\w+\.(png|jpg|bmp|gif|svg|webp))\)/g;
-            return data.replace(reg, "![$1](../../markdown/knowledges$2)");
+            return data.replace(reg, "![$1](../../markdown/knowledge$2)");
         },
         handleKeyword(markdata) {
             const changeKeyWord = (color, data) => {

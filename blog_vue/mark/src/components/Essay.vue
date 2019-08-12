@@ -6,11 +6,13 @@
           :class="['module-title_wrap',showCatalog? '':'display_title']"
           @click="showCatalog=!showCatalog"
         >
-          <div :class="['module-title_inner',showCatalog?'' : 'display_title']">{{title.title}}</div>
+          <span
+            :style="showCatalog ? titleStyle: ''"
+            :class="['module-title_inner',showCatalog?'' : 'display_title']"
+          >{{title.title}}</span>
         </div>
-        <!-- <div class="module-tag">{{dateInfo[5]}}</div> -->
       </div>
-      <DateInfo :dateInfo="dateInfo" />
+      <!-- <DateInfo :dateInfo="dateInfo" /> -->
     </div>
     <div class="module-bottom_wrap" v-if="content" @click="$emit('closeSwap')">
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
@@ -43,6 +45,7 @@ export default {
       hrefListActive: undefined,
       scorllMark: 0,
       dateInfo: [],
+      titleStyle: "",
       HEADERHEIGHT: 90
     };
   },
@@ -85,6 +88,10 @@ export default {
         success: data => {
           data = data[0];
           this.title = { title: data.title, tag: data.tag };
+          console.log(this.title.title);
+          this.titleStyle = {
+            left: `calc(47vw - ${(this.title.title.length / 2) * 18}px)`
+          };
           this.dateInfo = this.handleDate(data.date);
 
           data = this.changeImgURL(data.content);
@@ -138,19 +145,21 @@ export default {
   line-height: 70px;
   font-weight: 600;
   transition: all 1s;
-  transform: translateX(20%);
+  /* transform: translateX(20%); */
   /* letter-spacing: 1vw; */
 }
 .module-title_wrap.display_title {
   /* letter-spacing: 0px;  */
-  transform: translateX(0%);
-  transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  /* transform: translateX(0%); */
+  /* transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .module-title_inner {
-  margin-left: 0;
+  position: relative;
+  left: 0;
+  transition: left 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  /* margin-left: 0; */
 }
 .module-title_inner.display_title {
-  /* transform: translateX(-50%);  */
 }
 .module-title_header {
   height: 40px;
@@ -178,7 +187,6 @@ export default {
   justify-content: space-around;
 }
 .module-header-top {
-  display: flex;
   width: 100vw;
   height: 90px;
   margin: 0;
