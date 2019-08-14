@@ -121,7 +121,6 @@ export default {
   watch: {
     searchKeyword(val) {
       const reg = new RegExp(`${val}`, "ig");
-      console.log(this.tagList);
       this.showCatalogList = this.catalogList.filter(e => reg.test(e.file));
       return val;
     }
@@ -157,7 +156,7 @@ export default {
       url: "/catalog",
       method: "GET"
     }).then(res => {
-      this.showCatalogList = this.catalogList = res.map(e => {
+      this.showCatalogList = this.catalogList = res.reverse().map(e => {
         return {
           file: e.name,
           name: e.title,
@@ -166,6 +165,9 @@ export default {
           tag: e.tag || []
         };
       });
+      // this.$router.push(
+      //   `/code/${this.showCatalogList[0].date}${this.showCatalogList[0].number}`
+      // );
       const sl = Array.from(
         new Set(
           this.catalogList.reduce((a, b) => {
@@ -183,15 +185,12 @@ export default {
           obj[se]++;
         });
       });
-      console.log(obj);
       this.tagList = Object.keys(obj).map(e => {
         return {
           tagTotal: obj[e],
           tagName: e
         };
       });
-
-      console.log(this.tagList);
     });
   },
   mounted() {}
@@ -314,6 +313,7 @@ export default {
   }
 }
 .catalog-body_pc-block {
+  width: calc(30vw - 30px);
   height: 12.5%;
   min-height: 30px;
   line-height: 18px;
@@ -321,12 +321,14 @@ export default {
   box-sizing: border-box;
   padding: 0 10px;
   justify-content: space-between;
-  transform: translateX(0px);
-  opacity: 1;
+  transform: translateX(30px);
   background-color: var(--primary-color);
+  transition: transform 0.25s ease-in;
+  /* background: var(--background-color); */
 }
 
 .active.catalog-body_pc-block {
+  transform: translateX(0px);
   background: var(--background-color);
 }
 

@@ -13,9 +13,6 @@ import { commonMixin } from "@/util/mixin.js";
 export default {
   name: "app",
   mixin: [commonMixin],
-  data() {
-    return {};
-  },
   methods: {
     hello(e) {
       this.$refs.ripple.hello({
@@ -25,7 +22,7 @@ export default {
     }
   },
   mounted() {
-    console.log("version: v3.4.0");
+    console.log("version: v3.4.2");
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
@@ -91,7 +88,9 @@ html {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  font-family:Monaco, IBM Plex Sans, -apple-system, BlinkMacSystemFont, Segoe UI,
+    Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
+    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;

@@ -67,22 +67,16 @@ export default {
         url: `/catalog`,
         method: "GET",
         params: {
-          type: this.$route.params.type,
           filename: this.$route.params.filename
         },
         success: data => {
-          data = this.changeImgURL(data);
+          data = data[0];
+          this.title = { title: data.title, tag: data.tag };
+          this.dateInfo = this.handleDate(data.date);
 
-          let markdata = this.marked(data);
+          data = this.changeImgURL(data.content);
 
-          markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g, function(w) {
-            colorList.forEach((e, i) => {
-              w = changeKeyWord(colorList[i], w);
-            });
-            return w;
-          });
-
-          this.content = changeAnnnotationReg(markdata);
+          this.content = this.handleKeyword(this.marked(data));
         },
         fail: data => {
           this.content = data;

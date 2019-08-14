@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import catalog from '@/components/MCatalog'
+import MCatalog from '@/components/MCatalog'
 import essay from '@/components/MEssay'
 import MWrap from '@/pages/MWrap'
 import cover from '@/pages/Cover'
@@ -30,6 +30,11 @@ const routers = new Router({
             name: 'MWrap',
             component: MWrap,
             children: [
+                {
+                    path: '',
+                    name: 'MCatalog',
+                    component: MCatalog
+                },
                 {
                     path: ':filename',
                     name: 'MEssay',

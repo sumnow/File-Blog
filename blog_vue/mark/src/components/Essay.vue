@@ -6,34 +6,17 @@
           :class="['module-title_wrap',showCatalog? '':'display_title']"
           @click="showCatalog=!showCatalog"
         >
-          <div :class="['module-title_inner',showCatalog?'' : 'display_title']">{{title.title}}</div>
+          <span
+            :style="showCatalog ? titleStyle: ''"
+            :class="['module-title_inner',showCatalog?'' : 'display_title']"
+          >{{title.title}}</span>
         </div>
-        <!-- <div class="module-tag">{{dateInfo[5]}}</div> -->
       </div>
-      <div class="module-date_wrap">
-        <div class="module-date_date">{{dateInfo[3]}}</div>
-        <div class="module-date_line">
-          <svg width="100%" height="100%" version="1.1">
-            <line x1="20" y1="0" x2="0" y2="70" style="stroke:rgb(160,165,175);stroke-width:1" />
-          </svg>
-        </div>
-        <div class="module-date_month">{{dateInfo[2]}}/{{dateInfo[1]}}</div>
-        <div class="module-date_day">{{currentDay}}</div>
-      </div>
+      <!-- <DateInfo :dateInfo="dateInfo" /> -->
     </div>
     <div class="module-bottom_wrap" v-if="content" @click="$emit('closeSwap')">
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
-        <div class="ul-content-href">
-          <div
-            :class="['li-content-href', item.active ? 'active' : '']"
-            v-for="item in hrefList"
-            :key="item.href"
-            :style="{ paddingLeft: `${item.level*10}px`}"
-            @click="gotoActive(item)"
-          >
-            <div :href="item.href">{{ `${item.no}. ${item.name}`}}</div>
-          </div>
-        </div>
+        <Directory :hrefList="hrefList" />
       </div>
       <div class="module-content-scroll_wrap" @scroll="handleScroll">
         <div class="module-content-text" id="module-content-text" v-html="content"></div>
@@ -45,8 +28,9 @@
 
 <script>
 import { request } from "../service";
-import colorList from "../util";
 import loading from "./SecondLoading";
+import Directory from "./Directory";
+import DateInfo from "./DateInfo";
 import { commonMixin } from "../util/mixin.js";
 
 export default {
@@ -61,29 +45,21 @@ export default {
       hrefListActive: undefined,
       scorllMark: 0,
       dateInfo: [],
+      titleStyle: "",
       HEADERHEIGHT: 90
     };
   },
   components: {
-    loading
+    loading,
+    Directory,
+    DateInfo
   },
-  computed: {
-    currentDay() {
-      return [
-        "Sunday",
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday"
-      ][this.dateInfo[4]];
-    }
-  },
+
   methods: {
     back() {
       this.$router.go(-1);
     },
+    // Directory component
     gotoActive(item) {
       this.hrefList.forEach(e => {
         var x = document.querySelector(e.href);
@@ -102,22 +78,6 @@ export default {
     }
   },
   created() {
-    //
-    function changeKeyWord(color, data) {
-      const regs = color.keyword.reduce((a, b) => {
-        return `${a}|${b}`;
-      });
-      const reg = new RegExp(`\\b(${regs})\\b`, "g");
-      return data.replace(reg, `<font style="color: ${color.color}">$1</font>`);
-    }
-
-    function changeAnnnotationReg(mark) {
-      const reg2 = /[^:|>](\/\/.+\n)/g;
-      return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
-    }
-    function handleDate(str) {
-      return str.match(/(\d{4})(\d{2})(\d{2})/);
-    }
     if (this.$route.params.filename) {
       request({
         url: `/catalog`,
@@ -126,60 +86,19 @@ export default {
           filename: this.$route.params.filename
         },
         success: data => {
-          if (true) {
-            data = data[0];
-            this.title = { title: data.title, tag: data.tag };
-            this.dateInfo = handleDate(data.date);
-            this.dateInfo.push(
-              new Date(
-                `${this.dateInfo[1]}/${this.dateInfo[2]}/${this.dateInfo[3]}`
-              ).getDay()
-            );
-          }
-          data = data.content;
-          data = this.changeImgURL(data);
+          data = data[0];
+          this.title = { title: data.title, tag: data.tag };
+          this.titleStyle = {
+            left: `calc(47vw - ${(this.title.title.length / 2) * 18}px)`
+          };
+          this.dateInfo = this.handleDate(data.date);
 
-          let markdata = this.marked(data);
+          data = this.changeImgURL(data.content);
 
-          markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g, function(w) {
-            colorList.forEach((e, i) => {
-              w = changeKeyWord(colorList[i], w);
-            });
-            return w;
-          });
+          this.content = this.handleKeyword(this.marked(data));
 
-          this.content = changeAnnnotationReg(markdata);
-          const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
-          this.hrefList = this.content.match(_reg).map((e, i) => {
-            return {
-              order: i,
-              level: e.replace(_reg, "$1"),
-              href: e.replace(_reg, "#$2"),
-              name: e.replace(_reg, "$3"),
-              active: false
-            };
-          });
-          const _list = [];
-          Array.from(new Set(this.hrefList.map(e => e.level))).forEach(e => {
-            _list.push(
-              ...this.hrefList
-                .filter(se => se.level === e)
-                .map((ge, gi) => {
-                  return {
-                    no: `${ge.level}.${gi}`,
-                    ...ge
-                  };
-                })
-            );
-          });
-          this.hrefList = _list;
-          // log.green(_list);
-          // this.$nextTick(() => {
-          //   this.hrefList.map(e => {
-          //     var x = document.querySelector(e.href);
-          //     e.scrollTop = x.offsetTop;
-          //   });
-          // });
+          // directory
+          this.hrefList = this.handleHrefList(this.content);
         },
         fail: data => {
           this.content = data;
@@ -205,7 +124,7 @@ export default {
     }, 800);
   },
   deactivated() {
-    this.$destroy();
+    // this.$destroy();
   }
 };
 </script>
@@ -214,53 +133,8 @@ export default {
 .content_wrap {
   position: relative;
   height: 100vh;
-  transition-delay: ;
-}
-.module-date_wrap {
-  position: relative;
-  display: grid;
-  grid-template: 30px 10px 30px/90px 20px 140px;
-  grid-template-areas:
-    "date line month"
-    "date line _"
-    "date line day";
-  grid-gap: 0px 10px;
-  width: 280px;
-  height: 70px;
-  padding-right: 10px;
-  font-weight: 800;
 }
 
-.module-date_wrap div {
-}
-.module-date_date {
-  grid-area: date;
-  height: 70px;
-  color: rgb(0, 23, 44);
-  font-size: 84px;
-  line-height: 70px;
-}
-.module-date_month {
-  grid-area: month;
-  width: 140px;
-  height: 30px;
-  font-size: 36px;
-  line-height: 1;
-}
-.module-date_day {
-  grid-area: day;
-  box-sizing: border-box;
-  width: 120px;
-  padding-top: 8px;
-  height: 26px;
-  font-size: 26px;
-  line-height: 26px;
-}
-.module-date_line {
-  grid-area: line;
-  width: 20px;
-  height: 70px;
-}
 .module-header_wrap {
   flex: 1;
 }
@@ -270,19 +144,21 @@ export default {
   line-height: 70px;
   font-weight: 600;
   transition: all 1s;
-  transform: translateX(20%);
+  /* transform: translateX(20%); */
   /* letter-spacing: 1vw; */
 }
 .module-title_wrap.display_title {
   /* letter-spacing: 0px;  */
-  transform: translateX(0%);
-  transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  /* transform: translateX(0%); */
+  /* transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
 .module-title_inner {
-  margin-left: 0;
+  position: relative;
+  left: 0;
+  transition: left 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+  /* margin-left: 0; */
 }
 .module-title_inner.display_title {
-  /* transform: translateX(-50%);  */
 }
 .module-title_header {
   height: 40px;
@@ -310,11 +186,10 @@ export default {
   justify-content: space-around;
 }
 .module-header-top {
-  display: flex;
   width: 100vw;
   height: 90px;
   margin: 0;
-  padding: 10px 2vw;
+  padding: 10px 3vw;
   box-sizing: border-box;
 }
 .module-catalog-href_wrap {
@@ -327,31 +202,6 @@ export default {
 }
 .module-catalog-href_wrap.display_catalog {
   width: 20vw;
-}
-.ul-content-href {
-  width: 20vw;
-}
-
-.li-content-href {
-  display: flex;
-  padding: 20px 0;
-  line-height: 1.5;
-  opacity: 0;
-  overflow: hidden;
-  word-break: break-all;
-  /* border-color: #e36209 #e1e4e8 transparent; */
-}
-
-.li-content-href:hover {
-  cursor: pointer;
-}
-.li-content-href.active {
-  background: var(--background-color);
-}
-
-.display_catalog .li-content-href {
-  opacity: 1;
-  /* background: var(--background-color); */
 }
 
 .module-content-text {

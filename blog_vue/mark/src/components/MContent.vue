@@ -49,7 +49,6 @@ export default {
       .getElementById("content-article")
       .addEventListener("scroll", this.handleScroll);
 
-
     //
     function changeKeyWord(color, data) {
       const regs = color.keyword.reduce((a, b) => {

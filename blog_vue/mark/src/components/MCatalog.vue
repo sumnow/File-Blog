@@ -1,18 +1,18 @@
 <template>
   <div class="mob-catalog">
     <div class="header flexbox">
-      <div >Title</div>
-      <!-- <div class="mod-search" :class="{searchshow: iptClass}">
+      <div>Title</div>
+      <div class="mod-search" :class="{searchshow: iptClass}">
         <span @click="searchCatalog">Search</span>
         <input type="text" v-model.trim="searchMessage" ref="input_search" />
-      </div> -->
+      </div>
       <div>Time</div>
     </div>
     <div class="entry-wrap">
       <div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
-        <div class="catalog-entry-son flexbox" @click="showContent(item.input)">
+        <div class="catalog-entry-son flexbox" @click="showContent(item)">
           <div class="catalog-entry-son-name">
-            <span>{{item.name}}</span>
+            <span>{{item.title}}</span>
           </div>
           <!-- <div class="catalog-entry-son-tags">
             <div v-for="(elItem, elIndex) in item.tags" :key="elItem">{{elItem}}</div>
@@ -110,7 +110,7 @@ export default {
   watch: {
     searchMessage: function(val) {
       const reg = new RegExp(`${val}`, "ig");
-      this.filterTitleArr = this.titleArr.filter(e => reg.test(e.input));
+      this.filterTitleArr = this.titleArr.filter(e => reg.test(e.name));
       this.title = this.catalogPage(this.filterTitleArr);
       this.backtoFirst();
     }
@@ -123,11 +123,7 @@ export default {
 
     //
     showContent(item) {
-      this.$router.push(
-        `${this.$route.params.type}/${encodeURIComponent(
-          encodeURIComponent(item)
-        )}`
-      );
+      this.$router.push("code/" + item.date + item.number);
     },
 
     searchCatalog() {
@@ -191,9 +187,7 @@ export default {
           type: this.$route.params.type
         },
         success: data => {
-          this.titleArr = data.reverse().map(e => {
-            return this.parseFileName(e);
-          });
+          this.titleArr = data.reverse();
           this.title = this.catalogPage(this.titleArr);
         }
       });
