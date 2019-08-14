@@ -156,7 +156,7 @@ export default {
       url: "/catalog",
       method: "GET"
     }).then(res => {
-      this.showCatalogList = this.catalogList = res.map(e => {
+      this.showCatalogList = this.catalogList = res.reverse().map(e => {
         return {
           file: e.name,
           name: e.title,
@@ -165,6 +165,9 @@ export default {
           tag: e.tag || []
         };
       });
+      // this.$router.push(
+      //   `/code/${this.showCatalogList[0].date}${this.showCatalogList[0].number}`
+      // );
       const sl = Array.from(
         new Set(
           this.catalogList.reduce((a, b) => {

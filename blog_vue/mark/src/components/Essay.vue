@@ -88,7 +88,6 @@ export default {
         success: data => {
           data = data[0];
           this.title = { title: data.title, tag: data.tag };
-          console.log(this.title.title);
           this.titleStyle = {
             left: `calc(47vw - ${(this.title.title.length / 2) * 18}px)`
           };
