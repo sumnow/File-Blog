@@ -166,9 +166,7 @@ export default {
           tag: e.tag || []
         };
       });
-      // this.$router.push(
-      //   `/code/${this.showCatalogList[0].date}${this.showCatalogList[0].number}`
-      // );
+      this.$router.push(`/code/${this.showCatalogList[0].id}`);
       const sl = Array.from(
         new Set(
           this.catalogList.reduce((a, b) => {

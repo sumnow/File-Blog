@@ -54,6 +54,39 @@ export default {
     Directory,
     DateInfo
   },
+  watch: {
+    $route: {
+      handler(to, from) {
+        if (this.$route.params.filename) {
+          request({
+            url: `/catalog`,
+            method: "GET",
+            params: {
+              filename: this.$route.params.filename
+            },
+            success: data => {
+              data = data[0];
+              this.title = { title: data.title, tag: data.tag };
+              this.titleStyle = {
+                left: `calc(47vw - ${(this.title.title.length / 2) * 18}px)`
+              };
+              this.dateInfo = this.handleDate(data.date);
+
+              data = this.changeImgURL(data.content);
+
+              this.content = this.handleKeyword(this.marked(data));
+
+              // directory
+              this.hrefList = this.handleHrefList(this.content);
+            },
+            fail: data => {
+              this.content = data;
+            }
+          });
+        }
+      }
+    }
+  },
 
   methods: {
     back() {
