@@ -44,7 +44,7 @@
         <div
           v-for="(item, index) in showCatalogList"
           :key="index"
-          :class="{'catalog-body_pc-block flexbox': true, active: activeArr.essay == item.name}"
+          :class="{'catalog-body_pc-block flexbox': true, active: activeArr.essayId == item.id}"
           @click="toEssay(item)"
         >
           <div class="catalog-body_pc-title">
@@ -97,7 +97,7 @@ export default {
         tag: "",
         typeIndex: 0,
         type: "",
-        essay: ""
+        essayId: ""
       },
       searchKeyword: "",
       catalogSearchFocus: false
@@ -137,8 +137,8 @@ export default {
       this.searchKeyword = "";
     },
     toEssay(item) {
-      this.$router.push(`/code/${item.date + item.number}`);
-      this.activeArr.essay = item.name;
+      this.$router.push(`/code/${item.id}`);
+      this.activeArr.essayId = item.id;
       this.hackReset = false;
       this.$nextTick(() => {
         this.hackReset = true;
@@ -162,12 +162,11 @@ export default {
           name: e.title,
           date: e.date,
           number: e.number,
+          id: e.date + e.number,
           tag: e.tag || []
         };
       });
-      // this.$router.push(
-      //   `/code/${this.showCatalogList[0].date}${this.showCatalogList[0].number}`
-      // );
+      this.$router.push(`/code/${this.showCatalogList[0].id}`);
       const sl = Array.from(
         new Set(
           this.catalogList.reduce((a, b) => {

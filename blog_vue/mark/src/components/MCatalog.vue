@@ -1,30 +1,30 @@
 <template>
   <div class="mob-catalog">
-    <div class="header flexbox">
+    <div class="mob-header flexbox">
       <div>Title</div>
-      <div class="mod-search" :class="{searchshow: iptClass}">
+      <div class="mob-search" :class="{searchshow: iptClass}">
         <span @click="searchCatalog">Search</span>
         <input type="text" v-model.trim="searchMessage" ref="input_search" />
       </div>
       <div>Time</div>
     </div>
-    <div class="entry-wrap">
-      <div class="catalog-entry" v-for="item in title[entryNum]" :key="item.name">
-        <div class="catalog-entry-son flexbox" @click="showContent(item)">
-          <div class="catalog-entry-son-name">
+    <div class="mob-entry-wrap">
+      <div class="mob-catalog-entry" v-for="item in title[entryNum]" :key="item.name">
+        <div class="mob-catalog-entry-son flexbox" @click="showContent(item)">
+          <div class="mob-catalog-entry-son-name">
             <span>{{item.title}}</span>
           </div>
-          <!-- <div class="catalog-entry-son-tags">
+          <!-- <div class="mob-catalog-entry-son-tags">
             <div v-for="(elItem, elIndex) in item.tags" :key="elItem">{{elItem}}</div>
           </div>-->
-          <div class="catalog-entry-son-date">
+          <div class="mob-catalog-entry-son-date">
             <span>{{item.date}}</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="entry-num">
-      <div class="down" @click="toNum('down')">
+    <div class="mob-entry-num">
+      <div @click="toNum('down')">
         <svg
           class="icon"
           style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
@@ -36,9 +36,9 @@
           <path d="M65.582671 288.791335l446.417329 446.41733 446.417329-446.41733z" p-id="778" />
         </svg>
       </div>
-      <div class="decade">{{parseInt((entryNum+1)/10)}}</div>
+      <div>{{parseInt((entryNum+1)/10)}}</div>
 
-      <div class="up" @click="toNum('up')">
+      <div @click="toNum('up')">
         <svg
           class="icon"
           style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
@@ -50,7 +50,7 @@
           <path d="M65.582671 735.208665l446.417329-446.41733 446.417329 446.41733z" p-id="758" />
         </svg>
       </div>
-      <div class="left" @click="toNum('left')">
+      <div @click="toNum('left')">
         <svg
           class="icon"
           style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;"
@@ -62,8 +62,8 @@
           <path d="M735.208665 65.582671l-446.41733 446.417329 446.41733 446.417329z" p-id="818" />
         </svg>
       </div>
-      <div class="unit">{{(entryNum+1)%10}}</div>
-      <div class="right" @click="toNum('right')">
+      <div >{{(entryNum+1)%10}}</div>
+      <div @click="toNum('right')">
         <svg
           class="icon"
           style="fill: currentColor;overflow: hidden;"
@@ -205,14 +205,14 @@ export default {
   padding: 2vh 5vw;
 }
 
-.mod-search span {
+.mob-search span {
   position: relative;
   left: 20vw;
   transition: all 1s;
   cursor: pointer;
 }
 
-.mod-search input {
+.mob-search input {
   width: 20vw;
   padding: 0 1vw;
   color: var(--text-color);
@@ -238,35 +238,53 @@ export default {
   justify-content: space-between;
 }
 
-.header div {
+.mob-header div {
   height: 8vh;
   line-height: 8vh;
   color: var(--text-color);
   cursor: pointer;
 }
-.catalog-entry {
+.mob-catalog-entry {
   height: 7vh;
-  line-height: 7vh;
+  /* line-height: 7vh; */
   color: rgba(255, 255, 255, 0.2);
   overflow: hidden;
 }
 
-.catalog-entry .icon-file {
+.mob-catalog-entry .icon-file {
   display: inline-block;
   fill: rgba(3, 47, 98, 0.55);
   vertical-align: -3px;
 }
 
-.catalog-entry .catalog-entry-son {
+.mob-catalog-entry .mob-catalog-entry-son {
+  height: 7vh;
   width: 100%;
   color: #4183c4;
 }
+.mob-catalog-entry-son-name {
+  display: table;
+}
 
-.entry-wrap {
+.mob-catalog-entry-son-name span {
+  display: table-cell;
+  vertical-align: middle;
+}
+.mob-catalog-entry-son-date {
+  display: table;
+}
+
+.mob-catalog-entry-son-date span {
+  height: 7vh;
+  display: table-cell;
+  vertical-align: middle;
+}
+
+.mob-entry-wrap {
   height: 70vh;
 }
 
-.entry-num {
+.mob-entry-num {
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -275,7 +293,7 @@ export default {
   /* background: #ccc; */
 }
 
-.entry-num > div {
+.mob-entry-num > div {
   position: relative;
   z-index: 2;
   width: 4vh;
@@ -290,7 +308,7 @@ export default {
   /* box-sizing: border-box; */
 }
 
-.entry-num > div > svg {
+.mob-entry-num > div > svg {
   display: inline;
   width: 0.8rem;
   height: 0.8rem;
@@ -309,12 +327,12 @@ export default {
   transition: transform 1s; */
 }
 
-.entry-num > div.active:before {
+.mob-entry-num > div.active:before {
   color: #fff;
   transform: scale(1);
 }
 
-.entry-num > div.active:after {
+.mob-entry-num > div.active:after {
   transform: scale(0);
 }
 </style>

@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted() {
-    console.log("version: v3.4.2");
+    console.log("version: v3.4.4");
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
@@ -80,7 +80,7 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  user-select: none;
+  /* user-select: none; */
 }
 
 #app {
