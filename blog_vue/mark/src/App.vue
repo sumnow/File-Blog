@@ -22,7 +22,7 @@ export default {
     }
   },
   mounted() {
-    console.log("version: v3.4.4");
+    console.log("version: v3.4.5");
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
