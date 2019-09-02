@@ -220,10 +220,8 @@ export default {
   position: absolute;
   display: grid;
   grid-template: 40px 1fr 80px/ 1fr;
-  grid-template-areas:
-    "search"
-    "catalog"
-    "tag";
+  grid-template-areas:'search'"catalog"
+"tag";
   width: 30vw;
   background-color: var(--primary-color);
   transition: right 0.5s;

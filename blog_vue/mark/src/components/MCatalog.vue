@@ -1,7 +1,7 @@
 <template>
   <div class="mob-catalog">
     <div class="mob-header flexbox">
-      <div>Title</div>
+      <div @click="toggleScreenFull">Title</div>
       <div class="mob-search" :class="{searchshow: iptClass}">
         <span @click="searchCatalog">Search</span>
         <input type="text" v-model.trim="searchMessage" ref="input_search" />
@@ -62,7 +62,7 @@
           <path d="M735.208665 65.582671l-446.41733 446.417329 446.41733 446.417329z" p-id="818" />
         </svg>
       </div>
-      <div >{{(entryNum+1)%10}}</div>
+      <div>{{(entryNum+1)%10}}</div>
       <div @click="toNum('right')">
         <svg
           class="icon"
@@ -89,6 +89,7 @@
 import { request } from "@/service";
 import { changeThemePhone } from "@/util/theme";
 import { commonMixin } from "@/util/mixin.js";
+import screenfull from "screenfull";
 
 export default {
   name: "MCatalog",
@@ -116,6 +117,11 @@ export default {
     }
   },
   methods: {
+    toggleScreenFull() {
+      if (screenfull.enabled) {
+        screenfull.toggle();
+      }
+    },
     // change theme
     changeThemePhone() {
       changeThemePhone(++this.currentTheme);
@@ -268,6 +274,7 @@ export default {
 
 .mob-catalog-entry-son-name span {
   display: table-cell;
+  height: 7vh;
   vertical-align: middle;
 }
 .mob-catalog-entry-son-date {

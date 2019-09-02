@@ -1,9 +1,9 @@
 <template>
-  <div class="mob-content-wrap">
-    <div class="mob-scroll-wrap">
-      <div class="mob-content-wrap">
-        <div class="mob-content-inner-text" v-html="content"></div>
-      </div>
+  <div class="mob-scroll-wrap">
+    <div class="mob-content-wrap">
+      <div class="mob-content-left" @click="goBack"></div>
+      <div class="mob-content-inner-text" v-html="content"></div>
+      <div class="mob-content-right" @click="goBack"></div>
     </div>
   </div>
 </template>
@@ -22,13 +22,14 @@ export default {
     };
   },
   methods: {
-    back() {
+    goBack() {
       this.$router.go(-1);
     },
-    handleScroll() {}
+    nextEssay(){
+
+    }
   },
   mounted() {
-    // 绑定上滚动事件
 
     //
     function changeKeyWord(color, data) {
@@ -74,26 +75,24 @@ export default {
 <style scoped>
 .mob-content-wrap {
   display: flex;
-  flex-direction: column;
   height: 90vh;
+  /* padding: 0 10vw; */
+  justify-content: space-between;
+overflow: auto;
 }
-
-.mob-content-wrap {
-  height: 90vh;
-  padding: 0 2vw;
-  overflow: auto;
-}
-.mob-content-inner-text {
-  /* overflow: hidden; */
-}
-/* .mob-content-inner-text:before,.mob-content-inner-text:after {
-  display: table;
-  content: '';
-} */
-
 .mob-scroll-wrap {
   /* width: 90vw; */
-  margin: 0 2vw;
   overflow: hidden;
+}
+.mob-content-left {
+  height: 90vh;
+  width: 10vw;
+}
+.mob-content-right {
+  height: 90vh;
+  width: 10vw;
+}
+.mob-content-inner-text {
+  width: 80vw;
 }
 </style>
