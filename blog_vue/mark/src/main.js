@@ -4,21 +4,10 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import marked from './marked'
+// import AlloyFingerVue from 'alloyfinger'
 
 // Vue.use(load);
 
-if (process.env.NODE_ENV === 'development') {
-  console.log('develop now')
-  import('console_colorpoint').then(res => {
-    var Logger = res.default
-    window.log = new Logger()
-    log.blueviolet('start log!')
-  })
-} else {
-  window.log = function (_) {
-    return void 0
-  }
-}
 
 Vue.config.performance = true;
 Vue.config.devtools = true;

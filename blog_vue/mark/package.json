@@ -14,7 +14,9 @@
     "vue-router": "^2.7.0"
   },
   "devDependencies": {
+    "alloyfinger": "^0.1.16",
     "autoprefixer": "^7.1.2",
+    "screenfull": "^4.2.1",
     "babel-core": "^6.22.1",
     "babel-loader": "^7.1.1",
     "babel-plugin-transform-runtime": "^6.22.0",

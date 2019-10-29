@@ -392,12 +392,17 @@ export default {
 
 <style>
 .bg_black {
-  grid-template-rows: 100px 1fr 100px;
   width: 100vw;
   height: 100vh;
   padding: 10px;
-  background: #000;
+
   color: #fff;
+
   text-align: center;
+
+  background: #000;
+
+  grid-template-rows: 100px 1fr 100px;
 }
+
 </style>

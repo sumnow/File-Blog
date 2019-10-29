@@ -165,74 +165,96 @@ export default {
 <style scoped>
 .content_wrap {
   position: relative;
+
   height: 100vh;
 }
 
 .module-header_wrap {
   flex: 1;
 }
+
 .module-title_wrap {
   height: 70px;
+
   font-size: 30px;
-  line-height: 70px;
   font-weight: 600;
+  line-height: 70px;
+
   transition: all 1s;
   /* transform: translateX(20%); */
   /* letter-spacing: 1vw; */
 }
+
 .module-title_wrap.display_title {
   /* letter-spacing: 0px;  */
   /* transform: translateX(0%); */
   /* transition: transform 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045); */
 }
+
 .module-title_inner {
   position: relative;
   left: 0;
-  transition: left 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+
+  transition: left .5s cubic-bezier(.6, -.28, .735, .045);
   /* margin-left: 0; */
 }
-.module-title_inner.display_title {
-}
+
+
+
 .module-title_header {
   height: 40px;
+
   font-size: 40px;
-  text-align: center;
-  line-height: 40px;
   font-weight: 600;
+  line-height: 40px;
+
+  text-align: center;
 }
+
 .module-title_header-high {
   height: 70px;
+
   font-size: 60px;
-  text-align: center;
-  line-height: 70px;
   font-weight: 600;
+  line-height: 70px;
+
+  text-align: center;
 }
+
 .module-tag_wrap {
   display: flex;
   flex-wrap: wrap;
+  justify-content: space-around;
+
   width: 280px;
   height: 80px;
-  justify-content: space-around;
 }
+
 .module-title_catalog {
   display: flex;
   justify-content: space-around;
 }
+
 .module-header-top {
+  box-sizing: border-box;
   width: 100vw;
   height: 90px;
   margin: 0;
   padding: 10px 3vw;
-  box-sizing: border-box;
 }
+
 .module-catalog-href_wrap {
+  overflow: auto;
+
   width: 0vw;
   height: calc(100vh - 90px);
+
+  transition: all 1s .45s;
   /* background: #fff; */
+
   background-color: var(--primary-color);
-  transition: all 1s 0.45s;
-  overflow: auto;
 }
+
 .module-catalog-href_wrap.display_catalog {
   width: 20vw;
 }
@@ -240,18 +262,23 @@ export default {
 .module-content-text {
   padding-bottom: 30px;
 }
+
 .module-bottom_wrap {
   display: flex;
 }
+
 .module-content-scroll_wrap {
+  overflow: auto;
   flex: 1;
+
   height: calc(100vh - 90px);
   padding: 0 3vw;
-  overflow: auto;
 }
 
 .percent-num {
   width: 5vw;
+
   line-height: 2vh;
 }
+
 </style>
