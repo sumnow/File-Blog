@@ -214,21 +214,25 @@ export default {
 .mob-search span {
   position: relative;
   left: 20vw;
-  transition: all 1s;
+
   cursor: pointer;
+  transition: all 1s;
 }
 
 .mob-search input {
   width: 20vw;
   padding: 0 1vw;
+
   color: var(--text-color);
-  background-color: transparent;
+
+  transition: all 1s;
+  transform: scaleX(0);
+  transform-origin: 100% 0;
+
   border: none;
   border-bottom: 1px solid #ccc;
   outline: none;
-  transform: scaleX(0);
-  transition: all 1s;
-  transform-origin: 100% 0;
+  background-color: transparent;
 }
 
 .searchshow span {
@@ -246,44 +250,58 @@ export default {
 
 .mob-header div {
   height: 8vh;
-  line-height: 8vh;
+
   color: var(--text-color);
+  line-height: 8vh;
+
   cursor: pointer;
 }
+
 .mob-catalog-entry {
+  overflow: hidden;
+
   height: 7vh;
   /* line-height: 7vh; */
-  color: rgba(255, 255, 255, 0.2);
-  overflow: hidden;
+
+  color: rgba(255, 255, 255, .2);
 }
 
 .mob-catalog-entry .icon-file {
   display: inline-block;
-  fill: rgba(3, 47, 98, 0.55);
+
   vertical-align: -3px;
+
+  fill: rgba(3, 47, 98, .55);
 }
 
 .mob-catalog-entry .mob-catalog-entry-son {
-  height: 7vh;
   width: 100%;
+  height: 7vh;
+
   color: #4183c4;
 }
+
 .mob-catalog-entry-son-name {
   display: table;
 }
 
 .mob-catalog-entry-son-name span {
   display: table-cell;
+
   height: 7vh;
+
   vertical-align: middle;
 }
+
 .mob-catalog-entry-son-date {
   display: table;
 }
 
 .mob-catalog-entry-son-date span {
-  height: 7vh;
   display: table-cell;
+
+  height: 7vh;
+
   vertical-align: middle;
 }
 
@@ -293,9 +311,11 @@ export default {
 
 .mob-entry-num {
   display: flex;
-  justify-content: space-around;
   align-items: center;
+  justify-content: space-around;
+
   height: 8vh;
+
   line-height: 8vh;
   /* background: #ccc; */
 }
@@ -303,13 +323,17 @@ export default {
 .mob-entry-num > div {
   position: relative;
   z-index: 2;
+
   width: 4vh;
   height: 4vh;
   margin: 0 1vw;
   /* min-width: 20px; */
+
   color: #4183c4;
-  text-align: center;
   line-height: 4vh;
+
+  text-align: center;
+
   border-radius: 50%;
   /* border: 1px solid #000; */
   /* box-sizing: border-box; */
@@ -317,8 +341,10 @@ export default {
 
 .mob-entry-num > div > svg {
   display: inline;
-  width: 0.8rem;
-  height: 0.8rem;
+
+  width: .8rem;
+  height: .8rem;
+
   vertical-align: middle;
   /* position: absolute;
   left: 0;
@@ -336,10 +362,12 @@ export default {
 
 .mob-entry-num > div.active:before {
   color: #fff;
+
   transform: scale(1);
 }
 
 .mob-entry-num > div.active:after {
   transform: scale(0);
 }
+
 </style>

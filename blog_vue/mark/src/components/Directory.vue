@@ -33,9 +33,12 @@ export default {
 
 .li-content-href {
   display: flex;
-  padding: 20px 0;
-  line-height: 1.5;
   overflow: hidden;
+
+  padding: 20px 0;
+
+  line-height: 1.5;
+
   word-break: break-all;
   /* border-color: #e36209 #e1e4e8 transparent; */
 }
@@ -43,7 +46,9 @@ export default {
 .li-content-href:hover {
   cursor: pointer;
 }
+
 .li-content-href.active {
   background: var(--background-color);
 }
+
 </style>

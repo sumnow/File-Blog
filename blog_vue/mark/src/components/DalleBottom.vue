@@ -35,34 +35,45 @@ export default {
   position: relative;
   z-index: 10;
   top: -10px;
+
   width: 100vw;
   height: 50vh;
-  transform: translateY(45vh);
+
   transition: all .5s;
+  transform: translateY(45vh);
 }
+
 .bottom.near {
-  transform: translateY(0);
   top: 0;
+
+  transform: translateY(0);
 }
+
 .bottom:before {
-  content: "";
   display: table;
+
+  content: '';
 }
 
 .arcbg {
   position: relative;
-  height: 10px;
+
   width: 100vw;
+  height: 10px;
+
   background-image: url(../assets/uptra.svg);
-  background-size: 20px 10px;
   background-repeat: repeat-x;
-  background-position: 10px 0%;
+  background-position: 10px 0;
+  background-size: 20px 10px;
 }
+
 .bottom-content {
-  background: #81d8d0;
   /* background: linear-gradient(#81d8d0, #fff); */
   /* transform: translateY(-10px); */
   /* height: calc(10vh - 10px); */
   height: 50vh;
+
+  background: #81d8d0;
 }
+
 </style>

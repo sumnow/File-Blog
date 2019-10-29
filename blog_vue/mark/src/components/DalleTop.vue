@@ -37,34 +37,44 @@ export default {
 .top {
   position: relative;
   z-index: 10;
+
   height: 50vh;
+
+  transition: all .5s;
   transform: translateY(-45vh);
-  transition: all 0.5s;
 }
+
 .top.near {
   transform: translate(0);
 }
+
 .header {
   width: 100vw;
   /* transform: translateY(-40vh); */
   /* height: 10vh; */
   /* overflow: hidden; */
 }
+
 .header-content {
   /* height: calc(10vh - 10px); */
   height: 50vh;
+
   background-color: #81d8d0;
   /* background: linear-gradient(bottom, #81d8d0, #fff); */
 }
+
 .arcbg {
   position: relative;
   /* top: 10vh; */
   z-index: 10;
+
   width: 100vw;
   height: 10px;
+
   background-image: url(../assets/downtra.svg);
-  background-size: 20px 10px;
   background-repeat: repeat-x;
   background-position: 20px 0;
+  background-size: 20px 10px;
 }
+
 </style>

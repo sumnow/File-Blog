@@ -45,23 +45,27 @@ export default {
 
 <style>
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 .container {
   position: absolute;
+  z-index: 0;
   top: 5vh;
+
   width: 100vw;
   height: 90vh;
-  z-index: 0;
-  background-color: var(--background-color);
-  opacity: 1;
+
   transition: background-color 1s ease-out;
+
+  opacity: 1;
+  background-color: var(--background-color);
 }
 
 .container.near {
   opacity: 0;
 }
+
 </style>

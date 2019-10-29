@@ -15,41 +15,50 @@ export default {
 <style>
 .loading {
   position: absolute;
-  left: 50%;
   top: 50%;
+  left: 50%;
+
   width: 10em;
   height: 10em;
-  filter: blur(0.3em) contrast(50);
+
   transform: translate(-50%, -50%);
+
+  filter: blur(.3em) contrast(50);
 }
 
 .cir {
   position: absolute;
-  left: 50%;
   top: 1em;
+  left: 50%;
+
   width: 3em;
   height: 3em;
   margin-left: -1.5em;
-  border-radius: 50%;
+
   transform-origin: 50% 4em;
+
+  border-radius: 50%;
 }
 
 .cir-1 {
-  background-color: #7cfef2;
   -webkit-animation: rotation 2.2s infinite;
-  animation: rotation 2.2s infinite;
+          animation: rotation 2.2s infinite;
+
+  background-color: #7cfef2;
 }
 
 .cir-2 {
-  background-color: #7cfef2;
   -webkit-animation: rotation 1.8s -1s infinite;
-  animation: rotation 1.8s -1s infinite;
+          animation: rotation 1.8s -1s infinite;
+
+  background-color: #7cfef2;
 }
 
 .cir-3 {
-  background-color: #7cfef2;
   -webkit-animation: rotation 1s infinite;
-  animation: rotation 1s infinite;
+          animation: rotation 1s infinite;
+
+  background-color: #7cfef2;
 }
 
 @-webkit-keyframes rotation {
@@ -63,4 +72,5 @@ export default {
     transform: rotate(360deg);
   }
 }
+
 </style>

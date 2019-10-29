@@ -109,40 +109,53 @@ export default {
   justify-content: space-between;
   /* overflow: auto; */
 }
+
 .mob-scroll-wrap {
-  /* width: 90vw; */
-  height: 90vh;
   overflow: auto;
+  /* width: 90vw; */
+
+  height: 90vh;
 }
+
 .mob-content-left {
+  overflow: hidden;
   /* height: 90vh; */
   /* width: 1em; */
   /* height: 1em; */
+
   width: 10vw;
   height: 10vw;
+
   vertical-align: middle;
+
   fill: currentColor;
-  overflow: hidden;
 }
+
 .mob-back-icon {
   position: absolute;
-  left: 0;
   top: 50%;
-  margin-top: -5vw;
+  left: 0;
+
   width: 10vw;
   height: 10vw;
+  margin-top: -5vw;
+
+  transition: transform .25s ease-out;
   transform: translateX(-100%);
-  transition: transform 0.25s ease-out;
 }
+
 .mob-back-now {
   transform: translateX(0%);
 }
+
 .mob-content-right {
   /* height: 90vh; */
   /* width: 10vw; */
 }
+
 .mob-content-inner-text {
   width: 80vw;
   margin: 0 10vw;
 }
+
 </style>

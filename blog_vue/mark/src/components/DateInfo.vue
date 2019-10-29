@@ -34,45 +34,59 @@ export default {
 <style scoped>
 .module-date_wrap {
   position: relative;
+
   display: grid;
-  grid-template: 30px 10px 30px/90px 20px 140px;
-  grid-template-areas:
-    "date line month"
-    "date line _"
-    "date line day";
-  grid-gap: 0px 10px;
+
   width: 280px;
   height: 70px;
   padding-right: 10px;
+
   font-weight: 800;
+
+  grid-template: 30px 10px 30px/90px 20px 140px;
+  grid-template-areas: 'date line month'
+  'date line _'
+  'date line day';
+  grid-gap: 0 10px;
 }
 
 .module-date_date {
-  grid-area: date;
   height: 70px;
-  color: rgb(0, 23, 44);
+
   font-size: 84px;
+  color: rgb(0, 23, 44);
   line-height: 70px;
+
+  grid-area: date;
 }
+
 .module-date_month {
-  grid-area: month;
   width: 140px;
   height: 30px;
+
   font-size: 36px;
   line-height: 1;
+
+  grid-area: month;
 }
+
 .module-date_day {
-  grid-area: day;
   box-sizing: border-box;
   width: 120px;
-  padding-top: 8px;
   height: 26px;
+  padding-top: 8px;
+
   font-size: 26px;
   line-height: 26px;
+
+  grid-area: day;
 }
+
 .module-date_line {
-  grid-area: line;
   width: 20px;
   height: 70px;
+
+  grid-area: line;
 }
+
 </style>

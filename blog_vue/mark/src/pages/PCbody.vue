@@ -198,234 +198,323 @@ export default {
 
 <style>
 .wrapper {
-  height: 100%;
   width: 100%;
+  height: 100%;
 }
+
 .flexbox {
   display: flex;
 }
+
 .profile_pc {
   display: flex;
   /* background-image: url(../assets/saber.jpg); */
+
   background-color: var(--background-color);
 }
+
 .swapleft {
   right: 0;
 }
+
 .swapright {
   right: -30vw;
-  transition: right 0.5s;
+
+  transition: right .5s;
 }
+
 .catalog-profile_pc {
   position: absolute;
+
   display: grid;
-  grid-template: 40px 1fr 80px/ 1fr;
-  grid-template-areas:'search'"catalog"
-"tag";
+
   width: 30vw;
+
+  transition: right .5s;
+
   background-color: var(--primary-color);
-  transition: right 0.5s;
+
+  grid-template: 40px 1fr 80px/ 1fr;
+  grid-template-areas: 'search''catalog'
+  'tag';
 }
+
 .catalog-search_pc {
-  grid-area: search;
   position: relative;
+
   background: var(--primary-color);
+
+  grid-area: search;
 }
+
 .catalog-search_pc input {
   width: 100%;
   height: 40px;
   padding: 0 20px 0 50px;
+
   font-size: 18px;
-  background: var(--primary-color);
-  outline: none;
+
+  transition: background .25s;
+
   border: none;
-  transition: background 0.25s;
+  outline: none;
+  background: var(--primary-color);
 }
+
 .catalog-search_pc .catalog-search_pc_focus {
   background: var(--background-color);
 }
+
 .catalog-search-icon_pc {
   position: absolute;
-  left: 10px;
   top: 5px;
+  left: 10px;
+
   width: 30px;
   height: 30px;
 }
+
 .catalog-arrow_pc {
   position: absolute;
-  left: -2vw;
   bottom: 0;
+  left: -2vw;
+
   width: 2vw;
   height: 100vh;
+
   background: var(--primary-color);
   /* var(--primary-color); */
   /* border-radius: 0 0 0 8px;
   border-left: 1px solid var(--primary-color);
   border-bottom: 1px solid var(--primary-color); */
 }
+
 .catalog-title_pc {
-  grid-area: title;
-  justify-content: space-between;
   align-items: stretch;
+  justify-content: space-between;
+
   background: var(--primary-color);
+
+  grid-area: title;
 }
+
 .catalog-title_pc div {
   display: flex;
-  flex: 1;
   align-items: center;
+  flex: 1;
+
   height: 80px;
+
   text-align: center;
+
   background: var(--background-color);
 }
+
 .catalog-title_pc span {
   width: 100%;
 }
+
 .catalog-title_pc .deactive {
   background: var(--primary-color);
 }
+
 .catalog-body_pc {
-  grid-area: catalog;
-  height: calc(100vh - 120px);
-  line-height: 30px;
   overflow: auto;
+
+  height: calc(100vh - 120px);
+
+  line-height: 30px;
+
+  grid-area: catalog;
 }
+
 @keyframes beforeTransformed {
   0% {
     transform: translateX(-100%);
+
     opacity: 0;
   }
+
   100% {
     transform: translateX(0%);
+
     opacity: 1;
   }
 }
+
 @keyframes afterTransformed {
   0% {
     transform: translateX(100%);
+
     opacity: 0;
   }
+
   100% {
     transform: translateX(0%);
+
     opacity: 1;
   }
 }
+
 .catalog-body_pc-block {
+  justify-content: space-between;
+
+  box-sizing: border-box;
   width: calc(30vw - 30px);
   height: 12.5%;
   min-height: 30px;
-  line-height: 18px;
-  font-size: 12px;
-  box-sizing: border-box;
   padding: 0 10px;
-  justify-content: space-between;
+
+  font-size: 12px;
+  line-height: 18px;
+
+  transition: transform .25s ease-in;
   transform: translateX(30px);
+
   background-color: var(--primary-color);
-  transition: transform 0.25s ease-in;
   /* background: var(--background-color); */
 }
 
 .active.catalog-body_pc-block {
   transform: translateX(0px);
+
   background: var(--background-color);
 }
 
 .catalog-body_pc-title {
-  width: 70%;
   display: table;
+
+  width: 70%;
   height: 100%;
 }
+
 .catalog-body_pc-title span {
   display: table-cell;
+
   vertical-align: middle;
 }
+
 .catalog-body_pc-date {
-  width: 30%;
   display: table;
+
+  width: 30%;
   height: 100%;
 }
+
 .catalog-body_pc-date span {
   display: table-cell;
+
   text-align: center;
   vertical-align: middle;
 }
+
 .before-transformed > .catalog-body_pc-block {
-  animation: beforeTransformed 0.5s;
+  animation: beforeTransformed .5s;
+
   animation-fill-mode: forwards;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(2) {
-  animation-delay: 0.05s;
+  animation-delay: .05s;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(3) {
-  animation-delay: 0.1s;
+  animation-delay: .1s;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(4) {
-  animation-delay: 0.15s;
+  animation-delay: .15s;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(5) {
-  animation-delay: 0.2s;
+  animation-delay: .2s;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(6) {
-  animation-delay: 0.25s;
+  animation-delay: .25s;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(7) {
-  animation-delay: 0.3s;
+  animation-delay: .3s;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(8) {
-  animation-delay: 0.35s;
+  animation-delay: .35s;
 }
+
 .before-transformed > .catalog-body_pc-block:nth-of-type(9) {
-  animation-delay: 0.4s;
+  animation-delay: .4s;
 }
+
 .after-transformed > .catalog-body_pc-block {
-  animation: afterTransformed 0.5s;
+  animation: afterTransformed .5s;
+
   animation-fill-mode: forwards;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(2) {
-  animation-delay: 0.05s;
+  animation-delay: .05s;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(3) {
-  animation-delay: 0.1s;
+  animation-delay: .1s;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(4) {
-  animation-delay: 0.15s;
+  animation-delay: .15s;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(5) {
-  animation-delay: 0.2s;
+  animation-delay: .2s;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(6) {
-  animation-delay: 0.25s;
+  animation-delay: .25s;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(7) {
-  animation-delay: 0.3s;
+  animation-delay: .3s;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(8) {
-  animation-delay: 0.35s;
+  animation-delay: .35s;
 }
+
 .after-transformed > .catalog-body_pc-block:nth-of-type(9) {
-  animation-delay: 0.4s;
+  animation-delay: .4s;
 }
+
 .catalog-tag_pc {
-  grid-area: tag;
-  justify-content: space-between;
-  align-items: stretch;
   overflow-x: auto;
+  align-items: stretch;
+  justify-content: space-between;
+
+  grid-area: tag;
 }
+
 .catalog-tag_pc > div {
+  display: flex;
+  align-items: center;
+  flex: 1;
+
   height: 80px;
   padding: 0 10px;
-  flex: 1;
-  display: flex;
+
   text-align: center;
-  align-items: center;
+
   background-color: var(--background-color);
 }
+
 .catalog-tag_pc .deactive {
   background: var(--primary-color);
 }
+
 .catalog-tag_pc > div > span {
   width: 100%;
 }
+
 .content-profile {
   width: 100vw;
 }
+
 </style>
