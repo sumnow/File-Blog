@@ -2,7 +2,7 @@
   <div>
     <div class="ul-content-href">
       <div
-        :class="['li-content-href', item.active ? 'active' : '']"
+        :class="['li-content-href', hrefListActiveName == item.no ? 'active' : '']"
         v-for="item in hrefList"
         :key="item.href"
         :style="{ paddingLeft: `${item.level*10}px`}"
@@ -17,7 +17,7 @@
 <script>
 export default {
   name: "Directory",
-  props: ["hrefList"],
+  props: ["hrefList", "hrefListActiveName"],
   methods: {
     gotoActive(item) {
       this.$parent.gotoActive(item);
@@ -50,5 +50,4 @@ export default {
 .li-content-href.active {
   background: var(--background-color);
 }
-
 </style>
