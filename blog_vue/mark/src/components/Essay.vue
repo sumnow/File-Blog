@@ -16,7 +16,7 @@
     </div>
     <div class="module-bottom_wrap" v-if="content" @click="$emit('closeSwap')">
       <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
-        <Directory :hrefList="hrefList" />
+        <Directory :hrefList="hrefList" :hrefListActiveName="hrefListActiveName" />
       </div>
       <div class="module-content-scroll_wrap" @scroll="handleScroll">
         <div class="module-content-text" id="module-content-text" v-html="content"></div>
@@ -46,6 +46,7 @@ export default {
       scorllMark: 0,
       dateInfo: [],
       titleStyle: "",
+      hrefListActiveName: "",
       HEADERHEIGHT: 90
     };
   },
@@ -97,14 +98,13 @@ export default {
       this.hrefList.forEach(e => {
         var x = document.querySelector(e.href);
         e.scrollTop = x.offsetTop;
-        e.active = false;
       });
       document.querySelector(".module-content-scroll_wrap").scrollTo({
         top: item.scrollTop - this.HEADERHEIGHT,
         left: 0,
         behavior: "smooth"
       });
-      item.active = true;
+      this.hrefListActiveName = item.no;
     },
     handleScroll(e) {
       window.location.hash = `${Math.ceil(e.target.scrollTop).toString(32)}`;
@@ -195,11 +195,9 @@ export default {
   position: relative;
   left: 0;
 
-  transition: left .5s cubic-bezier(.6, -.28, .735, .045);
+  transition: left 0.5s cubic-bezier(0.6, -0.28, 0.735, 0.045);
   /* margin-left: 0; */
 }
-
-
 
 .module-title_header {
   height: 40px;
@@ -249,7 +247,7 @@ export default {
   width: 0vw;
   height: calc(100vh - 90px);
 
-  transition: all 1s .45s;
+  transition: all 1s 0.45s;
   /* background: #fff; */
 
   background-color: var(--primary-color);
@@ -280,5 +278,4 @@ export default {
 
   line-height: 2vh;
 }
-
 </style>

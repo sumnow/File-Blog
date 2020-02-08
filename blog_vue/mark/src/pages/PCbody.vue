@@ -166,7 +166,9 @@ export default {
           tag: e.tag || []
         };
       });
-      this.$router.push(`/code/${this.showCatalogList[0].id}`);
+      if (!this.$route.params.filename) {
+        this.$router.push(`/code/${this.showCatalogList[0].id}`);
+      }
       const sl = Array.from(
         new Set(
           this.catalogList.reduce((a, b) => {
@@ -220,7 +222,7 @@ export default {
 .swapright {
   right: -30vw;
 
-  transition: right .5s;
+  transition: right 0.5s;
 }
 
 .catalog-profile_pc {
@@ -230,13 +232,14 @@ export default {
 
   width: 30vw;
 
-  transition: right .5s;
+  transition: right 0.5s;
 
   background-color: var(--primary-color);
 
   grid-template: 40px 1fr 80px/ 1fr;
-  grid-template-areas: 'search''catalog'
-  'tag';
+  grid-template-areas:
+    "search" "catalog"
+    "tag";
 }
 
 .catalog-search_pc {
@@ -254,7 +257,7 @@ export default {
 
   font-size: 18px;
 
-  transition: background .25s;
+  transition: background 0.25s;
 
   border: none;
   outline: none;
@@ -368,7 +371,7 @@ export default {
   font-size: 12px;
   line-height: 18px;
 
-  transition: transform .25s ease-in;
+  transition: transform 0.25s ease-in;
   transform: translateX(30px);
 
   background-color: var(--primary-color);
@@ -409,79 +412,79 @@ export default {
 }
 
 .before-transformed > .catalog-body_pc-block {
-  animation: beforeTransformed .5s;
+  animation: beforeTransformed 0.5s;
 
   animation-fill-mode: forwards;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(2) {
-  animation-delay: .05s;
+  animation-delay: 0.05s;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(3) {
-  animation-delay: .1s;
+  animation-delay: 0.1s;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(4) {
-  animation-delay: .15s;
+  animation-delay: 0.15s;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(5) {
-  animation-delay: .2s;
+  animation-delay: 0.2s;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(6) {
-  animation-delay: .25s;
+  animation-delay: 0.25s;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(7) {
-  animation-delay: .3s;
+  animation-delay: 0.3s;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(8) {
-  animation-delay: .35s;
+  animation-delay: 0.35s;
 }
 
 .before-transformed > .catalog-body_pc-block:nth-of-type(9) {
-  animation-delay: .4s;
+  animation-delay: 0.4s;
 }
 
 .after-transformed > .catalog-body_pc-block {
-  animation: afterTransformed .5s;
+  animation: afterTransformed 0.5s;
 
   animation-fill-mode: forwards;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(2) {
-  animation-delay: .05s;
+  animation-delay: 0.05s;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(3) {
-  animation-delay: .1s;
+  animation-delay: 0.1s;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(4) {
-  animation-delay: .15s;
+  animation-delay: 0.15s;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(5) {
-  animation-delay: .2s;
+  animation-delay: 0.2s;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(6) {
-  animation-delay: .25s;
+  animation-delay: 0.25s;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(7) {
-  animation-delay: .3s;
+  animation-delay: 0.3s;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(8) {
-  animation-delay: .35s;
+  animation-delay: 0.35s;
 }
 
 .after-transformed > .catalog-body_pc-block:nth-of-type(9) {
-  animation-delay: .4s;
+  animation-delay: 0.4s;
 }
 
 .catalog-tag_pc {
@@ -516,5 +519,4 @@ export default {
 .content-profile {
   width: 100vw;
 }
-
 </style>
