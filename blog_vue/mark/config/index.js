@@ -29,8 +29,8 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/catalog': {
-        target: 'http://67.209.183.98:18080/',
-        changeOrigin: false
+        target: 'https://www.mydiaa.xyz',
+        changeOrigin: true
       },
     },
     // CSS Sourcemaps off by default because relative paths are "buggy"
