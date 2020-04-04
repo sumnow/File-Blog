@@ -12,17 +12,33 @@ import { commonMixin } from "@/util/mixin.js";
 
 export default {
   name: "app",
-  mixin: [commonMixin],
-  methods: {
-    hello(e) {
-      this.$refs.ripple.hello({
-        x: e.x,
-        y: e.y
-      });
-    }
+  data() {
+    return {};
   },
+  mixin: [commonMixin],
+  methods: {},
   mounted() {
-    console.log("version: v3.4.5");
+    let timer = undefined;
+    function getCookie(cname) {
+      var name = cname + "=";
+      var ca = document.cookie.split(";");
+      var cookie = "";
+      for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == " ") c = c.substring(1);
+        if (c.indexOf(name) != -1) cookie = c.substring(name.length, c.length);
+        if (/^ecdCN(\w|%)+/.test(cookie)) {
+          cookie = decodeURI(decodeURI(cookie)).slice(5);
+        }
+      }
+      return cookie;
+    }
+    const mValue = getCookie("M");
+    if (!mValue) {
+      setTimeout(() => {
+        this.$router.push("/");
+      }, 0);
+    }
     if (window.isComputer) {
       changeThemePc(1);
       if (new Date().getHours() < 7 || new Date().getHours() > 21) {
@@ -88,9 +104,9 @@ html {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  font-family:Monaco, IBM Plex Sans, -apple-system, BlinkMacSystemFont, Segoe UI,
-    Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif, Apple Color Emoji,
-    Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
+  font-family: Monaco, IBM Plex Sans, -apple-system, BlinkMacSystemFont,
+    Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: left;

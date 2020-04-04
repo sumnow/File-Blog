@@ -1,28 +1,28 @@
 <template>
   <div class="content_wrap">
-    <div class="module-header-top" v-if="content">
-      <div class="module-header_wrap">
-        <div
-          :class="['module-title_wrap',showCatalog? '':'display_title']"
-          @click="showCatalog=!showCatalog"
-        >
-          <span
-            :style="showCatalog ? titleStyle: ''"
-            :class="['module-title_inner',showCatalog?'' : 'display_title']"
-          >{{title.title}}</span>
+    <div :class="['content_wrapper',content ? 'animation-show-content' : '']">
+      <div class="module-header-top">
+        <div class="module-header_wrap">
+          <div
+            :class="['module-title_wrap','display_title']"
+          >
+            <span
+              :class="['module-title_inner','display_title']"
+            >{{title.title}}</span>
+          </div>
+        </div>
+        <!-- <DateInfo :dateInfo="dateInfo" /> -->
+      </div>
+      <div class="module-bottom_wrap" @click="$emit('closeSwap')">
+        <div :class="['module-catalog-href_wrap', 'display_catalog']">
+          <Directory :hrefList="hrefList" :hrefListActiveName="hrefListActiveName" />
+        </div>
+        <div class="module-content-scroll_wrap" @scroll="scrollFlag && handleScroll($event)">
+          <div class="module-content-text" id="module-content-text" v-html="content"></div>
         </div>
       </div>
-      <!-- <DateInfo :dateInfo="dateInfo" /> -->
     </div>
-    <div class="module-bottom_wrap" v-if="content" @click="$emit('closeSwap')">
-      <div :class="['module-catalog-href_wrap', content && showCatalog ? '' : 'display_catalog']">
-        <Directory :hrefList="hrefList" :hrefListActiveName="hrefListActiveName" />
-      </div>
-      <div class="module-content-scroll_wrap" @scroll="handleScroll">
-        <div class="module-content-text" id="module-content-text" v-html="content"></div>
-      </div>
-    </div>
-    <loading v-else></loading>
+    <loading v-show="!content"></loading>
   </div>
 </template>
 
@@ -47,7 +47,8 @@ export default {
       dateInfo: [],
       titleStyle: "",
       hrefListActiveName: "",
-      HEADERHEIGHT: 90
+      HEADERHEIGHT: 90,
+      scrollFlag: true
     };
   },
   components: {
@@ -95,16 +96,24 @@ export default {
     },
     // Directory component
     gotoActive(item) {
+      // 添加scrollFlag 防止 频繁触发修改hash
+      this.scrollFlag = false;
       this.hrefList.forEach(e => {
-        var x = document.querySelector(e.href);
-        e.scrollTop = x.offsetTop;
+        e.scrollTop = document.querySelector(e.href).offsetTop;
       });
       document.querySelector(".module-content-scroll_wrap").scrollTo({
         top: item.scrollTop - this.HEADERHEIGHT,
-        left: 0,
-        behavior: "smooth"
+        left: 0
+        // css 里设置了滚动模式js就不需要设置
+        // behavior: "smooth"
       });
       this.hrefListActiveName = item.no;
+      window.location.hash = `${(item.scrollTop - this.HEADERHEIGHT).toString(
+        32
+      )}`;
+      setTimeout(() => {
+        this.scrollFlag = true;
+      }, 1000);
     },
     handleScroll(e) {
       window.location.hash = `${Math.ceil(e.target.scrollTop).toString(32)}`;
@@ -168,9 +177,19 @@ export default {
 
   height: 100vh;
 }
+.content_wrapper {
+  opacity: 0;
+}
+.content_wrapper.animation-show-content {
+  opacity: 1;
+  transition: opacity 1s;
+}
 
 .module-header_wrap {
   flex: 1;
+}
+.animation-show-content {
+  opacity: 0;
 }
 
 .module-title_wrap {
@@ -243,9 +262,9 @@ export default {
 
 .module-catalog-href_wrap {
   overflow: auto;
-
   width: 0vw;
   height: calc(100vh - 90px);
+  padding: 10px 0;
 
   transition: all 1s 0.45s;
   /* background: #fff; */
@@ -268,6 +287,7 @@ export default {
 .module-content-scroll_wrap {
   overflow: auto;
   flex: 1;
+  scroll-behavior: smooth;
 
   height: calc(100vh - 90px);
   padding: 0 3vw;
