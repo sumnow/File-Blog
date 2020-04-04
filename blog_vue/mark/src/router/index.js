@@ -43,16 +43,9 @@ const routers = new Router({
             ]
         },
         {
-            path: '/code',
+            path: '/code/:filename',
             name: 'PCbody',
             component: PCbody,
-            children: [
-                {
-                    path: ':filename',
-                    name: 'PCbody',
-                    component: PCbody,
-                }
-            ]
         },
         { path: '*', component: notFound }
     ]
