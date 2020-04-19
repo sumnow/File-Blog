@@ -1,4 +1,4 @@
-import colorList from "@/util";
+import colorList from "@/util/colorList/index";
 
 export const commonMixin = {
     computed: {

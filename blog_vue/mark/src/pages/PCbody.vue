@@ -169,15 +169,14 @@ export default {
       if (!this.$route.params.filename) {
         this.$router.push(`/code/${this.showCatalogList[0].id}`);
       }
-      const sl = Array.from(
+      const obj = {};
+      Array.from(
         new Set(
           this.catalogList.reduce((a, b) => {
             return { tag: [...a.tag, ...b.tag] };
           }).tag
         )
-      );
-      const obj = {};
-      sl.forEach(element => {
+      ).forEach(element => {
         obj[element] = 0;
       });
 

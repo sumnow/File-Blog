@@ -155,7 +155,7 @@ export default {
         document.querySelector(".module-content-scroll_wrap").scrollTo({
           top: parseInt(window.location.hash.slice(1), 32) || 0,
           left: 0,
-          behavior: "smooth"
+          // behavior: "smooth"
         });
       }
       window.MathJax.Hub.Queue([

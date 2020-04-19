@@ -24,7 +24,7 @@
 
 <script>
 import { request } from "@/service";
-import colorList from "@/util";
+// import colorList from "@/util/colorList";
 import { commonMixin } from "../util/mixin.js";
 import AlloyFingerVue from "alloyfinger";
 
