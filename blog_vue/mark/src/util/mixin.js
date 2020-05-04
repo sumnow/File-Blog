@@ -34,21 +34,35 @@ export const commonMixin = {
             return data.replace(reg, "![$1](../../markdown/knowledge$2)");
         },
         handleKeyword(markdata) {
+            const preReg = /<pre class="lang-([a-z]+)"><code>([\s\S]+?)<\/code><\/pre>/g
+            const preArr = markdata.match(preReg)
+            // console.log(preArr)
             const changeKeyWord = (color, data) => {
                 const regs = color.keyword.reduce((a, b) => {
                     return `${a}|${b}`;
                 });
                 const reg = new RegExp(`\\b(${regs})\\b`, "g");
+                // console.log(reg, data.match(reg))
                 return data.replace(reg, `<font style="color: ${color.color}">$1</font>`);
             };
-            markdata = markdata.replace(/<code>[\s\S]*?<\/code>/g, function (w) {
-                colorList.forEach((e, i) => {
-                    w = changeKeyWord(colorList[i], w);
-                });
-                return w;
-            });
-            const reg2 = /[^:|>](\/\/.+\n)/g;
-            return markdata.replace(reg2, `<font style="color: #608b4e">$1</font>`);
+            if (preArr && preArr.length) {
+                preArr.forEach(e => {
+                    const langType = e.replace(preReg, '$1')
+                    const langContent = e.replace(preReg, '$2')
+                    markdata = markdata.replace(langContent, function (w) {
+                        // console.log(w)
+                        if (colorList && colorList[langType]) {
+                            colorList[langType].forEach((e, i) => {
+                                w = changeKeyWord(e, w);
+                            });
+                        }
+                        return w;
+                    });
+                })
+            }
+
+            markdata = this.changeAnnnotationReg(markdata)
+            return markdata
         },
         handleDate(str) {
             const _arr = str.match(/(\d{4})(\d{2})(\d{2})/);
@@ -57,28 +71,52 @@ export const commonMixin = {
         },
         handleHrefList(content) {
             const _reg = /<h(\d) id="([\w-]+)">([\s\S]+?)<\/h\d>/g;
-            const obj = {};
-            const _arr = content.match(_reg).map((e, i) => {
+            let _arr = content.match(_reg).map((e, i) => {
                 return {
                     order: i,
-                    no: `${e.replace(_reg, "$1")}.`,
-
-                    level: e.replace(_reg, "$1"),
+                    no: '',
+                    level: parseInt(e.replace(_reg, "$1")),
                     href: e.replace(_reg, "#$2"),
                     name: e.replace(_reg, "$3"),
                     active: false
                 };
             });
-            const _list = new Object();
-            _arr.forEach(e => {
-                if (_list.hasOwnProperty(e.level)) {
-                    _list[e.level]++;
+            const stack = [];
+            for (let i = 0; i < _arr.length; i++) {
+                if (i === 0) {
+                    _arr[i].no = '1'
+                    stack.push(_arr[i]);
                 } else {
-                    _list[e.level] = 1;
+                    if (_arr[i].level == stack[stack.length - 1].level) {
+                        // 最后一位加一
+                        const _temp = stack[stack.length - 1].no.split('.')
+                        const newVal = parseInt(_temp[_temp.length - 1]) + 1
+                        _temp.pop()
+                        _temp.push(newVal)
+                        const a = _temp.join('.')
+                        _arr[i].no = a
+                        stack.push(_arr[i])
+                    }
+                    if (_arr[i].level > stack[stack.length - 1].level) {
+                        // 再添加一位,从1开始
+                        _arr[i].no = stack[stack.length - 1].no + '.1'
+                        stack.push(_arr[i])
+                    }
+                    if (_arr[i].level < stack[stack.length - 1].level) {
+                        // 推出栈
+                        stack.pop();
+                        i--;
+                        continue;
+                    }
                 }
-                e.no += _list[e.level];
-            });
+            }
             return _arr;
+        },
+        changeAnnnotationReg(mark) {
+            const reg = /(\/\*(\s|.)*?\*\/)/g;
+            const reg2 = /(\/\/[^\n]*)/g;
+            mark = mark.replace(reg, `<font style="color: #5c6370">$1</font>`);
+            return mark.replace(reg2, `<font style="color: #5c6370">$1</font>`);
         }
     }
 }

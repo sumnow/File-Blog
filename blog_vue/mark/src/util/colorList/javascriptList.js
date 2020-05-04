@@ -6,6 +6,7 @@ export default [{
     "char",
     "class",
     "const",
+    "let",
     "debugger",
     "default",
     "delete",
@@ -48,20 +49,21 @@ export default [{
     "var",
     "void",
     "volatile",
-    "with"
+    "with",
+    'this',
   ],
   discription: '声明变量，条件语句',
-  color: '#569cd6'
+  color: '#c678dd'
 }, {
   keyword: ['break', 'case', 'catch', 'continue', 'do', 'else', 'goto', 'if', 'finally', 'switch', 'while'],
   discription: '条件语句',
   color: '#c586c0'
 }, {
-  keyword: ['Math', 'console', 'this', 'document', 'window', 'arguments', 'null', 'undefined', 'Object', 'String', 'Number', 'Array', 'Promise', 'Set', 'Map', 'WeakSet', 'WeakMap', 'prototype', 'Error'],
+  keyword: ['Math', 'Worker', 'console', 'document', 'window', 'arguments', 'null', 'undefined', 'Object', 'String', 'Number', 'Array', 'Promise', 'Set', 'Map', 'WeakSet', 'WeakMap', 'prototype', 'Error'],
   discription: '内置对象',
-  color: '#9cdcfe'
+  color: '#e06c75'
 }, {
   keyword: ['random', 'pow', 'round', 'floor', 'log', 'replace', 'from', 'map', 'forEach', 'parseInt', 'push', 'unshift', 'shift', 'pull', 'toString', 'slice', 'remove', 'append', 'prepend'],
   discription: '注册方法',
-  color: '#dcdcaa'
+  color: '#56b6c2'
 },]

@@ -58,11 +58,6 @@ export default {
       return data.replace(reg, `<font style="color: ${color.color}">$1</font>`);
     }
 
-    function changeAnnnotationReg(mark) {
-      const reg2 = /[^:|>](\/\/.+\n)/g;
-      return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
-    }
-
     request({
       url: `/catalog`,
       method: "GET",
@@ -82,7 +77,7 @@ export default {
           return w;
         });
 
-        this.content = changeAnnnotationReg(markdata);
+        // this.content = this.changeAnnnotationReg(markdata);
       },
       fail: data => {
         this.content = data;

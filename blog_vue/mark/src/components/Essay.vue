@@ -3,12 +3,8 @@
     <div :class="['content_wrapper',content ? 'animation-show-content' : '']">
       <div class="module-header-top">
         <div class="module-header_wrap">
-          <div
-            :class="['module-title_wrap','display_title']"
-          >
-            <span
-              :class="['module-title_inner','display_title']"
-            >{{title.title}}</span>
+          <div :class="['module-title_wrap','display_title']">
+            <span :class="['module-title_inner','display_title']">{{title.title}}</span>
           </div>
         </div>
         <!-- <DateInfo :dateInfo="dateInfo" /> -->
@@ -32,7 +28,6 @@ import loading from "./SecondLoading";
 import Directory from "./Directory";
 import DateInfo from "./DateInfo";
 import { commonMixin } from "../util/mixin.js";
-
 export default {
   name: "essay",
   mixins: [commonMixin],
@@ -59,33 +54,7 @@ export default {
   watch: {
     $route: {
       handler(to, from) {
-        if (this.$route.params.filename) {
-          request({
-            url: `/catalog`,
-            method: "GET",
-            params: {
-              filename: this.$route.params.filename
-            },
-            success: data => {
-              data = data[0];
-              this.title = { title: data.title, tag: data.tag };
-              this.titleStyle = {
-                left: `calc(47vw - ${(this.title.title.length / 2) * 18}px)`
-              };
-              this.dateInfo = this.handleDate(data.date);
-
-              data = this.changeImgURL(data.content);
-
-              this.content = this.handleKeyword(this.marked(data));
-
-              // directory
-              this.hrefList = this.handleHrefList(this.content);
-            },
-            fail: data => {
-              this.content = data;
-            }
-          });
-        }
+        // this.fetchData();
       }
     }
   },
@@ -117,36 +86,39 @@ export default {
     },
     handleScroll(e) {
       window.location.hash = `${Math.ceil(e.target.scrollTop).toString(32)}`;
+    },
+    fetchData() {
+      if (this.$route.params.filename) {
+        request({
+          url: `/catalog`,
+          method: "GET",
+          params: {
+            filename: this.$route.params.filename
+          },
+          success: data => {
+            data = data[0];
+            this.title = { title: data.title, tag: data.tag };
+            this.titleStyle = {
+              left: `calc(47vw - ${(this.title.title.length / 2) * 18}px)`
+            };
+            this.dateInfo = this.handleDate(data.date);
+
+            data = this.changeImgURL(data.content);
+
+            this.content = this.handleKeyword(this.marked(data));
+
+            // directory
+            this.hrefList = this.handleHrefList(this.content);
+          },
+          fail: data => {
+            this.content = data;
+          }
+        });
+      }
     }
   },
   created() {
-    if (this.$route.params.filename) {
-      request({
-        url: `/catalog`,
-        method: "GET",
-        params: {
-          filename: this.$route.params.filename
-        },
-        success: data => {
-          data = data[0];
-          this.title = { title: data.title, tag: data.tag };
-          this.titleStyle = {
-            left: `calc(47vw - ${(this.title.title.length / 2) * 18}px)`
-          };
-          this.dateInfo = this.handleDate(data.date);
-
-          data = this.changeImgURL(data.content);
-
-          this.content = this.handleKeyword(this.marked(data));
-
-          // directory
-          this.hrefList = this.handleHrefList(this.content);
-        },
-        fail: data => {
-          this.content = data;
-        }
-      });
-    }
+    this.fetchData();
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
@@ -154,7 +126,7 @@ export default {
       if (document.querySelector(".module-content-scroll_wrap")) {
         document.querySelector(".module-content-scroll_wrap").scrollTo({
           top: parseInt(window.location.hash.slice(1), 32) || 0,
-          left: 0,
+          left: 0
           // behavior: "smooth"
         });
       }

@@ -69,10 +69,7 @@ export default {
       return data.replace(reg, `<font style="color: ${color.color}">$1</font>`);
     }
 
-    function changeAnnnotationReg(mark) {
-      const reg2 = /[^:|>](\/\/.+\n)/g;
-      return mark.replace(reg2, `<font style="color: #608b4e">$1</font>`);
-    }
+
     if (this.$route.params.filename) {
       request({
         url: `/catalog`,

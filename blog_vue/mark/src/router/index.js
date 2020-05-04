@@ -30,11 +30,11 @@ const routers = new Router({
             name: 'MWrap',
             component: MWrap,
             children: [
-                {
-                    path: '',
-                    name: 'MCatalog',
-                    component: MCatalog
-                },
+                // {
+                //     path: '',
+                //     name: 'MCatalog',
+                //     component: MCatalog
+                // },
                 {
                     path: ':filename',
                     name: 'MEssay',
@@ -42,11 +42,11 @@ const routers = new Router({
                 }
             ]
         },
-        {
-            path: '/code/',
-            name: 'PCbody',
-            component: PCbody,
-        },
+        // {
+        //     path: '/code/',
+        //     name: 'PCbody',
+        //     component: PCbody,
+        // },
         {
             path: '/code/:filename',
             name: 'PCbody',

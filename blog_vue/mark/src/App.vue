@@ -83,6 +83,13 @@ html {
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+  /* fonts-sans-serif: Roboto, Helvetica, Tahoma, Arial, "PingFang SC",
+    "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei",
+    "Noto Sans CJK", sans-serif;
+  fonts-serif: Georgia, "Times New Roman", PMingLiu, STSong, SimSun,
+    "WenQuanYi Bitmap Song", "Noto Serif CJK", serif;
+  fonts-monospace: JetBrainsMono, "Source Code Pro", Monaco, Menlo, Consolas,
+    "Courier New", Courier, monospace; */
   font-family: Monaco, IBM Plex Sans, -apple-system, BlinkMacSystemFont,
     Segoe UI, Roboto, Helvetica Neue, Arial, Noto Sans, sans-serif,
     Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol, Noto Color Emoji;
@@ -514,18 +521,19 @@ pre code {
 
 pre {
   position: relative;
-  background-color: #1e1e1e;
+  background-color: rgb(40, 44, 52);
   color: #fff;
   font-size: 13px;
   line-height: 19px;
   overflow: auto;
-  padding: 30px 10px 15px;
+  padding: 15px 10px 15px;
   border-radius: 6px;
 }
 
 .lang-c:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "c";
   font-size: 16px;
   line-height: 20px;
@@ -535,6 +543,7 @@ pre {
 .lang-js:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "js";
   font-size: 16px;
   line-height: 20px;
@@ -544,6 +553,7 @@ pre {
 .lang-ts:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "ts";
   font-size: 16px;
   line-height: 20px;
@@ -552,6 +562,7 @@ pre {
 .lang-java:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "java";
   font-size: 16px;
   line-height: 20px;
@@ -560,6 +571,7 @@ pre {
 .lang-bash:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "bash";
   font-size: 16px;
   line-height: 20px;
@@ -569,6 +581,7 @@ pre {
 .lang-go:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "go";
   font-size: 16px;
   line-height: 20px;
@@ -578,6 +591,7 @@ pre {
 .lang-css:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "css";
   font-size: 16px;
   line-height: 20px;
@@ -586,6 +600,7 @@ pre {
 .lang-html:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "html";
   font-size: 16px;
   line-height: 20px;
@@ -594,6 +609,7 @@ pre {
 .lang-python:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "python";
   font-size: 16px;
   line-height: 20px;
@@ -602,6 +618,7 @@ pre {
 .lang-javascript:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "javascript";
   font-size: 16px;
   line-height: 20px;
@@ -610,6 +627,7 @@ pre {
 .lang-swift:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "swift";
   font-size: 16px;
   line-height: 20px;
@@ -618,6 +636,7 @@ pre {
 .lang-basic:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "basic";
   font-size: 16px;
   line-height: 20px;
@@ -626,6 +645,7 @@ pre {
 .lang-sql:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "sql";
   font-size: 16px;
   line-height: 20px;
@@ -634,6 +654,7 @@ pre {
 .lang-php:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "php";
   font-size: 16px;
   line-height: 20px;
@@ -642,6 +663,7 @@ pre {
 .lang-ruby:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "ruby";
   font-size: 16px;
   line-height: 20px;
@@ -650,6 +672,7 @@ pre {
 .lang-perl:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "perl";
   font-size: 16px;
   line-height: 20px;
@@ -658,6 +681,7 @@ pre {
 .lang-rust:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "rust";
   font-size: 16px;
   line-height: 20px;
@@ -666,6 +690,7 @@ pre {
 .lang-kotlin:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "kotlin";
   font-size: 16px;
   line-height: 20px;
@@ -674,6 +699,7 @@ pre {
 .lang-r:before {
   position: absolute;
   top: 5px;
+  right: 10px;
   content: "r";
   font-size: 16px;
   line-height: 20px;
@@ -682,7 +708,10 @@ pre {
 
 pre code,
 pre tt {
-  color: #fff;
+  /* color: #fff; */
+  /* color: rgb(181, 206, 168); */
+  /* color: rgb(156, 220, 254); */
+  color: #e5c07b;
   background-color: transparent;
   border: none;
 }
